@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../config/site';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const all = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const related = all.filter((p) => p.id !== post.id).slice(0, 3);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+const path = `/blog/${post.id}/`;
+const waLink = 'https://wa.me/' + site.whatsapp + '?text=' + encodeURIComponent(site.whatsappMessage);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  author: { '@type': 'Organization', name: post.data.author, url: site.url },
+  publisher: { '@id': site.url + '#organization' },
+  mainEntityOfPage: new URL(path, site.url).href,
+  image: new URL('/og-default.svg', site.url).href,
+  keywords: post.data.tags.join(', '),
+};
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: site.url + '/blog/' },
+    { '@type': 'ListItem', position: 3, name: post.data.title, item: new URL(path, site.url).href },
+  ],
+};
+---
+
+<BaseLayout
+  title={post.data.seoTitle ?? `${post.data.title} | Ambika Biotech`}
+  description={post.data.description}
+  path={path}
+  jsonLd={[articleSchema, breadcrumb]}
+>
+  <nav class="crumb" aria-label="Breadcrumb">
+    <div class="container crumb-inner">
+      <a href="/">Home</a><span>/</span>
+      <a href="/blog/">Blog</a><span>/</span>
+      <span class="crumb-current">{post.data.title}</span>
+    </div>
+  </nav>
+
+  <section class="art-header">
+    <div class="container art-head-inner" data-reveal>
+      <span class="art-cat">{post.data.category}</span>
+      <h1 class="art-h1">{post.data.title}</h1>
+      <div class="art-meta">
+        <span class="art-author"><span class="art-avatar" aria-hidden="true">A</span>{post.data.author}</span>
+        <span class="dot">·</span><span>{fmt(post.data.date)}</span>
+        <span class="dot">·</span><span>{post.data.readTime}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="art-hero-img-sec">
+    <div class="art-hero-wrap" data-reveal>
+      <div class="art-hero-img ph ph-dark">
+        <span class="ph-label ph-label-dark">{post.data.photoLabel}</span>
+      </div>
+    </div>
+  </section>
+
+  <article class="art-body">
+    <div class="prose" data-reveal>
+      <Content />
+
+      <!-- Inline CTA -->
+      <div class="inline-cta">
+        <div>
+          <h3>Need RHA to a verified spec?</h3>
+          <p>Get NABL-tested, high-silica RHA with documentation. Tell us your volume and target spec.</p>
+        </div>
+        <a href="/contact/#quote-form" class="btn btn-gold">Get a Quote <span class="mono">→</span></a>
+      </div>
+
+      {post.data.tags.length > 0 && (
+        <div class="art-tags">
+          <span class="tags-label">TAGS</span>
+          {post.data.tags.map((t) => <span class="tag-pill">{t}</span>)}
+        </div>
+      )}
+    </div>
+  </article>
+
+  <section class="section section-white">
+    <div class="container">
+      <div class="rel-head" data-reveal>
+        <div>
+          <div class="eyebrow">Keep Reading</div>
+          <h2 class="rel-h2">Related articles</h2>
+        </div>
+        <a href="/blog/" class="link-underline">All articles <span class="mono">→</span></a>
+      </div>
+      <div class="rel-grid">
+        {related.map((r) => (
+          <a href={`/blog/${r.id}/`} class="rel-card" data-reveal>
+            <div class="rel-img ph">
+              <span class="rel-cat">{r.data.category}</span>
+              <span class="ph-label rel-photo">{r.data.photoLabel}</span>
+            </div>
+            <div class="rel-body">
+              <h3 class="rel-title">{r.data.title}</h3>
+              <div class="rel-foot">
+                <span class="rel-date">{fmt(r.data.date)}</span>
+                <span class="rel-more">Read <span class="mono">→</span></span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .crumb { border-bottom: 1px solid #efe9d9; background: var(--cream); }
+  .crumb-inner { display: flex; align-items: center; gap: 10px; padding: 14px 32px; font-size: 13.5px; color: var(--text-faint); flex-wrap: wrap; }
+  .crumb-inner a { color: var(--text-faint); text-decoration: none; }
+  .crumb-inner span { opacity: 0.5; }
+  .crumb-current { color: var(--green-800) !important; font-weight: 600; opacity: 1 !important; }
+
+  .art-header { padding: 56px 0 32px; background: radial-gradient(100% 70% at 50% 0%, #eef3ea 0%, var(--cream) 60%); }
+  .art-head-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+  .art-cat { display: inline-flex; align-items: center; background: var(--tile); border: 1px solid #d4e0d2; color: var(--green-600); font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em; padding: 7px 14px; border-radius: 999px; text-transform: uppercase; margin-bottom: 22px; }
+  .art-h1 { font-family: var(--font-head); font-weight: 800; font-size: 44px; line-height: 1.08; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+  .art-meta { display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 14px; color: var(--text-faint); flex-wrap: wrap; }
+  .art-author { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; color: var(--text); }
+  .art-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--green-800); color: var(--gold); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 800; font-size: 13px; }
+  .art-meta .dot { opacity: 0.5; }
+
+  .art-hero-img-sec { padding: 8px 0 0; }
+  .art-hero-wrap { max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+  .art-hero-img { width: 100%; aspect-ratio: 16/7; border-radius: 20px; box-shadow: 0 24px 50px -28px rgba(14,42,29,0.5); }
+
+  .art-body { padding: 56px 0 40px; }
+  .prose { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+  .prose :global(p) { font-size: 19px; line-height: 1.78; color: var(--text); margin: 0 0 24px; }
+  .prose :global(h2) { font-family: var(--font-head); font-weight: 800; font-size: 29px; line-height: 1.2; color: var(--ink); margin: 44px 0 16px; }
+  .prose :global(h3) { font-family: var(--font-head); font-weight: 700; font-size: 22px; line-height: 1.25; color: var(--ink); margin: 34px 0 12px; }
+  .prose :global(ul), .prose :global(ol) { font-size: 19px; line-height: 1.7; color: var(--text); margin: 0 0 28px; padding-left: 22px; }
+  .prose :global(li) { margin-bottom: 12px; }
+  .prose :global(strong) { color: var(--ink); }
+  .prose :global(em) { color: var(--text); }
+  .prose :global(a) { color: var(--green-700); text-decoration: underline; }
+  .prose :global(blockquote) { border-left: 3px solid var(--gold-600); background: #fff; border-radius: 0 14px 14px 0; padding: 22px 26px; margin: 32px 0; }
+  .prose :global(blockquote p) { font-size: 17.5px; line-height: 1.7; color: #3a433a; margin: 0; font-style: italic; }
+
+  .inline-cta { position: relative; overflow: hidden; background: var(--green-800); border-radius: 20px; padding: 34px 36px; margin: 40px 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .inline-cta h3 { font-family: var(--font-head); font-weight: 800; font-size: 22px; line-height: 1.2; color: var(--cream); margin-bottom: 8px; }
+  .inline-cta p { font-size: 15.5px; line-height: 1.55; color: #bfcbba; margin: 0; max-width: 420px; }
+  .inline-cta .btn { flex: none; }
+
+  .art-tags { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 36px; padding-top: 26px; border-top: 1px solid var(--line-2); }
+  .tags-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--gold-700); margin-right: 6px; }
+  .tag-pill { background: #fff; border: 1px solid var(--line-3); color: var(--text-muted); font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 999px; }
+
+  .section-white { background: #fff; border-top: 1px solid #efe9d9; }
+  .rel-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
+  .rel-h2 { font-family: var(--font-head); font-weight: 800; font-size: 34px; line-height: 1.1; color: var(--ink); }
+  .rel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .rel-card { background: var(--cream); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .rel-card:hover { border-color: var(--gold-600); transform: translateY(-8px); box-shadow: 0 26px 50px -22px rgba(14,42,29,0.4); }
+  .rel-img { position: relative; height: 160px; border-bottom: 1px solid var(--line); }
+  .rel-cat { position: absolute; left: 16px; top: 16px; background: var(--cream); border: 1px solid var(--line-3); color: var(--green-600); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; padding: 6px 12px; border-radius: 999px; text-transform: uppercase; }
+  .rel-photo { position: absolute; }
+  .rel-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+  .rel-title { font-family: var(--font-head); font-weight: 700; font-size: 18px; line-height: 1.25; color: var(--ink); margin-bottom: 12px; }
+  .rel-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
+  .rel-date { font-size: 12.5px; color: #8a8470; }
+  .rel-more { display: inline-flex; align-items: center; gap: 7px; color: var(--green-800); font-weight: 600; font-size: 14px; }
+  .rel-more .mono { font-family: var(--font-mono); }
+
+  @media (max-width: 1024px) { .art-h1 { font-size: 34px; } .rel-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .art-h1 { font-size: 27px; } .prose :global(p), .prose :global(ul), .prose :global(ol) { font-size: 17px; } .rel-grid { grid-template-columns: 1fr; } .inline-cta { padding: 26px 22px; } .inline-cta .btn { width: 100%; justify-content: center; } }
+</style>
