@@ -73,8 +73,8 @@ export const products: Product[] = [
     seoTitle:
       'Rice Husk Ash Ground Powder (Micronized RHA) Manufacturer India | Ambika Biotech',
     metaDescription:
-      'High-silica micronized Rice Husk Ash Ground Powder — reactive pozzolanic SCM for concrete, cement & refractory. 85-92% SiO2. Bulk supply & export from Odisha, India.',
-    focusKeyword: 'rice husk ash ground powder',
+      'Micronized Rice Husk Ash Ground Powder supplier — reactive pozzolana / pozzolanic SCM for concrete, cement & refractory. 85-92% SiO2. Bulk supply & export from Odisha, India.',
+    focusKeyword: 'micronized rice husk ash supplier, rice husk ash for concrete, pozzolana / SCM supplier India',
     value:
       'Amorphous, micronized high-silica RHA — a reactive pozzolanic supplementary cementitious material (SCM) for concrete, cement and refractory, delivered to a consistent, NABL-tested spec.',
     tags: ['85–92% Silica', 'Micronized', 'Pozzolanic SCM'],
@@ -84,7 +84,7 @@ export const products: Product[] = [
     overview: [
       'Rice Husk Ash Ground Powder is amorphous, high-silica ash milled to a very fine particle size, giving it a large specific surface area and strong pozzolanic reactivity. It is used as a Supplementary Cementitious Material (SCM): it reacts with free lime in cement to form additional C-S-H gel, which increases compressive strength, lowers permeability, and improves the durability and sulphate / chloride resistance of concrete.',
       'Beyond concrete, the micronized powder serves as a silica source for refractories, a reinforcing and extending filler for rubber and polymers, and a raw material in ceramics. As a partial cement replacement it reduces both cost and the carbon footprint of concrete.',
-      'Note: this is a finer, construction-grade product and is distinct from the coarser steel-grade Rice Husk Ash Powder. Every batch is independently NABL-tested, with reliable bulk supply and full export documentation.',
+      'As a micronized rice husk ash supplier and pozzolana / SCM supplier in India, we deliver every batch to a consistent, independently NABL-tested spec with reliable bulk supply and full export documentation. Note: this is a finer, construction-grade product, distinct from the coarser steel-grade ash.',
     ],
     specs: [
       { k: 'SiO₂', v: '85 – 92%' },
@@ -128,12 +128,12 @@ export const products: Product[] = [
     heroAlt:
       'Rice Husk Ash Granules free-flowing insulating tundish and ladle covering compound for steel - Ambika Biotech',
     seoTitle:
-      'Rice Husk Ash Granules Manufacturer & Exporter India | Ambika Biotech',
+      'Tundish & Ladle Covering Compound Supplier | RHA Granules India',
     metaDescription:
-      'Free-flowing Rice Husk Ash Granules — insulating tundish & ladle covering compound for steel mills. High silica, low thermal conductivity. Bulk supply & export from Odisha, India.',
-    focusKeyword: 'rice husk ash granules',
+      'Rice Husk Ash Granules — a free-flowing tundish & ladle covering compound for steel mills. Insulating, high-silica, low thermal conductivity. Covering compound manufacturer & exporter from Odisha, India.',
+    focusKeyword: 'rice husk ash granules, tundish covering compound, ladle covering compound',
     value:
-      'Free-flowing, high-silica RHA granules engineered as an insulating tundish and ladle covering compound for the steel industry — supplied to a consistent, NABL-tested spec.',
+      'Free-flowing, high-silica RHA granules engineered as an insulating tundish covering compound and ladle covering compound for the steel industry — supplied to a consistent, NABL-tested spec.',
     tags: ['High Silica', 'Free-Flowing', 'Insulating'],
     statBig: '80–90%',
     statLabel: 'SiO₂ SILICA',
@@ -141,7 +141,7 @@ export const products: Product[] = [
     overview: [
       'Rice Husk Ash Granules are a granulated, high-silica form of RHA with controlled granulometry and excellent flow, formulated for use as a covering compound on molten metal.',
       'Spread over the steel surface in the tundish or ladle, they form an insulating, non-wetting layer that reduces heat loss, prevents re-oxidation and helps absorb inclusions — protecting metal quality and improving yield.',
-      'Ambika Biotech supplies a consistent, NABL-tested granule with reliable bulk availability and full export documentation.',
+      'As a tundish covering compound and ladle covering compound supplier, Ambika Biotech ships a consistent, NABL-tested granule with reliable bulk availability and full export documentation.',
     ],
     specs: [
       { k: 'SiO₂', v: '80 – 90%' },
@@ -186,10 +186,10 @@ export const products: Product[] = [
     seoTitle:
       'Rice Husk Ash Pellets Manufacturer & Exporter India | Ambika Biotech',
     metaDescription:
-      'Premium Rice Husk Ash Pellets — dust-free, free-flowing RHA for steel ladle & tundish insulation. Uniform pellets for mechanized feeding. Bulk supply & export from Odisha, India.',
-    focusKeyword: 'rice husk ash pellets',
+      'Premium Rice Husk Ash Pellets — dust-free, free-flowing RHA as a ladle & tundish covering compound for steel. Uniform pellets for mechanized feeding. Bulk supply & export from Odisha, India.',
+    focusKeyword: 'rice husk ash pellets, tundish covering compound, ladle covering compound',
     value:
-      'Uniform, extruded high-silica RHA pellets — clean, free-flowing insulation for steel mills, with minimal dust and easy mechanized handling.',
+      'Uniform, extruded high-silica RHA pellets — a clean, free-flowing ladle and tundish covering compound for steel mills, with minimal dust and easy mechanized handling.',
     tags: ['Dust-Free', 'Free-Flowing', 'High Density'],
     statBig: '85%+',
     statLabel: 'SiO₂ SILICA',
@@ -301,8 +301,8 @@ export const products: Product[] = [
     seoTitle:
       'Rice Husk Powder Manufacturer & Supplier India | Ambika Ricemill',
     metaDescription:
-      'Natural ground Rice Husk Powder — for animal feed, organic fertilizer / soil conditioning, fillers, particle board & briquette feedstock. Bulk supply & export from Odisha, India.',
-    focusKeyword: 'rice husk powder',
+      'Rice Husk Powder supplier — natural ground husk for poultry & cattle feed, organic fertilizer / soil conditioning, fillers, particle board & briquette feedstock. Bulk supply & export from Odisha, India.',
+    focusKeyword: 'rice husk powder supplier, rice husk for poultry / cattle feed',
     value:
       'Finely ground raw rice husk — a renewable, fibre-rich agro-byproduct for animal feed, organic soil conditioning, industrial fillers and bio-composites.',
     tags: ['Natural', 'Feed & Agri', 'Filler'],
@@ -358,10 +358,10 @@ export const products: Product[] = [
     seoTitle:
       'Rice Husk Pellets - Biomass Fuel Manufacturer & Exporter India | Ambika Ricemill',
     metaDescription:
-      'High-calorific Rice Husk Pellets — clean biomass fuel for boilers, power plants & gasification. Low moisture, renewable, carbon-neutral. Bulk supply & export from Odisha, India.',
-    focusKeyword: 'rice husk pellets',
+      'Rice husk pellets supplier & biomass pellets manufacturer in India — high-calorific clean biomass fuel for boilers, power plants & gasification. Renewable, low moisture. Price on request; bulk supply & export from Odisha.',
+    focusKeyword: 'rice husk pellets supplier, biomass pellets manufacturer India, rice husk pellets price',
     value:
-      'Compressed, high-calorific rice husk pellets — a clean, renewable, carbon-neutral biomass fuel for industrial boilers, power plants and gasification.',
+      'Compressed, high-calorific rice husk pellets from a dedicated biomass pellets manufacturer — a clean, renewable, carbon-neutral biomass fuel for industrial boilers, power plants and gasification.',
     tags: ['Biomass Fuel', 'High Calorific', 'Carbon-Neutral'],
     statBig: '≈3800',
     statLabel: 'KCAL/KG GCV',

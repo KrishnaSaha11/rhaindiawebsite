@@ -6,21 +6,56 @@ title, H1, first paragraph, at least one heading, body, image ALT and the URL
 slug — without stuffing. Descriptive internal links connect
 **product → category → related product → contact**.
 
-> Note: a dedicated keyword map wasn't received, so targeting uses the per-page
-> **focus keywords from the brief**. Send the map if you'd like further tuning.
+Targeting now follows the supplied **keyword map** (P1 = highest lead intent,
+P2 = next, P3 = informational/blog).
 
-## Primary keyword targeting (page ↔ commercial keyword)
-| Page | URL | Primary keyword |
-| --- | --- | --- |
-| Homepage | `/` | rice husk ash manufacturer / exporter (India) |
-| Category A | `/rice-husk-ash/` | rice husk ash |
-| Category B | `/rice-husk/` | rice husk (supplier/exporter) |
-| Ground Powder | `/rice-husk-ash-ground-powder/` | rice husk ash ground powder / micronized RHA |
-| Granules | `/rice-husk-ash-granules/` | rice husk ash granules |
-| Pellets | `/rice-husk-ash-pellets/` | rice husk ash pellets |
-| Raw Husk | `/rice-husk-raw/` | rice husk (raw whole husk) |
-| Husk Powder | `/rice-husk-powder/` | rice husk powder |
-| Biomass Pellets | `/rice-husk-pellets/` | rice husk pellets / biomass pellets |
+## Final keyword → page map
+| Keyword | Type | Priority | Target page |
+| --- | --- | --- | --- |
+| rice husk ash manufacturer | Commercial | P1 | `/` (title, H1) |
+| rice husk ash supplier / exporter India | Commercial | P1 | `/` (title, description, body) |
+| rice husk ash supplier Odisha | Local | P1 | `/` + `/contact/` (description, intro, About blurb) |
+| buy rice husk ash / rice husk ash price | Transactional | P1 | All product pages (CTA "request a bulk … price quote") + blog |
+| tundish covering compound manufacturer | Commercial | P1 | `/rice-husk-ash-granules/` + `/rice-husk-ash-pellets/` (title, desc, overview) |
+| ladle covering compound supplier | Commercial | P1 | `/rice-husk-ash-granules/` + `/rice-husk-ash-pellets/` (title, desc, overview) |
+| rice husk ash for steel | Commercial | P2 | `/rice-husk-ash/` (intro) |
+| micronized rice husk ash supplier | Commercial | P1 | `/rice-husk-ash-ground-powder/` (desc, overview) |
+| rice husk ash for concrete / pozzolana supplier | Commercial | P1 | `/rice-husk-ash-ground-powder/` (focus kw, desc, overview) |
+| SCM supplier India | Commercial | P2 | `/rice-husk-ash-ground-powder/` (overview) |
+| rice husk pellets supplier | Commercial | P1 | `/rice-husk-pellets/` (title/desc) |
+| biomass pellets manufacturer India | Commercial | P1 | `/rice-husk-pellets/` (desc, value) |
+| rice husk pellets price | Transactional | P1 | `/rice-husk-pellets/` (desc "price on request") |
+| biomass fuel pellets exporter | Commercial | P2 | `/rice-husk-pellets/` (body/title) |
+| rice husk powder supplier | Commercial | P2 | `/rice-husk-powder/` (title/desc) |
+| rice husk for poultry / cattle feed | Commercial | P2 | `/rice-husk-powder/` (focus kw, desc, applications) |
+| what is rice husk ash / RHA uses | Informational | P3 | `/blog/what-is-rice-husk-ash/` |
+| rice husk ash silica content / specifications | Informational | P3 | `/blog/inside-nabl-testing-tds/` |
+| rice husk ash in concrete benefits | Informational | P2 | `/blog/rha-in-concrete-dosage-gains/` + `/rice-husk-ash-ground-powder/` |
+| rice husk pellets calorific value / biomass vs coal | Informational | P2 | `/blog/rice-husk-pellets-vs-coal/` |
+| rice husk ash granules | Commercial | — | `/rice-husk-ash-granules/` (H1) |
+| rice husk (raw whole husk) | Commercial | — | `/rice-husk-raw/` (H1) |
+| rice husk (supplier/exporter) | Commercial | — | `/rice-husk/` category |
+
+### Keyword-map edits applied (this pass)
+- **Homepage:** description now "rice husk ash manufacturer, supplier & exporter
+  in Sambalpur, Odisha … bulk quote/price"; About blurb adds "Rice Husk Ash
+  supplier in Odisha".
+- **Contact:** description + intro add "Rice Husk Ash supplier in Odisha" and
+  "quote/price".
+- **RHA Granules:** retitled to target **tundish & ladle covering compound
+  supplier**; description + overview reworded with both covering-compound phrases.
+- **RHA Pellets:** description/value now target **ladle & tundish covering
+  compound** (in addition to insulation).
+- **Ground Powder:** focus keywords + description + overview target **micronized
+  rice husk ash supplier**, **rice husk ash for concrete / pozzolana supplier**,
+  **SCM supplier India**.
+- **Rice Husk Pellets:** description/value target **rice husk pellets supplier**,
+  **biomass pellets manufacturer India**, **rice husk pellets price** (on request).
+- **Rice Husk Powder:** targets **rice husk powder supplier** and **rice husk for
+  poultry / cattle feed**.
+- **/rice-husk-ash/ category:** intro adds **"Rice Husk Ash for steel"**.
+- **All product pages:** transactional intent via "request a bulk … **price**
+  quote" internal link.
 
 ## Changes by page
 
