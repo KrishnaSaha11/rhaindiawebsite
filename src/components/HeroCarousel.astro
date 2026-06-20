@@ -1,0 +1,382 @@
+---
+// Full-bleed, auto-rotating hero carousel — lightweight (no libraries).
+// First slide loads eagerly for LCP; the rest lazy-load.
+const slides = [
+  {
+    img: '/images/hero/rice-husk-ash-hero.svg',
+    alt: 'High-silica Rice Husk Ash powder and granules close-up — Ambika Biotech, Sambalpur',
+    eyebrow: 'Sambalpur, Odisha · India',
+    title: 'Rice Husk Ash Manufacturer & Exporter',
+    sub: 'High-silica RHA for the steel, concrete & clean-energy industries — engineered to a consistent spec, batch after batch.',
+    ctas: [
+      { label: 'Get a Quote', href: '#quote-form', primary: true },
+      { label: 'View Products', href: '/products/', primary: false },
+    ],
+  },
+  {
+    img: '/images/sections/rha-detail.svg',
+    alt: 'NABL-tested high-silica Rice Husk Ash material close-up showing consistent quality',
+    eyebrow: 'Quality & Consistency',
+    title: 'NABL-tested. 85–92% SiO₂.',
+    sub: 'Independently tested, documented quality — the same certified spec delivered batch after batch.',
+    ctas: [
+      { label: 'Get a Quote', href: '#quote-form', primary: true },
+      { label: 'View Products', href: '/products/', primary: false },
+    ],
+  },
+  {
+    img: '/images/sections/rice-fields-packing.svg',
+    alt: 'Rice fields and rice husk packing — circular, sustainable sourcing by Ambika Biotech',
+    eyebrow: 'Sustainability',
+    title: 'A circular economy, by design',
+    sub: 'We turn rice husk waste into high-value silica and clean biomass fuel — waste-to-value, end to end.',
+    ctas: [
+      { label: 'Get a Quote', href: '#quote-form', primary: true },
+      { label: 'Our CSR', href: '/csr/', primary: false },
+    ],
+  },
+  {
+    img: '/images/sections/loading-export.svg',
+    alt: 'Containers loading rice husk ash for export to Belgium, Germany and the Middle East',
+    eyebrow: 'Export-Ready',
+    title: 'Shipping worldwide from India',
+    sub: 'Bulk capacity and full export documentation for partners in Belgium, Germany & the Middle East.',
+    ctas: [
+      { label: 'Get a Quote', href: '#quote-form', primary: true },
+      { label: 'View Products', href: '/products/', primary: false },
+    ],
+  },
+];
+---
+
+<section
+  class="hero-carousel"
+  id="hero"
+  aria-roledescription="carousel"
+  aria-label="Ambika Biotech highlights"
+>
+  <!-- Single SEO H1 (independent of which slide shows) -->
+  <h1 class="sr-only">
+    Rice Husk Ash Manufacturer, Supplier &amp; Exporter in Sambalpur, Odisha, India
+  </h1>
+
+  <div class="hc-track" data-hc-track>
+    {slides.map((s, i) => (
+      <div
+        class:list={['hc-slide', { 'is-active': i === 0 }]}
+        data-slide={i}
+        role="group"
+        aria-roledescription="slide"
+        aria-label={`${i + 1} of ${slides.length}`}
+        aria-hidden={i !== 0 ? 'true' : 'false'}
+      >
+        <img
+          class="hc-img"
+          src={s.img}
+          alt={s.alt}
+          width="1920"
+          height="1080"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : 'auto'}
+          decoding="async"
+        />
+        <div class="hc-overlay"></div>
+        <div class="container hc-content">
+          <div class="hc-eyebrow"><span class="hc-dot"></span>{s.eyebrow}</div>
+          <p class="hc-title">{s.title}</p>
+          <p class="hc-sub">{s.sub}</p>
+          <div class="hc-ctas">
+            {s.ctas.map((c) => (
+              <a href={c.href} class:list={['btn', c.primary ? 'btn-gold' : 'btn-glass']}>
+                {c.label}{c.primary && <span class="mono"> →</span>}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Arrows -->
+  <button class="hc-arrow hc-prev" data-hc-prev aria-label="Previous slide" type="button">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button class="hc-arrow hc-next" data-hc-next aria-label="Next slide" type="button">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <!-- Trust ticker + dots -->
+  <div class="hc-bottom container">
+    <div class="hc-trust">
+      <span class="ht-strong">20+ Years</span><span class="sep">·</span>
+      <span class="ht-strong">NABL Tested</span><span class="sep">·</span>
+      <span class="ht-strong">85–92% SiO₂</span><span class="sep">·</span>
+      <span>Export to Belgium, Germany &amp; Middle East</span>
+    </div>
+    <div class="hc-dots" role="tablist" aria-label="Choose slide">
+      {slides.map((_, i) => (
+        <button
+          class:list={['hc-dot-btn', { 'is-active': i === 0 }]}
+          data-hc-dot={i}
+          type="button"
+          role="tab"
+          aria-label={`Go to slide ${i + 1}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+        ></button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-carousel {
+    position: relative;
+    height: calc(100svh - 74px);
+    min-height: 540px;
+    max-height: 920px;
+    overflow: hidden;
+    background: var(--green-800);
+    isolation: isolate;
+  }
+  .hc-track { position: absolute; inset: 0; }
+  .hc-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease, visibility 1s ease;
+    pointer-events: none;
+  }
+  .hc-slide.is-active { opacity: 1; visibility: visible; pointer-events: auto; }
+
+  .hc-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.02);
+  }
+  .hc-slide.is-active .hc-img { animation: kenburns 14s ease-out forwards; }
+  .hc-slide:nth-child(even).is-active .hc-img { animation-name: kenburns-alt; }
+
+  .hc-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(8, 22, 15, 0.82) 0%, rgba(8, 22, 15, 0.5) 45%, rgba(8, 22, 15, 0.2) 100%),
+      linear-gradient(0deg, rgba(8, 22, 15, 0.55) 0%, rgba(8, 22, 15, 0) 40%);
+  }
+
+  .hc-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: var(--maxw);
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  .hc-slide.is-active .hc-content {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.85s ease 0.25s, transform 0.85s ease 0.25s;
+  }
+  .hc-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(230, 199, 122, 0.35);
+    padding: 8px 15px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+    backdrop-filter: blur(4px);
+  }
+  .hc-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+  .hc-title {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: clamp(38px, 6vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin: 0 0 20px;
+    max-width: 16ch;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+  }
+  .hc-sub {
+    font-size: clamp(16px, 1.9vw, 21px);
+    line-height: 1.6;
+    color: #e8ece4;
+    max-width: 54ch;
+    margin: 0 0 32px;
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.3);
+  }
+  .hc-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-glass {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(6px);
+  }
+  .btn-glass:hover { background: rgba(255, 255, 255, 0.18); transform: translateY(-2px); }
+
+  /* Arrows */
+  .hc-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(8, 22, 15, 0.35);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .hc-arrow:hover { background: rgba(8, 22, 15, 0.6); }
+  .hc-prev { left: 22px; }
+  .hc-next { right: 22px; }
+  .hc-arrow:hover.hc-next { transform: translateY(-50%) translateX(2px); }
+  .hc-arrow:hover.hc-prev { transform: translateY(-50%) translateX(-2px); }
+
+  /* Bottom row: trust + dots */
+  .hc-bottom {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 26px;
+    z-index: 4;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .hc-trust {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .ht-strong { color: var(--gold); font-weight: 500; }
+  .hc-trust .sep { opacity: 0.4; }
+  .hc-dots { display: flex; gap: 10px; }
+  .hc-dot-btn {
+    width: 32px;
+    height: 5px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.25s ease, width 0.25s ease;
+  }
+  .hc-dot-btn.is-active { background: var(--gold); width: 46px; }
+
+  @keyframes kenburns { from { transform: scale(1.02); } to { transform: scale(1.14) translate(-1.5%, -1.5%); } }
+  @keyframes kenburns-alt { from { transform: scale(1.14) translate(1.5%, 1%); } to { transform: scale(1.02); } }
+
+  @media (max-width: 860px) {
+    .hero-carousel { height: auto; min-height: 0; max-height: none; }
+    .hc-track { position: relative; height: 78svh; min-height: 480px; }
+    .hc-arrow { display: none; }
+    .hc-bottom { position: relative; left: auto; transform: none; bottom: auto; padding-top: 16px; padding-bottom: 16px; background: var(--green-900); justify-content: center; }
+    .hc-trust { display: none; }
+    .hc-content { padding-bottom: 40px; justify-content: flex-end; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hc-slide, .hc-content { transition: none; }
+    .hc-slide.is-active .hc-img { animation: none; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('.hero-carousel');
+    if (!root) return;
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.hc-slide'));
+    var dots = Array.prototype.slice.call(root.querySelectorAll('[data-hc-dot]'));
+    var prev = root.querySelector('[data-hc-prev]');
+    var next = root.querySelector('[data-hc-next]');
+    if (slides.length < 2) return;
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var i = 0;
+    var timer = null;
+    var DELAY = 5000;
+
+    function show(n) {
+      n = (n + slides.length) % slides.length;
+      slides[i].classList.remove('is-active');
+      slides[i].setAttribute('aria-hidden', 'true');
+      dots[i] && dots[i].classList.remove('is-active');
+      dots[i] && dots[i].setAttribute('aria-selected', 'false');
+      i = n;
+      slides[i].classList.add('is-active');
+      slides[i].setAttribute('aria-hidden', 'false');
+      dots[i] && dots[i].classList.add('is-active');
+      dots[i] && dots[i].setAttribute('aria-selected', 'true');
+      // lazy slides: promote to eager once shown
+      var img = slides[i].querySelector('.hc-img');
+      if (img && img.loading === 'lazy') img.loading = 'eager';
+    }
+    function go(n) { show(n); restart(); }
+    function start() { if (!reduce) timer = setInterval(function () { show(i + 1); }, DELAY); }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    function restart() { stop(); start(); }
+
+    next && next.addEventListener('click', function () { go(i + 1); });
+    prev && prev.addEventListener('click', function () { go(i - 1); });
+    dots.forEach(function (d, idx) { d.addEventListener('click', function () { go(idx); }); });
+
+    // Pause on hover / focus
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('focusout', start);
+
+    // Keyboard
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { go(i - 1); }
+      else if (e.key === 'ArrowRight') { go(i + 1); }
+    });
+
+    // Swipe
+    var x0 = null;
+    root.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; stop(); }, { passive: true });
+    root.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1));
+      else start();
+      x0 = null;
+    }, { passive: true });
+
+    // Pause when tab hidden
+    document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else start(); });
+
+    start();
+  })();
+</script>

@@ -37,10 +37,19 @@ environment blocks downloads from stock-photo sites.
 | `loading-export.svg` | Product page thumbnail | Container loading / export · "container loading export", "cargo containers port" |
 | `rha-detail.svg` | Product page thumbnail | Material close-up in hand · "powder in hand", "granules macro" |
 
-## Hero — `public/images/hero/`
-| File | Used on | Suggested real photo · search terms |
-| --- | --- | --- |
-| `rice-husk-ash-hero.svg` | Homepage hero (LCP) | Striking RHA powder/granules close-up · "grey silica powder macro", "ash texture" |
+## Homepage hero carousel (full-bleed, rotating)
+The homepage hero rotates **4 slides**. Slide 1 is the LCP image (loads eagerly);
+the rest lazy-load. Swap these files for impactful, landscape (≈1920×1080) photos:
+
+| Slide | File | Message | Suggested real photo |
+| --- | --- | --- | --- |
+| 1 (LCP) | `hero/rice-husk-ash-hero.svg` | Manufacturer & Exporter | Striking RHA powder/granules close-up or plant hero |
+| 2 | `sections/rha-detail.svg` | Quality & Consistency (NABL, 85–92% SiO₂) | Material macro / lab testing |
+| 3 | `sections/rice-fields-packing.svg` | Sustainability | Green paddy fields / packing |
+| 4 | `sections/loading-export.svg` | Export-ready | Container loading / port |
+
+> To add/remove slides or change the copy, edit the `slides` array in
+> `src/components/HeroCarousel.astro`.
 
 ## Blog — `public/images/blog/`
 | File | Used on | Suggested real photo |

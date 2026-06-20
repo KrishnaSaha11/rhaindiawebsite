@@ -1,11 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Photo from '../components/Photo.astro';
 import Shape from '../components/Shape.astro';
-import { site, trustStrip } from '../config/site';
+import { site } from '../config/site';
 import { products, categories } from '../data/products';
+
+const heroStats = [
+  { num: 20, suffix: '+', prefix: '', label: 'Years of manufacturing experience' },
+  { num: 0, suffix: '', prefix: '', label: 'NABL tested & certified quality', text: 'NABL' },
+  { num: 92, suffix: '%', prefix: '85–', label: 'High-silica SiO₂ content' },
+  { num: 3, suffix: '+', prefix: '', label: 'Export regions worldwide' },
+];
 
 const rha = products.filter((p) => p.category === 'rice-husk-ash');
 const husk = products.filter((p) => p.category === 'rice-husk');
@@ -33,15 +41,6 @@ const title = 'Rice Husk Ash Manufacturer & Exporter India | Ambika Biotech';
 const description =
   'Ambika Biotech (RHA India) — rice husk ash manufacturer, supplier & exporter in Sambalpur, Odisha. High-silica RHA (85–92% SiO₂), granules, pellets & rice husk products. NABL tested. Get a bulk quote/price.';
 
-// Hero particle field (single lightweight hero animation)
-const particles = Array.from({ length: 11 }, (_, i) => ({
-  left: (i * 8.7 + 4) % 100,
-  size: 5 + ((i * 3) % 7),
-  dur: 22 + ((i * 5) % 16),
-  delay: (i * 1.6) % 16,
-  color: i % 2 === 0 ? '#E6C77A' : '#4E8C68',
-}));
-
 const webPage = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -52,61 +51,24 @@ const webPage = {
 ---
 
 <BaseLayout title={title} description={description} path="/" quoteHref="#quote-form" jsonLd={[webPage]}>
-  <!-- ===================== HERO ===================== -->
-  <section class="hero">
-    <div class="container hero-grid">
-      <div data-reveal>
-        <div class="pill"><span class="pill-dot"></span>{site.address.locality}, {site.address.region} · India</div>
-        <h1 class="hero-h1">Rice Husk Ash<br />Manufacturer <span class="amp">&amp;</span> Exporter</h1>
-        <p class="hero-sub">
-          High-silica <strong>Rice Husk Ash (RHA)</strong> for the steel, concrete
-          &amp; clean-energy industries — manufactured and exported to a consistent
-          spec, batch after batch.
-        </p>
-        <div class="hero-cta">
-          <a href="#quote-form" class="btn btn-primary">Get a Quote <span class="mono">→</span></a>
-          <a href="#products" class="btn btn-outline">View Products</a>
-        </div>
-        <div class="hero-trust">
-          <span class="ht-strong">20+ Years</span><span class="dot">·</span>
-          <span class="ht-strong">NABL Tested</span><span class="dot">·</span>
-          <span>Exporting to Belgium, Germany &amp; Middle East</span>
-        </div>
-      </div>
+  <!-- ===================== HERO CAROUSEL ===================== -->
+  <HeroCarousel />
 
-      <div data-reveal>
-        <div class="hero-visual">
-          <Photo
-            src="/images/hero/rice-husk-ash-hero.svg"
-            alt="High-silica Rice Husk Ash powder and granules close-up — Ambika Biotech, Sambalpur"
-            width={1200}
-            height={1320}
-            eager={true}
-          />
-          <div class="hero-particles" aria-hidden="true">
-            {particles.map((p) => (
-              <span
-                class="float-particle"
-                style={`left:${p.left}%;width:${p.size}px;height:${p.size}px;background:${p.color};animation-duration:${p.dur}s;animation-delay:${p.delay}s;`}
-              ></span>
-            ))}
-          </div>
-          <div class="hero-badge">
-            <div class="hb-big">85–92%</div>
-            <div class="hb-label">SiO₂ SILICA</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== TRUST STRIP ===================== -->
+  <!-- ===================== TRUST STRIP (count-up) ===================== -->
   <section class="trust-strip">
     <div class="container">
-      <div class="trust-grid" data-reveal>
-        {trustStrip.map((t) => (
+      <div class="trust-grid" data-reveal data-countup>
+        {heroStats.map((t) => (
           <div class="trust-item">
-            <div class="trust-big">{t.big}</div>
+            <div class="trust-big">
+              {t.text ? (
+                <span>{t.text}</span>
+              ) : (
+                <span>
+                  {t.prefix}<span class="count" data-count={t.num}>0</span>{t.suffix}
+                </span>
+              )}
+            </div>
             <div class="trust-label">{t.label}</div>
           </div>
         ))}
@@ -318,6 +280,35 @@ const webPage = {
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (function () {
+      var group = document.querySelector('[data-countup]');
+      if (!group) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var els = Array.prototype.slice.call(group.querySelectorAll('.count'));
+      function animate(el) {
+        var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+        if (reduce) { el.textContent = String(target); return; }
+        var dur = 1500, t0 = null;
+        function step(ts) {
+          if (!t0) t0 = ts;
+          var p = Math.min((ts - t0) / dur, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = String(Math.round(eased * target));
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+      if (!('IntersectionObserver' in window)) { els.forEach(animate); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { animate(en.target); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.4 });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
 </BaseLayout>
 
 <style>
@@ -474,10 +465,44 @@ const webPage = {
   /* Industries */
   .ind-head { margin-bottom: 46px; }
   .ind-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
-  .ind-card { background: var(--cream); border: 1px solid var(--line); border-radius: 16px; padding: 28px 22px; display: flex; flex-direction: column; gap: 16px; transition: transform .25s ease, border-color .25s ease; }
-  .ind-card:hover { transform: translateY(-3px); border-color: var(--green-800); }
-  .ind-icon { width: 48px; height: 48px; border-radius: 13px; background: var(--tile); display: flex; align-items: center; justify-content: center; }
-  .ind-name { font-family: var(--font-head); font-weight: 700; font-size: 17px; color: var(--ink); margin-bottom: 5px; }
+  .ind-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 30px 22px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .ind-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-600), var(--green-600));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .ind-card:hover { transform: translateY(-6px); border-color: var(--gold-600); box-shadow: 0 22px 42px -24px rgba(14, 42, 29, 0.38); }
+  .ind-card:hover::before { transform: scaleX(1); }
+  .ind-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 15px;
+    background: linear-gradient(150deg, #eef3ea, #e0ebdd);
+    border: 1px solid #d7e3d4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    transition: transform 0.3s ease;
+  }
+  .ind-card:hover .ind-icon { transform: scale(1.08) rotate(-3deg); }
+  .ind-name { font-family: var(--font-head); font-weight: 700; font-size: 17.5px; color: var(--ink); margin-bottom: 5px; }
   .ind-note { font-size: 13px; line-height: 1.45; color: var(--text-faint); }
 
   /* CSR */
