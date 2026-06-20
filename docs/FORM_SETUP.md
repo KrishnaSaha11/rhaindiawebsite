@@ -46,31 +46,74 @@ You have two ways. **Option 1 is the simplest.**
 3. Submit a test lead → confirm a new row appears with name, company, country,
    email, phone, product, quantity, message, and `source`.
 
-### Option 2 — Google Apps Script endpoint (full control, free)
-Use this if you'd rather post directly to your own Google endpoint.
+### Option 2 — Google Apps Script endpoint (✅ already wired in the code)
 
-1. In the Google Sheet → **Extensions → Apps Script**, paste:
+The form **already** posts each lead to a Google Apps Script web app in parallel
+with the email. You just create the Sheet + script and paste the URL into one
+environment variable. **Do all of these on the Google side:**
 
-   ```js
-   function doPost(e) {
-     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-     var d = e.parameter;
-     sheet.appendRow([
-       new Date(), d.name, d.company, d.country, d.email,
-       d.phone, d.product, d.quantity, d.message, d.source
-     ]);
-     return ContentService
-       .createTextOutput(JSON.stringify({ success: true }))
-       .setMimeType(ContentService.MimeType.JSON);
-   }
-   ```
-2. **Deploy → New deployment → Web app**, execute as **Me**, access
-   **Anyone**, and copy the `/exec` URL.
-3. Add a header row to the Sheet: `Timestamp | Name | Company | Country | Email
-   | Phone | Product | Quantity | Message | Source`.
-4. Tell us the `/exec` URL and we'll add a second, parallel POST in
-   `QuoteForm.astro` so each lead goes to **both** the inbox (Web3Forms) and the
-   Sheet (Apps Script). *(Small code change — ping us and we'll wire it.)*
+**1. Create the Sheet**
+- Go to https://sheets.google.com → **Blank spreadsheet** → name it
+  e.g. *"RHA India — Website Leads"*.
+- In row 1, add these exact headers (left to right):
+
+  `Timestamp | Name | Company | Country | Email | Phone | Product | Quantity | Message | Source`
+
+**2. Add the Apps Script**
+- In the Sheet: **Extensions → Apps Script**. Delete any sample code and paste:
+
+  ```js
+  function doPost(e) {
+    var lock = LockService.getScriptLock();
+    lock.tryLock(30000);
+    try {
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1')
+        || SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+      var d = (e && e.parameter) ? e.parameter : {};
+      sheet.appendRow([
+        new Date(),
+        d.name || '', d.company || '', d.country || '', d.email || '',
+        d.phone || '', d.product || '', d.quantity || '', d.message || '',
+        d.source || ''
+      ]);
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: true }))
+        .setMimeType(ContentService.MimeType.JSON);
+    } finally {
+      lock.releaseLock();
+    }
+  }
+  ```
+- Click the **Save** icon.
+
+**3. Deploy it as a Web app**
+- Top-right **Deploy → New deployment**.
+- Click the gear → choose **Web app**.
+- **Description:** anything · **Execute as:** **Me** · **Who has access:**
+  **Anyone**.
+- **Deploy** → authorise the script when prompted (it's your own account; click
+  through the "unverified app → Advanced → Go to project" screens).
+- Copy the **Web app URL** — it ends in **`/exec`**, e.g.
+  `https://script.google.com/macros/s/AKfy.../exec`.
+
+**4. Put the URL into the site**
+- Netlify → Site configuration → **Environment variables** → add:
+  - **Key:** `PUBLIC_SHEETS_ENDPOINT`
+  - **Value:** the `/exec` URL
+- **Redeploy** the site (env vars are read at build time).
+  - *(Local/dev alternative: add `PUBLIC_SHEETS_ENDPOINT=...` to a `.env` file,
+    or set `sheetsEndpoint` directly in `src/config/site.ts`.)*
+
+**5. Test**
+- Submit a quote from `/contact/`. You should get the email (Web3Forms) **and**
+  a new row in the Sheet, and still see the on-page thank-you message.
+
+> Notes: the browser posts to Apps Script in `no-cors` mode (fire-and-forget),
+> so the row is written even though the page can't read the response — that's
+> expected and does not affect the email or the thank-you. If you only set up
+> the Sheet (no Web3Forms key), leads still land in the Sheet and the thank-you
+> still shows. To change which tab is written, rename the target sheet to
+> `Sheet1` or adjust `getSheetByName` in the script.
 
 ---
 

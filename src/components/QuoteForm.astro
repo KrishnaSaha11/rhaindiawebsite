@@ -20,6 +20,7 @@ const { preselect = '', source = 'Website', formId = 'rfq-form' } = Astro.props;
     action="https://api.web3forms.com/submit"
     method="POST"
     data-quote-form
+    data-sheets={site.sheetsEndpoint}
   >
     <!-- Web3Forms config -->
     <input type="hidden" name="access_key" value={site.web3formsKey} />
@@ -188,6 +189,14 @@ const { preselect = '', source = 'Website', formId = 'rfq-form' } = Astro.props;
 
         var data = new FormData(form);
         var nameVal = (data.get('name') || '').toString().trim();
+
+        // Fire-and-forget: also append the lead to the Google Sheet (Apps Script).
+        var sheetUrl = form.getAttribute('data-sheets');
+        if (sheetUrl) {
+          try {
+            fetch(sheetUrl, { method: 'POST', body: data, mode: 'no-cors' }).catch(function () {});
+          } catch (e) {}
+        }
 
         var key = data.get('access_key');
         if (!key || key.toString().indexOf('REPLACE_WITH') === 0) {

@@ -87,7 +87,10 @@ const isActive = (href: string) =>
 
   <!-- Mobile drawer -->
   <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
-  <aside class="drawer" id="mobileDrawer" aria-label="Mobile menu" hidden>
+  <aside class="drawer" id="mobileDrawer" aria-label="Mobile menu" aria-hidden="true" hidden>
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu" type="button">
+      <span></span><span></span>
+    </button>
     <nav class="drawer-nav">
       {nav.slice(0, 2).map((n) => (
         <a href={n.href} class="drawer-link">{n.label}</a>
@@ -309,6 +312,29 @@ const isActive = (href: string) =>
     padding: 90px 24px 32px;
   }
   .drawer.open { transform: translateX(0); }
+  .drawer-close {
+    position: absolute;
+    top: 22px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .drawer-close span {
+    position: absolute;
+    width: 22px;
+    height: 2px;
+    background: var(--green-800);
+    border-radius: 2px;
+  }
+  .drawer-close span:nth-child(1) { transform: rotate(45deg); }
+  .drawer-close span:nth-child(2) { transform: rotate(-45deg); }
   .drawer-nav { display: flex; flex-direction: column; gap: 4px; }
   .drawer-link {
     font-size: 17px;
@@ -363,41 +389,107 @@ const isActive = (href: string) =>
     var toggle = document.getElementById('navToggle');
     var drawer = document.getElementById('mobileDrawer');
     var backdrop = document.getElementById('drawerBackdrop');
+    var closeBtn = document.getElementById('drawerClose');
     if (!toggle || !drawer || !backdrop) return;
 
-    function open() {
+    var menuOpen = false;
+    var pendingNav = null;
+    var hideTimer = null;
+
+    function openMenu() {
+      if (menuOpen) return;
+      menuOpen = true;
+      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
       drawer.hidden = false;
       backdrop.hidden = false;
-      requestAnimationFrame(function () {
-        drawer.classList.add('open');
-        backdrop.classList.add('open');
-      });
+      drawer.setAttribute('aria-hidden', 'false');
+      // Force reflow so the transition runs from the hidden state.
+      void drawer.offsetWidth;
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
       toggle.setAttribute('aria-expanded', 'true');
       toggle.setAttribute('aria-label', 'Close menu');
       document.body.style.overflow = 'hidden';
+      // Push a history entry so the browser/phone Back button closes the menu.
+      try { history.pushState({ rhaMenu: true }, ''); } catch (e) {}
     }
-    function close() {
+
+    // Pure DOM close — no history changes.
+    function closeMenuDom() {
+      if (!menuOpen) { doPendingNav(); return; }
+      menuOpen = false;
       drawer.classList.remove('open');
       backdrop.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
       toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-label', 'Open menu');
       document.body.style.overflow = '';
-      setTimeout(function () {
+      hideTimer = setTimeout(function () {
         drawer.hidden = true;
         backdrop.hidden = true;
-      }, 280);
+        hideTimer = null;
+      }, 300);
+      doPendingNav();
     }
+
+    function doPendingNav() {
+      if (pendingNav) {
+        var href = pendingNav;
+        pendingNav = null;
+        window.location.assign(href);
+      }
+    }
+
+    // User-initiated close (X, backdrop, Esc, link). Unwinds the history entry,
+    // which fires popstate -> closeMenuDom(). Falls back to a direct close.
+    function requestClose() {
+      if (history.state && history.state.rhaMenu) {
+        history.back();
+      } else {
+        closeMenuDom();
+      }
+    }
+
     toggle.addEventListener('click', function () {
-      if (toggle.getAttribute('aria-expanded') === 'true') close();
-      else open();
+      if (menuOpen) requestClose();
+      else openMenu();
     });
-    backdrop.addEventListener('click', close);
+    if (closeBtn) closeBtn.addEventListener('click', requestClose);
+    backdrop.addEventListener('click', requestClose);
+
+    // Intercept in-drawer links: remember the target, close cleanly, then navigate.
     drawer.addEventListener('click', function (e) {
       var a = e.target.closest && e.target.closest('a');
-      if (a) close();
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#') { requestClose(); return; }
+      if (a.target === '_blank') return; // let new-tab links behave normally
+      e.preventDefault();
+      pendingNav = href;
+      requestClose();
     });
+
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') close();
+      if (e.key === 'Escape' && menuOpen) requestClose();
+    });
+
+    // Hardware / browser Back closes the menu instead of leaving the page.
+    window.addEventListener('popstate', function () {
+      if (menuOpen) closeMenuDom();
+    });
+
+    // Safety: never restore a stuck-open menu from bfcache.
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted && menuOpen) {
+        menuOpen = false;
+        drawer.classList.remove('open');
+        backdrop.classList.remove('open');
+        drawer.hidden = true;
+        backdrop.hidden = true;
+        drawer.setAttribute('aria-hidden', 'true');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
     });
   })();
 </script>

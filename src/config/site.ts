@@ -58,6 +58,11 @@ export const site = {
   // PUBLIC_WEB3FORMS_KEY in the environment).
   web3formsKey: import.meta.env.PUBLIC_WEB3FORMS_KEY || 'REPLACE_WITH_WEB3FORMS_ACCESS_KEY',
 
+  // Google Apps Script web-app URL (ends in /exec). Each lead is also appended
+  // to your Google Sheet via this endpoint, in parallel with the email above.
+  // See docs/FORM_SETUP.md. Leave blank to disable the Sheet integration.
+  sheetsEndpoint: import.meta.env.PUBLIC_SHEETS_ENDPOINT || '',
+
   // ---- Analytics ----
   // Paste the GA4 Measurement ID (e.g. "G-XXXXXXX") to enable analytics.
   ga4Id: import.meta.env.PUBLIC_GA4_ID || '',
