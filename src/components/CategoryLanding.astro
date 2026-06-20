@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import { site } from '../config/site';
+import { products, categories, type Category } from '../data/products';
+
+export interface Props {
+  category: Category;
+  title: string;
+  description: string;
+  intro: string[];
+}
+const { category, title, description, intro } = Astro.props;
+const cat = categories[category];
+const items = products.filter((p) => p.category === category);
+const path = `/${cat.slug}/`;
+const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.whatsappMessage)}`;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Products', item: site.url + '/products/' },
+    { '@type': 'ListItem', position: 3, name: cat.name, item: new URL(path, site.url).href },
+  ],
+};
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: cat.name,
+  itemListElement: items.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: p.name,
+    url: new URL(`/${p.slug}/`, site.url).href,
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} path={path} jsonLd={[breadcrumb, itemList]}>
+  <nav class="crumb" aria-label="Breadcrumb">
+    <div class="container crumb-inner">
+      <a href="/">Home</a><span>/</span>
+      <a href="/products/">Products</a><span>/</span>
+      <span class="crumb-current">{cat.name}</span>
+    </div>
+  </nav>
+
+  <section class="cat-hero">
+    <div class="container" data-reveal>
+      <div class="eyebrow">Product Category</div>
+      <h1 class="cat-h1">{cat.name}</h1>
+      <p class="cat-lead">{description}</p>
+      <div class="cat-hero-cta">
+        <a href="/contact/#quote-form" class="btn btn-primary">Get a Quote <span class="mono">→</span></a>
+        <a href={waLink} class="btn btn-outline" target="_blank" rel="noopener">Chat on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container cat-intro" data-reveal>
+      {intro.map((para) => <p class="body-p">{para}</p>)}
+    </div>
+    <div class="container">
+      <div class="cat-grid">
+        {items.map((p) => <ProductCard product={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-sec">
+    <div class="container contact-grid">
+      <div data-reveal>
+        <div class="eyebrow eyebrow-gold">Get a Quote</div>
+        <h2 class="contact-h2">Bulk {cat.name.toLowerCase()} — let's talk spec &amp; volume</h2>
+        <p class="contact-p">Tell us your requirement and we reply within one business day with pricing, lead time and export documentation.</p>
+        <div class="contact-actions">
+          <a href={waLink} class="ca ca-wa" target="_blank" rel="noopener"><span class="ca-ic">◎</span> Chat on WhatsApp</a>
+          <a href={`tel:${site.phoneE164}`} class="ca ca-call"><span class="ca-ic ca-ic-gold">●</span> {site.phoneDisplay}</a>
+        </div>
+      </div>
+      <div data-reveal id="quote-form">
+        <QuoteForm source={`Category: ${cat.name}`} formId="cat-rfq" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .crumb { border-bottom: 1px solid #efe9d9; background: var(--cream); }
+  .crumb-inner { display: flex; align-items: center; gap: 10px; padding: 14px 32px; font-size: 13.5px; color: var(--text-faint); flex-wrap: wrap; }
+  .crumb-inner a { color: var(--text-faint); text-decoration: none; }
+  .crumb-inner a:hover { color: var(--green-800); }
+  .crumb-inner span { opacity: 0.5; }
+  .crumb-current { color: var(--green-800) !important; font-weight: 600; opacity: 1 !important; }
+
+  .cat-hero { padding: 72px 0 40px; background: radial-gradient(110% 80% at 85% 0%, #eef3ea 0%, var(--cream) 55%); }
+  .cat-h1 { font-family: var(--font-head); font-weight: 800; font-size: 52px; line-height: 1.04; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 16px; max-width: 800px; }
+  .cat-lead { font-size: 18.5px; line-height: 1.6; color: var(--text-soft); max-width: 620px; margin-bottom: 26px; }
+  .cat-hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .cat-intro { max-width: 820px; margin-bottom: 44px; }
+  .body-p { font-size: 17px; line-height: 1.7; color: var(--text-soft); margin-bottom: 18px; }
+  .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+
+  .contact-sec { background: var(--green-800); padding: 120px 0; }
+  .contact-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 56px; align-items: start; }
+  .eyebrow-gold { color: var(--gold); }
+  .contact-h2 { font-family: var(--font-head); font-weight: 800; font-size: 36px; line-height: 1.1; color: var(--cream); margin-bottom: 18px; }
+  .contact-p { font-size: 16.5px; line-height: 1.6; color: #bfcbba; margin-bottom: 30px; max-width: 440px; }
+  .contact-actions { display: flex; flex-direction: column; gap: 14px; }
+  .ca { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-radius: 13px; text-decoration: none; font-weight: 600; font-size: 15.5px; transition: transform .18s ease; }
+  .ca:hover { transform: translateY(-2px); }
+  .ca-wa { background: var(--whatsapp); color: #fff; }
+  .ca-call { background: rgba(255,255,255,0.06); color: var(--cream); border: 1px solid rgba(255,255,255,0.14); }
+  .ca-ic { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .ca-ic-gold { background: rgba(230,199,122,0.18); color: var(--gold); }
+
+  @media (max-width: 1024px) { .cat-h1 { font-size: 40px; } .cat-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; gap: 40px; } .contact-sec { padding: 72px 0; } }
+  @media (max-width: 640px) { .cat-h1 { font-size: 31px; } .cat-grid { grid-template-columns: 1fr; } }
+</style>
