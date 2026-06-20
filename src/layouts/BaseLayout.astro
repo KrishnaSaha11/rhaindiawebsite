@@ -1,0 +1,188 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingCTA from '../components/FloatingCTA.astro';
+import { site } from '../config/site';
+
+export interface Props {
+  title: string;
+  description: string;
+  /** Path beginning with "/" — used for the canonical URL. Defaults to current. */
+  path?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  /** Pass page-specific JSON-LD objects (Product, BreadcrumbList, FAQPage…). */
+  jsonLd?: object[];
+  /** Where the header "Get a Quote" button points (on-page anchor if a form exists). */
+  quoteHref?: string;
+}
+
+const {
+  title,
+  description,
+  path = Astro.url.pathname,
+  ogImage = '/og-default.svg',
+  noindex = false,
+  jsonLd = [],
+  quoteHref = '/contact/#quote-form',
+} = Astro.props;
+
+const canonical = new URL(path, site.url).href;
+const ogImageUrl = new URL(ogImage, site.url).href;
+
+// ---- Site-wide JSON-LD: Organization + LocalBusiness ----
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['Organization', 'LocalBusiness'],
+  '@id': site.url + '#organization',
+  name: site.legalName,
+  alternateName: [site.name, site.brand],
+  url: site.url,
+  description: site.description,
+  email: site.email,
+  telephone: site.phoneE164,
+  vatID: site.gstin,
+  taxID: site.gstin,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.locality,
+    addressRegion: site.address.region,
+    postalCode: site.address.postalCode,
+    addressCountry: site.address.countryCode,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: site.geo.lat,
+    longitude: site.geo.lng,
+  },
+  openingHours: site.openingHours,
+  areaServed: ['IN', 'Belgium', 'Germany', 'Middle East'],
+  sameAs: Object.values(site.social).filter(Boolean),
+};
+
+const allJsonLd = [orgSchema, ...jsonLd];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    {site.gscVerification && (
+      <meta name="google-site-verification" content={site.gscVerification} />
+    )}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0e2a1d" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured data -->
+    {allJsonLd.map((obj) => (
+      <script type="application/ld+json" set:html={JSON.stringify(obj)} />
+    ))}
+
+    <!-- Google Analytics 4 (loads only when an ID is configured) -->
+    {site.ga4Id && (
+      <>
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${site.ga4Id}`}
+        ></script>
+        <script is:inline define:vars={{ ga4Id: site.ga4Id }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', ga4Id);
+          window.gtag = gtag;
+        </script>
+      </>
+    )}
+  </head>
+  <body>
+    <a href="#main" class="sr-only">Skip to content</a>
+    <Header quoteHref={quoteHref} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <FloatingCTA />
+
+    <!-- Scroll reveal -->
+    <script is:inline>
+      (function () {
+        function run() {
+          var els = Array.prototype.slice.call(
+            document.querySelectorAll('[data-reveal]')
+          );
+          if (!('IntersectionObserver' in window) || els.length === 0) {
+            els.forEach(function (e) { e.setAttribute('data-shown', '1'); });
+            return;
+          }
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (en) {
+                if (en.isIntersecting) {
+                  en.target.setAttribute('data-shown', '1');
+                  io.unobserve(en.target);
+                }
+              });
+            },
+            { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+          );
+          els.forEach(function (e) { io.observe(e); });
+          setTimeout(function () {
+            els.forEach(function (e) { e.setAttribute('data-shown', '1'); });
+          }, 2600);
+        }
+        if (document.readyState !== 'loading') run();
+        else document.addEventListener('DOMContentLoaded', run);
+      })();
+    </script>
+
+    <!-- Analytics conversion events: WhatsApp + call clicks -->
+    <script is:inline>
+      document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest && e.target.closest('a');
+        if (!a || !a.getAttribute) return;
+        var href = a.getAttribute('href') || '';
+        if (typeof window.gtag !== 'function') return;
+        if (href.indexOf('wa.me') !== -1 || href.indexOf('whatsapp') !== -1) {
+          window.gtag('event', 'whatsapp_click', { transport_type: 'beacon' });
+        } else if (href.indexOf('tel:') === 0) {
+          window.gtag('event', 'call_click', { transport_type: 'beacon' });
+        }
+      });
+    </script>
+  </body>
+</html>
