@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { site } from '../../config/site';
+import { products, categories } from '../../data/products';
+
+const rha = products.filter((p) => p.category === 'rice-husk-ash');
+const husk = products.filter((p) => p.category === 'rice-husk');
+const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.whatsappMessage)}`;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Products', item: site.url + '/products/' },
+  ],
+};
+---
+
+<BaseLayout
+  title="Our Products — Rice Husk Ash & Rice Husk | Ambika Biotech"
+  description="Explore Ambika Biotech's six product grades: micronized Rice Husk Ash ground powder, RHA granules & pellets, raw rice husk, rice husk powder and biomass fuel pellets. NABL tested, export ready."
+  path="/products/"
+  jsonLd={[breadcrumb]}
+>
+  <nav class="crumb" aria-label="Breadcrumb">
+    <div class="container crumb-inner">
+      <a href="/">Home</a><span>/</span>
+      <span class="crumb-current">Products</span>
+    </div>
+  </nav>
+
+  <section class="ph-hero">
+    <div class="container" data-reveal>
+      <div class="eyebrow">Our Product Range</div>
+      <h1 class="ph-h1">Six grades. One reliable supplier.</h1>
+      <p class="ph-lead">High-silica Rice Husk Ash and renewable rice husk products for steel, construction, refractory, biomass energy, agriculture and feed — each delivered to a consistent, NABL-tested specification.</p>
+      <div class="ph-cta">
+        <a href="/contact/#quote-form" class="btn btn-primary">Get a Quote <span class="mono">→</span></a>
+        <a href={waLink} class="btn btn-outline" target="_blank" rel="noopener">Chat on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cat-label" data-reveal>
+        <span class="cat-tag">Category A</span>
+        <a href={`/${categories['rice-husk-ash'].slug}/`} class="cat-name-link"><h2 class="cat-name">{categories['rice-husk-ash'].name}</h2></a>
+        <span class="cat-blurb">{categories['rice-husk-ash'].blurb}</span>
+      </div>
+      <div class="pg-grid">{rha.map((p) => <ProductCard product={p} />)}</div>
+
+      <div class="cat-label cat-label-2" data-reveal>
+        <span class="cat-tag">Category B</span>
+        <a href={`/${categories['rice-husk'].slug}/`} class="cat-name-link"><h2 class="cat-name">{categories['rice-husk'].name}</h2></a>
+        <span class="cat-blurb">{categories['rice-husk'].blurb}</span>
+      </div>
+      <div class="pg-grid">{husk.map((p) => <ProductCard product={p} />)}</div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .crumb { border-bottom: 1px solid #efe9d9; background: var(--cream); }
+  .crumb-inner { display: flex; align-items: center; gap: 10px; padding: 14px 32px; font-size: 13.5px; color: var(--text-faint); }
+  .crumb-inner a { color: var(--text-faint); text-decoration: none; }
+  .crumb-inner span { opacity: 0.5; }
+  .crumb-current { color: var(--green-800) !important; font-weight: 600; opacity: 1 !important; }
+
+  .ph-hero { padding: 72px 0 24px; background: radial-gradient(110% 80% at 85% 0%, #eef3ea 0%, var(--cream) 55%); }
+  .ph-h1 { font-family: var(--font-head); font-weight: 800; font-size: 52px; line-height: 1.04; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 16px; }
+  .ph-lead { font-size: 18.5px; line-height: 1.6; color: var(--text-soft); max-width: 640px; margin-bottom: 26px; }
+  .ph-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .cat-label { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+  .cat-label-2 { margin-top: 56px; }
+  .cat-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; color: #fff; background: var(--green-600); padding: 5px 11px; border-radius: 999px; text-transform: uppercase; }
+  .cat-name-link { text-decoration: none; }
+  .cat-name { font-family: var(--font-head); font-weight: 800; font-size: 23px; color: var(--ink); }
+  .cat-name-link:hover .cat-name { color: var(--green-600); }
+  .cat-blurb { font-size: 14px; color: var(--text-faint); }
+  .pg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+
+  @media (max-width: 1024px) { .ph-h1 { font-size: 40px; } .pg-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .ph-h1 { font-size: 31px; } .pg-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,23 @@
+---
+// Renders an optimized <img> for a self-hosted photo. Swap the file at `src`
+// (same path/name) to replace a placeholder with a real photo later.
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  eager?: boolean; // true for above-the-fold / LCP images
+  class?: string;
+}
+const { src, alt, width = 1200, height = 900, eager = false, class: cls = '' } = Astro.props;
+---
+<img
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  loading={eager ? 'eager' : 'lazy'}
+  decoding="async"
+  fetchpriority={eager ? 'high' : 'auto'}
+  class:list={['media', cls]}
+/>

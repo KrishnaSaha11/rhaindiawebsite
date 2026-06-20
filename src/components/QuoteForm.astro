@@ -1,0 +1,250 @@
+---
+import { site } from '../config/site';
+import { products } from '../data/products';
+
+export interface Props {
+  /** Pre-select a product in the dropdown (use the full product name). */
+  preselect?: string;
+  /** Short label identifying where the lead came from. */
+  source?: string;
+  /** Heading shown above the success message context. */
+  formId?: string;
+}
+const { preselect = '', source = 'Website', formId = 'rfq-form' } = Astro.props;
+---
+
+<div class="quote-card" data-quote-card>
+  <form
+    class="quote-form"
+    id={formId}
+    action="https://api.web3forms.com/submit"
+    method="POST"
+    data-quote-form
+    data-sheets={site.sheetsEndpoint}
+  >
+    <!-- Web3Forms config -->
+    <input type="hidden" name="access_key" value={site.web3formsKey} />
+    <input type="hidden" name="subject" value="New RFQ / Quote Request — RHA India" />
+    <input type="hidden" name="from_name" value="RHA India Website" />
+    <input type="hidden" name="source" value={source} />
+    <!-- Honeypot (spam protection) -->
+    <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    <div class="row-2">
+      <label class="field">
+        <span>Name *</span>
+        <input name="name" type="text" required placeholder="Your full name" autocomplete="name" />
+      </label>
+      <label class="field">
+        <span>Company *</span>
+        <input name="company" type="text" required placeholder="Company name" autocomplete="organization" />
+      </label>
+    </div>
+
+    <div class="row-2">
+      <label class="field">
+        <span>Country</span>
+        <input name="country" type="text" placeholder="e.g. India" autocomplete="country-name" />
+      </label>
+      <label class="field">
+        <span>Email *</span>
+        <input name="email" type="email" required placeholder="you@company.com" autocomplete="email" />
+      </label>
+    </div>
+
+    <div class="row-2">
+      <label class="field">
+        <span>Phone</span>
+        <input name="phone" type="tel" placeholder="+91 …" autocomplete="tel" />
+      </label>
+      <label class="field">
+        <span>Quantity / MOQ</span>
+        <input name="quantity" type="text" placeholder="e.g. 20 MT / month" />
+      </label>
+    </div>
+
+    <label class="field">
+      <span>Product of interest *</span>
+      <select name="product" required class="select">
+        <option value="" disabled selected={!preselect}>Select a product…</option>
+        {products.map((p) => (
+          <option value={p.name} selected={preselect === p.name}>{p.name}</option>
+        ))}
+        <option value="Multiple / Not sure" selected={preselect === 'Multiple / Not sure'}>Multiple / Not sure</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Message</span>
+      <textarea name="message" rows="4" placeholder="Volume, target spec, destination port, timeline…"></textarea>
+    </label>
+
+    <div class="form-foot">
+      <button type="submit" class="btn btn-primary submit-btn">
+        <span class="btn-label">Send Quote Request</span>
+        <span class="mono">→</span>
+      </button>
+      <span class="form-note">We reply within 1 business day.</span>
+    </div>
+    <p class="form-error" data-error hidden></p>
+  </form>
+
+  <div class="quote-success" data-success hidden>
+    <div class="success-icon" aria-hidden="true">✓</div>
+    <h3>Thank you<span data-thankname></span></h3>
+    <p>Your quote request has been received. Our team will reply within one business day with pricing and lead time.</p>
+  </div>
+</div>
+
+<style>
+  .quote-card {
+    background: var(--cream);
+    border-radius: 22px;
+    padding: 38px;
+    box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.5);
+  }
+  .quote-form { display: flex; flex-direction: column; gap: 18px; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field > span { font-size: 13px; font-weight: 600; color: #3a433a; }
+  .field input,
+  .field textarea,
+  .field .select {
+    padding: 13px 14px;
+    border: 1.5px solid var(--field-border);
+    border-radius: 11px;
+    background: #fff;
+    font-size: 15px;
+    color: #1c211c;
+    outline: none;
+    font-family: var(--font-body);
+    transition: border-color 0.15s ease;
+    width: 100%;
+  }
+  .field textarea { resize: vertical; }
+  .field .select { appearance: none; cursor: pointer;
+    background-image: linear-gradient(45deg, transparent 50%, #9a7c36 50%), linear-gradient(135deg, #9a7c36 50%, transparent 50%);
+    background-position: calc(100% - 20px) center, calc(100% - 15px) center;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field .select:focus { border-color: var(--green-800); }
+
+  .hp-field { position: absolute !important; left: -9999px; opacity: 0; height: 0; width: 0; }
+
+  .form-foot { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
+  .submit-btn { flex: 1; min-width: 200px; justify-content: center; padding: 16px; }
+  .submit-btn[disabled] { opacity: 0.7; cursor: progress; }
+  .form-note { font-size: 13px; color: #8a8470; }
+  .form-error { color: #b3261e; font-size: 14px; margin-top: 4px; }
+
+  .quote-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 48px 10px;
+    background: var(--cream);
+    border-radius: 22px;
+  }
+  .success-icon {
+    width: 66px; height: 66px; border-radius: 50%;
+    background: var(--tile); color: var(--green-600);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px; margin-bottom: 22px;
+  }
+  .quote-success h3 { font-family: var(--font-head); font-weight: 800; font-size: 26px; color: var(--ink); margin-bottom: 10px; }
+  .quote-success p { font-size: 15.5px; color: var(--text-muted); line-height: 1.6; max-width: 360px; }
+
+  @media (max-width: 560px) {
+    .quote-card { padding: 26px 20px; }
+    .row-2 { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var cards = document.querySelectorAll('[data-quote-card]');
+    cards.forEach(function (card) {
+      var form = card.querySelector('[data-quote-form]');
+      var success = card.querySelector('[data-success]');
+      var errorEl = card.querySelector('[data-error]');
+      var thankName = card.querySelector('[data-thankname]');
+      if (!form) return;
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (errorEl) { errorEl.hidden = true; errorEl.textContent = ''; }
+
+        // Honeypot
+        var hp = form.querySelector('input[name="botcheck"]');
+        if (hp && hp.checked) return;
+
+        var btn = form.querySelector('button[type="submit"]');
+        var label = btn && btn.querySelector('.btn-label');
+        if (btn) { btn.disabled = true; }
+        if (label) { label.textContent = 'Sending…'; }
+
+        var data = new FormData(form);
+        var nameVal = (data.get('name') || '').toString().trim();
+
+        // Fire-and-forget: also append the lead to the Google Sheet (Apps Script).
+        var sheetUrl = form.getAttribute('data-sheets');
+        if (sheetUrl) {
+          try {
+            fetch(sheetUrl, { method: 'POST', body: data, mode: 'no-cors' }).catch(function () {});
+          } catch (e) {}
+        }
+
+        var key = data.get('access_key');
+        if (!key || key.toString().indexOf('REPLACE_WITH') === 0) {
+          // No key configured yet — still show confirmation so previews work.
+          showSuccess(nameVal);
+          return;
+        }
+
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (json) {
+            if (json && json.success) {
+              showSuccess(nameVal);
+            } else {
+              fail(json && json.message);
+            }
+          })
+          .catch(function () { fail(); });
+      });
+
+      function showSuccess(nameVal) {
+        if (thankName && nameVal) {
+          thankName.textContent = ', ' + nameVal.split(' ')[0];
+        }
+        form.style.display = 'none';
+        if (success) success.hidden = false;
+        try {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'quote_submit', { event_category: 'lead', value: 1 });
+            window.gtag('event', 'generate_lead');
+          }
+        } catch (e) {}
+      }
+
+      function fail(msg) {
+        var btn = form.querySelector('button[type="submit"]');
+        var label = btn && btn.querySelector('.btn-label');
+        if (btn) btn.disabled = false;
+        if (label) label.textContent = 'Send Quote Request';
+        if (errorEl) {
+          errorEl.hidden = false;
+          errorEl.textContent = msg || 'Something went wrong. Please WhatsApp or call us instead.';
+        }
+      }
+    });
+  })();
+</script>

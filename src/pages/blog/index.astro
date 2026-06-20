@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { site } from '../../config/site';
+import { getCollection } from 'astro:content';
+
+const postImg = (p: any) =>
+  p.data.image ?? `/images/blog/${p.data.category.toLowerCase()}.svg`;
+const postImgAlt = (p: any) =>
+  p.data.imageAlt ?? `${p.data.title} — Ambika Biotech rice husk ash blog`;
+
+const allPosts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const featured = allPosts.find((p) => p.data.featured) ?? allPosts[0];
+const rest = allPosts.filter((p) => p.id !== featured.id);
+const cats = ['All', 'Guides', 'Industry', 'Comparisons', 'Sustainability'];
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+---
+
+<BaseLayout
+  title="Rice Husk Ash Blog — Guides, Industry Notes & Comparisons | Ambika Biotech"
+  description="Practical guides, industry notes and comparisons for buyers specifying Rice Husk Ash and rice husk products — concrete, steel, refractory and biomass energy."
+  path="/blog/"
+>
+  <section class="blog-hero">
+    <div class="container" data-reveal>
+      <div class="eyebrow">Insights &amp; Resources</div>
+      <h1 class="blog-h1">The Rice Husk Ash knowledge base</h1>
+      <p class="blog-lead">Practical guides, industry notes and comparisons for buyers specifying RHA and rice husk products.</p>
+    </div>
+  </section>
+
+  <!-- Featured -->
+  <section class="feat-sec">
+    <div class="container" data-reveal>
+      <a href={`/blog/${featured.id}/`} class="feat-card">
+        <div class="feat-img">
+          <Photo src={postImg(featured)} alt={postImgAlt(featured)} width={1200} height={900} eager={true} />
+          <span class="feat-badge">Featured · {featured.data.category}</span>
+        </div>
+        <div class="feat-body">
+          <h2 class="feat-title">{featured.data.title}</h2>
+          <p class="feat-desc">{featured.data.description}</p>
+          <div class="feat-meta">
+            <span class="fm-author">{featured.data.author}</span>
+            <span class="dot">·</span><span>{fmt(featured.data.date)}</span>
+            <span class="dot">·</span><span>{featured.data.readTime}</span>
+          </div>
+          <span class="feat-read">Read Article <span class="mono">→</span></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Filter + grid -->
+  <section class="section grid-sec">
+    <div class="container">
+      <div class="chips" data-reveal>
+        {cats.map((c, i) => (
+          <button class:list={['chip', { active: i === 0 }]} data-filter={c}>{c}</button>
+        ))}
+      </div>
+      <div class="blog-grid" id="blogGrid">
+        {rest.map((post) => (
+          <a href={`/blog/${post.id}/`} class="blog-card" data-category={post.data.category} data-reveal>
+            <div class="bc-img">
+              <Photo src={postImg(post)} alt={postImgAlt(post)} width={1200} height={800} />
+              <span class="bc-cat">{post.data.category}</span>
+            </div>
+            <div class="bc-body">
+              <h3 class="bc-title">{post.data.title}</h3>
+              <div class="bc-rule"></div>
+              <p class="bc-desc">{post.data.description}</p>
+              <div class="bc-foot">
+                <span class="bc-date">{fmt(post.data.date)} · {post.data.readTime}</span>
+                <span class="bc-more">Read More <span class="mono">→</span></span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+      <p class="no-posts" id="noPosts" hidden>No posts in this category yet.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-hero { padding: 72px 0 40px; background: radial-gradient(110% 80% at 88% 0%, #eef3ea 0%, var(--cream) 55%); }
+  .blog-h1 { font-family: var(--font-head); font-weight: 800; font-size: 52px; line-height: 1.04; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 16px; max-width: 760px; }
+  .blog-lead { font-size: 18.5px; line-height: 1.6; color: var(--text-soft); max-width: 560px; }
+
+  .feat-sec { padding: 30px 0 24px; }
+  .feat-card { display: grid; grid-template-columns: 1.05fr 0.95fr; background: #fff; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; text-decoration: none; box-shadow: 0 18px 40px -26px rgba(14,42,29,0.3); transition: transform .25s ease, box-shadow .25s ease; }
+  .feat-card:hover { transform: translateY(-4px); box-shadow: 0 28px 54px -26px rgba(14,42,29,0.42); }
+  .feat-img { position: relative; min-height: 340px; overflow: hidden; background: var(--green-800); }
+  .feat-img .media { position: absolute; inset: 0; }
+  .feat-photo { position: absolute; left: 22px; top: 22px; }
+  .feat-badge { position: absolute; left: 22px; bottom: 22px; background: var(--gold); color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: 0.04em; padding: 7px 14px; border-radius: 999px; text-transform: uppercase; }
+  .feat-body { padding: 48px 44px; display: flex; flex-direction: column; justify-content: center; }
+  .feat-title { font-family: var(--font-head); font-weight: 800; font-size: 32px; line-height: 1.12; color: var(--ink); margin-bottom: 16px; }
+  .feat-desc { font-size: 16.5px; line-height: 1.65; color: var(--text-soft); margin-bottom: 24px; }
+  .feat-meta { display: flex; align-items: center; gap: 14px; font-size: 13.5px; color: var(--text-faint); flex-wrap: wrap; }
+  .fm-author { font-weight: 600; color: var(--text); }
+  .feat-meta .dot { opacity: 0.5; }
+  .feat-read { margin-top: 26px; display: inline-flex; align-items: center; gap: 9px; color: var(--green-800); font-weight: 600; font-size: 15.5px; border-bottom: 2px solid var(--gold-600); padding-bottom: 3px; align-self: flex-start; }
+  .feat-read .mono { font-family: var(--font-mono); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+  .chip { padding: 9px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--font-body); background: #fff; border: 1.5px solid var(--line-3); color: var(--text-muted); transition: transform .15s ease; }
+  .chip:hover { transform: translateY(-1px); }
+  .chip.active { background: var(--green-800); border-color: var(--green-800); color: var(--cream); }
+
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .blog-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .blog-card:hover { border-color: var(--gold-600); transform: translateY(-8px); box-shadow: 0 26px 50px -22px rgba(14,42,29,0.4); }
+  .bc-img { position: relative; height: 178px; border-bottom: 1px solid var(--line); overflow: hidden; background: var(--cream-2); }
+  .bc-cat { z-index: 2; }
+  .bc-cat { position: absolute; left: 16px; top: 16px; background: var(--cream); border: 1px solid var(--line-3); color: var(--green-600); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; padding: 6px 12px; border-radius: 999px; text-transform: uppercase; }
+  .bc-photo { position: absolute; }
+  .bc-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+  .bc-title { font-family: var(--font-head); font-weight: 700; font-size: 19.5px; line-height: 1.22; color: var(--ink); margin-bottom: 12px; }
+  .bc-rule { width: 34px; height: 2px; background: var(--gold-600); border-radius: 2px; margin-bottom: 14px; }
+  .bc-desc { font-size: 14.5px; line-height: 1.55; color: var(--text-muted); margin-bottom: 20px; flex: 1; }
+  .bc-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .bc-date { font-size: 12.5px; color: #8a8470; }
+  .bc-more { display: inline-flex; align-items: center; gap: 7px; color: var(--green-800); font-weight: 600; font-size: 14px; }
+  .bc-more .mono { font-family: var(--font-mono); }
+  .no-posts { text-align: center; color: var(--text-faint); padding: 40px 0; }
+
+  @media (max-width: 1024px) { .blog-h1 { font-size: 40px; } .blog-grid { grid-template-columns: repeat(2, 1fr); } .feat-title { font-size: 26px; } }
+  @media (max-width: 860px) { .feat-card { grid-template-columns: 1fr; } .feat-img { min-height: 220px; } .feat-body { padding: 32px 26px; } }
+  @media (max-width: 640px) { .blog-h1 { font-size: 31px; } .blog-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script is:inline>
+  (function () {
+    var chips = document.querySelectorAll('.chip');
+    var cards = document.querySelectorAll('.blog-card');
+    var noPosts = document.getElementById('noPosts');
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var f = chip.getAttribute('data-filter');
+        chips.forEach(function (c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+        var shown = 0;
+        cards.forEach(function (card) {
+          var match = f === 'All' || card.getAttribute('data-category') === f;
+          card.style.display = match ? '' : 'none';
+          if (match) shown++;
+        });
+        if (noPosts) noPosts.hidden = shown !== 0;
+      });
+    });
+  })();
+</script>

@@ -1,0 +1,535 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import ProductCard from '../components/ProductCard.astro';
+import Photo from '../components/Photo.astro';
+import Shape from '../components/Shape.astro';
+import { site, trustStrip } from '../config/site';
+import { products, categories } from '../data/products';
+
+const rha = products.filter((p) => p.category === 'rice-husk-ash');
+const husk = products.filter((p) => p.category === 'rice-husk');
+
+const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.whatsappMessage)}`;
+
+const reasons = [
+  { num: '01', title: 'Consistent quality', body: 'A uniform, certified spec delivered batch after batch — no surprises on the production line.' },
+  { num: '02', title: 'NABL testing', body: 'Every grade is independently tested so you receive documented, verifiable material.' },
+  { num: '03', title: 'Bulk capacity', body: 'Reliable volumes and steady supply for high-throughput industrial buyers.' },
+  { num: '04', title: 'Export documentation', body: 'Full paperwork and logistics handled for smooth international shipping.' },
+  { num: '05', title: 'On-time delivery', body: 'Dependable lead times that keep your procurement schedule on track.' },
+  { num: '06', title: '20+ years of trust', body: 'Two decades supplying steel, concrete, refractory and energy partners.' },
+];
+
+const industries = [
+  { name: 'Steel', note: 'Tundish & ladle covering', shape: 'diamond', color: '#27593C' },
+  { name: 'Concrete / Construction', note: 'Pozzolana & SCM', shape: 'square', color: '#C79A3E' },
+  { name: 'Refractory', note: 'High-temp insulation', shape: 'triangle', color: '#27593C' },
+  { name: 'Biomass Energy', note: 'Fuel pellets & husk', shape: 'circle', color: '#C79A3E' },
+  { name: 'Agriculture / Feed', note: 'Feed, bedding, fillers', shape: 'ring', color: '#27593C' },
+] as const;
+
+const title = 'Rice Husk Ash Manufacturer & Exporter India | Ambika Biotech';
+const description =
+  'Ambika Biotech (RHA India) — rice husk ash manufacturer, supplier & exporter in Sambalpur, Odisha. High-silica RHA (85–92% SiO₂), granules, pellets & rice husk products. NABL tested. Get a bulk quote/price.';
+
+// Hero particle field (single lightweight hero animation)
+const particles = Array.from({ length: 11 }, (_, i) => ({
+  left: (i * 8.7 + 4) % 100,
+  size: 5 + ((i * 3) % 7),
+  dur: 22 + ((i * 5) % 16),
+  delay: (i * 1.6) % 16,
+  color: i % 2 === 0 ? '#E6C77A' : '#4E8C68',
+}));
+
+const webPage = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: site.url,
+  publisher: { '@id': site.url + '#organization' },
+};
+---
+
+<BaseLayout title={title} description={description} path="/" quoteHref="#quote-form" jsonLd={[webPage]}>
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div data-reveal>
+        <div class="pill"><span class="pill-dot"></span>{site.address.locality}, {site.address.region} · India</div>
+        <h1 class="hero-h1">Rice Husk Ash<br />Manufacturer <span class="amp">&amp;</span> Exporter</h1>
+        <p class="hero-sub">
+          High-silica <strong>Rice Husk Ash (RHA)</strong> for the steel, concrete
+          &amp; clean-energy industries — manufactured and exported to a consistent
+          spec, batch after batch.
+        </p>
+        <div class="hero-cta">
+          <a href="#quote-form" class="btn btn-primary">Get a Quote <span class="mono">→</span></a>
+          <a href="#products" class="btn btn-outline">View Products</a>
+        </div>
+        <div class="hero-trust">
+          <span class="ht-strong">20+ Years</span><span class="dot">·</span>
+          <span class="ht-strong">NABL Tested</span><span class="dot">·</span>
+          <span>Exporting to Belgium, Germany &amp; Middle East</span>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <div class="hero-visual">
+          <Photo
+            src="/images/hero/rice-husk-ash-hero.svg"
+            alt="High-silica Rice Husk Ash powder and granules close-up — Ambika Biotech, Sambalpur"
+            width={1200}
+            height={1320}
+            eager={true}
+          />
+          <div class="hero-particles" aria-hidden="true">
+            {particles.map((p) => (
+              <span
+                class="float-particle"
+                style={`left:${p.left}%;width:${p.size}px;height:${p.size}px;background:${p.color};animation-duration:${p.dur}s;animation-delay:${p.delay}s;`}
+              ></span>
+            ))}
+          </div>
+          <div class="hero-badge">
+            <div class="hb-big">85–92%</div>
+            <div class="hb-label">SiO₂ SILICA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TRUST STRIP ===================== -->
+  <section class="trust-strip">
+    <div class="container">
+      <div class="trust-grid" data-reveal>
+        {trustStrip.map((t) => (
+          <div class="trust-item">
+            <div class="trust-big">{t.big}</div>
+            <div class="trust-label">{t.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CERTIFICATION BAND ===================== -->
+  <section class="cert-band">
+    <div class="container cert-inner" data-reveal>
+      <div class="cert-left">
+        <span class="nabl-badge" aria-label="NABL tested">
+          <span class="nabl-mark">NABL</span>
+          <span class="nabl-text">Lab-tested<br />quality</span>
+        </span>
+        <p class="cert-copy">
+          Independent NABL-tested material with documented parameters for every grade —
+          the assurance export buyers and procurement teams require.
+        </p>
+      </div>
+      <a href="/test-report-sample.pdf" class="link-underline" target="_blank" rel="noopener">
+        Download sample test report (PDF) <span class="mono">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section id="about" class="section">
+    <div class="container about-grid">
+      <div data-reveal>
+        <div class="about-img">
+          <Photo src="/images/sections/rice-mill-plant.svg" alt="Ambika Biotech rice husk ash processing plant in Sambalpur, Odisha" width={1200} height={900} />
+        </div>
+      </div>
+      <div data-reveal>
+        <div class="eyebrow">About Ambika Biotech</div>
+        <h2 class="h2">Two decades of turning rice husk into industrial-grade silica</h2>
+        <p class="lead">
+          For over 20 years we have manufactured and exported high-silica
+          <a href="/rice-husk-ash/">Rice Husk Ash</a> and
+          <a href="/rice-husk/">rice husk products</a> from {site.address.locality},
+          {site.address.region}. As a trusted Rice Husk Ash supplier in Odisha, our
+          NABL-tested material is used by steel plants, refractory makers and concrete
+          producers across India and abroad.
+        </p>
+        <p class="lead">
+          With reliable bulk capacity and full export documentation, we ship a consistent,
+          certified product to partners in Belgium, Germany and the Middle East.
+        </p>
+        <a href="/about/" class="link-underline">Know More <span class="mono">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PRODUCTS ===================== -->
+  <section id="products" class="section section-white">
+    <div class="container">
+      <div class="prod-head" data-reveal>
+        <div>
+          <div class="eyebrow">Our Product Range</div>
+          <h2 class="h2">Six grades. One reliable supplier.</h2>
+        </div>
+        <a href="/products/" class="link-underline">All products <span class="mono">→</span></a>
+      </div>
+
+      <div class="cat-label" data-reveal>
+        <span class="cat-tag">Category A</span>
+        <a href="/rice-husk-ash/" class="cat-name-link"><h3 class="cat-name">{categories['rice-husk-ash'].name}</h3></a>
+        <span class="cat-blurb">{categories['rice-husk-ash'].blurb}</span>
+      </div>
+      <div class="prod-grid">
+        {rha.map((p) => <ProductCard product={p} />)}
+      </div>
+
+      <div class="cat-label cat-label-2" data-reveal>
+        <span class="cat-tag">Category B</span>
+        <a href="/rice-husk/" class="cat-name-link"><h3 class="cat-name">{categories['rice-husk'].name}</h3></a>
+        <span class="cat-blurb">{categories['rice-husk'].blurb}</span>
+      </div>
+      <div class="prod-grid">
+        {husk.map((p) => <ProductCard product={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHY CHOOSE US ===================== -->
+  <section class="section">
+    <div class="container">
+      <div class="why-head" data-reveal>
+        <div class="eyebrow">Why Choose Us</div>
+        <h2 class="h2">Built to be the supplier procurement teams keep coming back to</h2>
+      </div>
+      <div class="why-grid">
+        {reasons.map((r) => (
+          <div class="why-card" data-reveal>
+            <div class="why-num">{r.num}</div>
+            <h3 class="why-title">{r.title}</h3>
+            <p class="why-body">{r.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUOTE BAND ===================== -->
+  <section class="band-wrap">
+    <div class="container" data-reveal>
+      <div class="quote-band">
+        <div class="qb-ring qb-ring-1" aria-hidden="true"></div>
+        <div class="qb-ring qb-ring-2" aria-hidden="true"></div>
+        <div class="qb-text">
+          <h2 class="qb-h2">Need a quote for bulk RHA or rice husk products?</h2>
+          <p class="qb-p">Send your spec and volume — we reply with pricing, lead time and export documentation.</p>
+        </div>
+        <a href="#quote-form" class="btn btn-gold qb-cta">Get a Quote <span class="mono">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INDUSTRIES ===================== -->
+  <section class="section section-white">
+    <div class="container">
+      <div class="ind-head" data-reveal>
+        <div class="eyebrow">Industries We Serve</div>
+        <h2 class="h2">From the furnace to the field</h2>
+      </div>
+      <div class="ind-grid">
+        {industries.map((ind) => (
+          <div class="ind-card" data-reveal>
+            <div class="ind-icon"><Shape type={ind.shape} color={ind.color} /></div>
+            <div>
+              <h3 class="ind-name">{ind.name}</h3>
+              <p class="ind-note">{ind.note}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CSR ===================== -->
+  <section class="section">
+    <div class="container csr-grid">
+      <div data-reveal>
+        <div class="eyebrow">CSR &amp; Sustainability</div>
+        <h2 class="h2">A circular economy, by design</h2>
+        <p class="lead">
+          Rice husk is an agricultural by-product that is too often burned as waste. We turn
+          it into high-value silica and clean biomass fuel — keeping carbon and material in a
+          productive loop, and giving farmers and industry a sustainable alternative.
+        </p>
+        <div class="csr-stats">
+          <div><div class="csr-big">100%</div><div class="csr-sm">Waste-to-value sourcing</div></div>
+          <div><div class="csr-big">Zero</div><div class="csr-sm">Open-field husk burning</div></div>
+        </div>
+        <a href="/csr/" class="link-underline">Read our CSR story <span class="mono">→</span></a>
+      </div>
+      <div data-reveal>
+        <div class="csr-img">
+          <Photo src="/images/sections/rice-fields-packing.svg" alt="Rice fields and rice husk packing — sustainable sourcing by Ambika Biotech" width={1200} height={900} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT / QUOTE ===================== -->
+  <section id="contact" class="contact-sec">
+    <div class="container contact-grid">
+      <div data-reveal>
+        <div class="eyebrow eyebrow-gold">Get a Quote</div>
+        <h2 class="contact-h2">Let's talk volume, spec &amp; shipping</h2>
+        <p class="contact-p">Tell us what you need. Our team replies within one business day with pricing and lead time.</p>
+
+        <div class="contact-actions">
+          <a href={waLink} class="ca ca-wa" target="_blank" rel="noopener">
+            <span class="ca-ic">◎</span> Chat on WhatsApp
+          </a>
+          <a href={`tel:${site.phoneE164}`} class="ca ca-call">
+            <span class="ca-ic ca-ic-gold">●</span> {site.phoneDisplay}
+          </a>
+        </div>
+
+        <div class="contact-meta">
+          <div class="cm-row">
+            <span class="cm-key">ADDRESS</span>
+            <span class="cm-val">{site.address.full}</span>
+          </div>
+          <div class="cm-row">
+            <span class="cm-key">EMAIL</span>
+            <a class="cm-val cm-link" href={`mailto:${site.email}`}>{site.email}</a>
+          </div>
+          <div class="cm-row">
+            <span class="cm-key">GSTIN</span>
+            <span class="cm-val">{site.gstin}</span>
+          </div>
+          <div class="map-wrap">
+            <iframe
+              title="Ambika Biotech location on Google Maps"
+              src={`https://www.google.com/maps?q=${site.mapsEmbedQuery}&z=14&output=embed`}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal id="quote-form">
+        <QuoteForm source="Homepage" formId="home-rfq" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .h2 {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .lead { font-size: 17px; line-height: 1.65; color: var(--text-soft); margin-bottom: 16px; max-width: 560px; }
+  .section-white {
+    background: #fff;
+    border-top: 1px solid #efe9d9;
+    border-bottom: 1px solid #efe9d9;
+  }
+
+  /* Hero */
+  .hero { background: radial-gradient(120% 90% at 85% 0%, #eef3ea 0%, var(--cream) 55%); }
+  .hero-grid {
+    padding: 104px 32px 116px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--tile);
+    border: 1px solid #d4e0d2;
+    color: var(--green-600);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 999px;
+    margin-bottom: 26px;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold-600); }
+  .hero-h1 {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 72px;
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .amp { color: var(--gold-600); }
+  .hero-sub { font-size: 19px; line-height: 1.6; color: var(--text-soft); max-width: 520px; margin-bottom: 34px; }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 34px; }
+  .hero-trust {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.04em; color: var(--text-faint);
+  }
+  .ht-strong { color: var(--green-600); font-weight: 500; }
+  .hero-trust .dot { opacity: 0.4; }
+
+  .hero-visual {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 4.4;
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--green-800);
+    box-shadow: 0 30px 60px -24px rgba(20, 42, 31, 0.55);
+  }
+  .hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .float-particle { position: absolute; bottom: -24px; border-radius: 50%; opacity: 0.55; animation-name: floatUp; animation-timing-function: linear; animation-iteration-count: infinite; }
+  .hero-photo-label { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); }
+  .hero-badge {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--cream); border-radius: 14px; padding: 14px 16px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  }
+  .hb-big { font-family: var(--font-head); font-weight: 800; font-size: 26px; color: var(--green-800); line-height: 1; }
+  .hb-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.12em; color: var(--gold-700); margin-top: 5px; }
+
+  /* Trust strip */
+  .trust-strip { background: var(--green-800); }
+  .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .trust-item {
+    padding: 30px 26px;
+    border-right: 1px solid rgba(255, 255, 255, 0.09);
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .trust-item:last-child { border-right: none; }
+  .trust-big { font-family: var(--font-head); font-weight: 800; font-size: 24px; color: var(--gold); line-height: 1; }
+  .trust-label { font-size: 14.5px; color: #cbd6c7; line-height: 1.35; }
+
+  /* Certification band */
+  .cert-band { background: #fff; border-bottom: 1px solid #efe9d9; }
+  .cert-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 30px; padding-top: 28px; padding-bottom: 28px; flex-wrap: wrap;
+  }
+  .cert-left { display: flex; align-items: center; gap: 20px; max-width: 720px; }
+  .nabl-badge {
+    flex: none; display: flex; align-items: center; gap: 10px;
+    border: 2px solid var(--green-600); border-radius: 12px; padding: 10px 14px;
+  }
+  .nabl-mark { font-family: var(--font-head); font-weight: 800; font-size: 18px; color: var(--green-600); }
+  .nabl-text { font-size: 10.5px; line-height: 1.2; color: var(--text-faint); font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .cert-copy { font-size: 14.5px; color: var(--text-muted); line-height: 1.55; margin: 0; }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: center; }
+  .about-img { width: 100%; aspect-ratio: 5 / 4; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
+
+  /* Products */
+  .prod-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
+  .cat-label { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+  .cat-label-2 { margin-top: 56px; }
+  .cat-tag {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
+    color: #fff; background: var(--green-600); padding: 5px 11px; border-radius: 999px; text-transform: uppercase;
+  }
+  .cat-name-link { text-decoration: none; }
+  .cat-name { font-family: var(--font-head); font-weight: 800; font-size: 23px; color: var(--ink); }
+  .cat-name-link:hover .cat-name { color: var(--green-600); }
+  .cat-blurb { font-size: 14px; color: var(--text-faint); }
+  .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+
+  /* Why */
+  .why-head { text-align: center; max-width: 680px; margin: 0 auto 52px; }
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .why-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 30px 26px; transition: transform .25s ease, box-shadow .25s ease; }
+  .why-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px -18px rgba(20, 42, 31, 0.28); }
+  .why-num {
+    width: 46px; height: 46px; border-radius: 12px; background: var(--tile);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-head); font-weight: 800; font-size: 17px; color: var(--green-600); margin-bottom: 18px;
+  }
+  .why-title { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--ink); margin-bottom: 9px; }
+  .why-body { font-size: 14.5px; line-height: 1.55; color: var(--text-muted); }
+
+  /* Quote band */
+  .band-wrap { padding-bottom: var(--section-y); }
+  .quote-band {
+    position: relative; overflow: hidden; background: var(--green-800);
+    border-radius: 24px; padding: 56px;
+    display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;
+  }
+  .qb-ring { position: absolute; border-radius: 50%; border: 1.5px solid rgba(230, 199, 122, 0.2); }
+  .qb-ring-1 { right: -40px; top: -40px; width: 220px; height: 220px; animation: rotateSlow 95s linear infinite; }
+  .qb-ring-2 { right: 30px; top: 30px; width: 130px; height: 130px; border-color: rgba(230, 199, 122, 0.16); }
+  .qb-text { position: relative; }
+  .qb-h2 { font-family: var(--font-head); font-weight: 800; font-size: 34px; line-height: 1.14; color: var(--cream); margin-bottom: 12px; max-width: 620px; }
+  .qb-p { font-size: 16.5px; color: #bfcbba; max-width: 540px; }
+  .qb-cta { position: relative; }
+
+  /* Industries */
+  .ind-head { margin-bottom: 46px; }
+  .ind-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+  .ind-card { background: var(--cream); border: 1px solid var(--line); border-radius: 16px; padding: 28px 22px; display: flex; flex-direction: column; gap: 16px; transition: transform .25s ease, border-color .25s ease; }
+  .ind-card:hover { transform: translateY(-3px); border-color: var(--green-800); }
+  .ind-icon { width: 48px; height: 48px; border-radius: 13px; background: var(--tile); display: flex; align-items: center; justify-content: center; }
+  .ind-name { font-family: var(--font-head); font-weight: 700; font-size: 17px; color: var(--ink); margin-bottom: 5px; }
+  .ind-note { font-size: 13px; line-height: 1.45; color: var(--text-faint); }
+
+  /* CSR */
+  .csr-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
+  .csr-stats { display: flex; gap: 36px; flex-wrap: wrap; margin: 28px 0; }
+  .csr-big { font-family: var(--font-head); font-weight: 800; font-size: 30px; color: var(--green-600); line-height: 1; }
+  .csr-sm { font-size: 13.5px; color: var(--text-faint); margin-top: 6px; }
+  .csr-img { width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden; background: var(--cream-2); }
+
+  /* Contact */
+  .contact-sec { background: var(--green-800); padding-top: var(--section-y); padding-bottom: var(--section-y); }
+  .contact-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 56px; align-items: start; }
+  .eyebrow-gold { color: var(--gold); }
+  .contact-h2 { font-family: var(--font-head); font-weight: 800; font-size: 40px; line-height: 1.1; color: var(--cream); margin-bottom: 20px; }
+  .contact-p { font-size: 16.5px; line-height: 1.6; color: #bfcbba; margin-bottom: 34px; max-width: 440px; }
+  .contact-actions { display: flex; flex-direction: column; gap: 14px; margin-bottom: 34px; }
+  .ca { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-radius: 13px; text-decoration: none; font-weight: 600; font-size: 15.5px; transition: transform .18s ease; }
+  .ca:hover { transform: translateY(-2px); }
+  .ca-wa { background: var(--whatsapp); color: #fff; }
+  .ca-call { background: rgba(255, 255, 255, 0.06); color: var(--cream); border: 1px solid rgba(255, 255, 255, 0.14); }
+  .ca-ic { width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .ca-ic-gold { background: rgba(230, 199, 122, 0.18); color: var(--gold); }
+  .contact-meta { border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .cm-row { display: flex; gap: 12px; align-items: flex-start; }
+  .cm-key { font-family: var(--font-mono); font-size: 11px; color: var(--gold); letter-spacing: 0.1em; margin-top: 3px; min-width: 64px; }
+  .cm-val { font-size: 14.5px; color: #cbd6c7; line-height: 1.5; }
+  .cm-link { text-decoration: none; }
+  .cm-link:hover { color: var(--gold); }
+  .map-wrap { position: relative; width: 100%; height: 200px; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.12); margin-top: 6px; }
+  .map-wrap iframe { width: 100%; height: 100%; border: 0; filter: grayscale(0.2); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1024px) {
+    .hero-h1 { font-size: 56px; }
+    .h2, .contact-h2 { font-size: 32px; }
+    .ind-grid { grid-template-columns: repeat(3, 1fr); }
+    .prod-grid, .why-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 860px) {
+    .hero-grid, .about-grid, .csr-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-grid { padding: 64px 20px 72px; }
+    .about-grid > div:first-child, .csr-grid > div:last-child { order: 2; }
+    .hero-visual { max-width: 460px; }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-item:nth-child(2) { border-right: none; }
+  }
+  @media (max-width: 640px) {
+    .hero-h1 { font-size: 42px; }
+    .h2, .contact-h2, .qb-h2 { font-size: 27px; }
+    .hero-sub { font-size: 17px; }
+    .prod-grid, .why-grid, .ind-grid { grid-template-columns: 1fr; }
+    .quote-band { padding: 34px 24px; }
+    .hero-cta .btn, .qb-cta { width: 100%; justify-content: center; }
+  }
+</style>

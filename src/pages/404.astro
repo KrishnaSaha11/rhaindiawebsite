@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found (404) | Ambika Biotech" description="The page you were looking for could not be found." noindex={true}>
+  <section class="nf">
+    <div class="container">
+      <div class="eyebrow">Error 404</div>
+      <h1 class="nf-h1">This page could not be found</h1>
+      <p class="nf-p">The page may have moved or no longer exists. Explore our products or get in touch for a quote.</p>
+      <div class="nf-cta">
+        <a href="/" class="btn btn-primary">Back to Home <span class="mono">→</span></a>
+        <a href="/products/" class="btn btn-outline">View Products</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .nf { padding: 120px 0; text-align: center; }
+  .nf-h1 { font-family: var(--font-head); font-weight: 800; font-size: 44px; color: var(--ink); margin-bottom: 16px; }
+  .nf-p { font-size: 18px; color: var(--text-soft); max-width: 480px; margin: 0 auto 30px; }
+  .nf-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  @media (max-width: 640px) { .nf-h1 { font-size: 30px; } }
+</style>

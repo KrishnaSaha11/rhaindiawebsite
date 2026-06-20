@@ -1,0 +1,64 @@
+---
+import type { Product } from '../data/products';
+import Photo from './Photo.astro';
+export interface Props { product: Product; }
+const { product } = Astro.props;
+---
+<a href={`/${product.slug}/`} class="product-card" data-reveal>
+  <div class="pc-img">
+    <Photo src={`/images/products/${product.slug}.svg`} alt={product.heroAlt} width={1200} height={900} />
+  </div>
+  <div class="pc-body">
+    <div class="pc-tag">{product.tag}</div>
+    <h3 class="pc-title">{product.name}</h3>
+    <div class="pc-rule"></div>
+    <p class="pc-use">{product.use}</p>
+    <span class="pc-more">Know More <span class="mono">→</span></span>
+  </div>
+</a>
+
+<style>
+  .product-card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .product-card:hover {
+    border-color: var(--gold-600);
+    transform: translateY(-8px);
+    box-shadow: 0 26px 50px -22px rgba(14, 42, 29, 0.4);
+  }
+  .pc-img { height: 172px; border-bottom: 1px solid var(--line); overflow: hidden; background: var(--cream-2); }
+  .pc-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+  .pc-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    color: var(--gold-700);
+    margin-bottom: 10px;
+  }
+  .pc-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .pc-rule { width: 34px; height: 2px; background: var(--gold-600); border-radius: 2px; margin-bottom: 16px; }
+  .pc-use { font-size: 14.5px; line-height: 1.55; color: var(--text-muted); margin-bottom: 20px; flex: 1; }
+  .pc-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--green-800);
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+  .pc-more .mono { font-family: var(--font-mono); }
+</style>

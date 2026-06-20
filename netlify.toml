@@ -1,0 +1,74 @@
+# Netlify deployment configuration for rhaindia.com
+# Build a static Astro site and serve from /dist.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Security + caching headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ---------------------------------------------------------------------------
+# 301 redirects from old WordPress URLs -> best-matching new pages.
+# Preserves existing Google rankings. See docs/REDIRECTS.md for the mapping.
+# ---------------------------------------------------------------------------
+
+# Old "Rice Husk Ash Powder" product -> new micronized ground powder page
+[[redirects]]
+  from = "/rice-husk-ash-powder/"
+  to = "/rice-husk-ash-ground-powder/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/rice-husk-ash-powder"
+  to = "/rice-husk-ash-ground-powder/"
+  status = 301
+  force = true
+
+# Old homepage section anchors that became real pages
+[[redirects]]
+  from = "/about-us/"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact-us/"
+  to = "/contact/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/csr-sustainability/"
+  to = "/csr/"
+  status = 301
+  force = true
+
+# Old raw-husk product slug -> raw husk product page
+[[redirects]]
+  from = "/rice-husk-product/"
+  to = "/rice-husk-raw/"
+  status = 301
+  force = true
+
+# Old generic products listing
+[[redirects]]
+  from = "/our-products/"
+  to = "/products/"
+  status = 301
+  force = true

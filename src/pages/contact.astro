@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import { site } from '../config/site';
+
+const waLink = 'https://wa.me/' + site.whatsapp + '?text=' + encodeURIComponent(site.whatsappMessage);
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact Ambika Biotech',
+  url: site.url + '/contact/',
+  mainEntity: { '@id': site.url + '#organization' },
+};
+---
+
+<BaseLayout
+  title="Contact & Get a Quote — Ambika Biotech / RHA India"
+  description="Contact Ambika Biotech — rice husk ash supplier in Odisha. Request a bulk quote/price for Rice Husk Ash & rice husk products. Call +91 7815064339, WhatsApp or email manigupta6777@gmail.com. Sambalpur, Odisha, India."
+  path="/contact/"
+  quoteHref="#quote-form"
+  jsonLd={[contactSchema]}
+>
+  <section class="c-header">
+    <div class="container" data-reveal>
+      <div class="eyebrow">Get a Quote</div>
+      <h1 class="c-h1">Let's talk volume, spec &amp; shipping</h1>
+      <p class="c-lead">As a Rice Husk Ash supplier based in Sambalpur, Odisha, we reply within one business day with pricing, lead time and export documentation. Send your requirement below.</p>
+      <div class="c-trust">
+        <span class="ct-strong">20+ Years</span><span class="dot">·</span>
+        <span class="ct-strong">NABL Tested</span><span class="dot">·</span>
+        <span>Exporting to Belgium, Germany &amp; Middle East</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="form" class="c-form-sec">
+    <div class="container c-grid">
+      <div data-reveal id="quote-form">
+        <QuoteForm source="Contact page" formId="contact-rfq" />
+      </div>
+
+      <aside class="c-aside" data-reveal>
+        <div class="c-talk">
+          <div class="c-talk-head">Talk to us now</div>
+          <a href={waLink} class="ca ca-wa" target="_blank" rel="noopener"><span class="ca-ic">◎</span> Chat on WhatsApp</a>
+          <a href={`tel:${site.phoneE164}`} class="ca ca-call"><span class="ca-ic ca-ic-gold">●</span> {site.phoneDisplay}</a>
+        </div>
+
+        <div class="c-details">
+          <div class="cd-row">
+            <span class="cd-ic"><span class="cd-ring"></span></span>
+            <div><div class="cd-key">Email</div><a href={`mailto:${site.email}`} class="cd-val cd-link">{site.email}</a></div>
+          </div>
+          <div class="cd-row">
+            <span class="cd-ic"><span class="cd-diamond"></span></span>
+            <div><div class="cd-key">Address</div><div class="cd-val">{site.address.full}</div></div>
+          </div>
+          <div class="cd-row">
+            <span class="cd-ic"><span class="cd-square"></span></span>
+            <div><div class="cd-key">GSTIN</div><div class="cd-val">{site.gstin}</div></div>
+          </div>
+          <div class="cd-row">
+            <span class="cd-ic"><span class="cd-square"></span></span>
+            <div>
+              <div class="cd-key">Business Hours</div>
+              <div class="cd-hours">
+                <div><span>Mon – Sat</span><span class="cd-strong">9:00 – 18:00 IST</span></div>
+                <div><span>Sunday</span><span class="cd-muted">Closed</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="c-map-sec">
+    <div class="container" data-reveal>
+      <div class="c-map">
+        <iframe
+          title="Ambika Biotech location — Sambalpur, Odisha"
+          src={`https://www.google.com/maps?q=${site.mapsEmbedQuery}&z=14&output=embed`}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+      <a href={site.mapsLink} class="link-underline c-map-link" target="_blank" rel="noopener">Open in Google Maps <span class="mono">→</span></a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .c-header { padding: 64px 0 22px; background: radial-gradient(110% 80% at 80% 0%, #eef3ea 0%, var(--cream) 55%); }
+  .c-h1 { font-family: var(--font-head); font-weight: 800; font-size: 52px; line-height: 1.04; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 16px; max-width: 780px; }
+  .c-lead { font-size: 18.5px; line-height: 1.6; color: var(--text-soft); max-width: 560px; margin-bottom: 22px; }
+  .c-trust { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.04em; color: var(--text-faint); }
+  .ct-strong { color: var(--green-600); font-weight: 500; }
+  .c-trust .dot { opacity: 0.4; }
+
+  .c-form-sec { padding: 34px 0 80px; }
+  .c-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 34px; align-items: start; }
+
+  .c-aside { display: flex; flex-direction: column; gap: 16px; }
+  .c-talk { background: var(--green-800); border-radius: 20px; padding: 28px; }
+  .c-talk-head { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 16px; text-transform: uppercase; }
+  .ca { display: flex; align-items: center; gap: 14px; padding: 15px 18px; border-radius: 13px; text-decoration: none; font-weight: 600; font-size: 15.5px; transition: transform .18s ease; margin-bottom: 12px; }
+  .ca:last-child { margin-bottom: 0; }
+  .ca:hover { transform: translateY(-2px); }
+  .ca-wa { background: var(--whatsapp); color: #fff; }
+  .ca-call { background: rgba(255,255,255,0.06); color: var(--cream); border: 1px solid rgba(255,255,255,0.14); }
+  .ca-ic { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .ca-ic-gold { background: rgba(230,199,122,0.18); color: var(--gold); }
+
+  .c-details { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 22px; }
+  .cd-row { display: flex; gap: 14px; align-items: flex-start; }
+  .cd-ic { flex: none; width: 40px; height: 40px; border-radius: 11px; background: var(--tile); display: flex; align-items: center; justify-content: center; }
+  .cd-ring { width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--green-600); }
+  .cd-diamond { width: 15px; height: 15px; background: var(--gold-600); transform: rotate(45deg); border-radius: 3px; }
+  .cd-square { width: 15px; height: 15px; background: var(--green-600); border-radius: 4px; }
+  .cd-key { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.12em; color: var(--gold-700); margin-bottom: 6px; text-transform: uppercase; }
+  .cd-val { font-size: 14.5px; color: #3a433a; line-height: 1.5; }
+  .cd-link { text-decoration: none; font-weight: 600; color: var(--ink); }
+  .cd-link:hover { color: var(--green-600); }
+  .cd-hours { display: flex; flex-direction: column; gap: 5px; font-size: 14px; color: #3a433a; }
+  .cd-hours > div { display: flex; justify-content: space-between; gap: 18px; }
+  .cd-strong { font-weight: 600; color: var(--ink); }
+  .cd-muted { color: #8a8470; }
+
+  .c-map-sec { padding: 0 0 100px; }
+  .c-map { width: 100%; height: 380px; border-radius: 22px; overflow: hidden; border: 1px solid var(--line-3); }
+  .c-map iframe { width: 100%; height: 100%; border: 0; }
+  .c-map-link { margin-top: 16px; }
+
+  @media (max-width: 1024px) { .c-h1 { font-size: 40px; } }
+  @media (max-width: 860px) { .c-grid { grid-template-columns: 1fr; gap: 24px; } }
+  @media (max-width: 640px) { .c-h1 { font-size: 31px; } .c-map { height: 300px; } }
+</style>
