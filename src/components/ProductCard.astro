@@ -1,11 +1,12 @@
 ---
 import type { Product } from '../data/products';
+import Photo from './Photo.astro';
 export interface Props { product: Product; }
 const { product } = Astro.props;
 ---
 <a href={`/${product.slug}/`} class="product-card" data-reveal>
-  <div class="pc-img ph">
-    <span class="ph-label">{product.photoLabel}</span>
+  <div class="pc-img">
+    <Photo src={`/images/products/${product.slug}.svg`} alt={product.heroAlt} width={1200} height={900} />
   </div>
   <div class="pc-body">
     <div class="pc-tag">{product.tag}</div>
@@ -32,7 +33,7 @@ const { product } = Astro.props;
     transform: translateY(-8px);
     box-shadow: 0 26px 50px -22px rgba(14, 42, 29, 0.4);
   }
-  .pc-img { height: 172px; border-bottom: 1px solid var(--line); }
+  .pc-img { height: 172px; border-bottom: 1px solid var(--line); overflow: hidden; background: var(--cream-2); }
   .pc-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
   .pc-tag {
     font-family: var(--font-mono);

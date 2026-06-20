@@ -5,6 +5,7 @@ category: "Sustainability"
 date: 2026-05-11
 readTime: "4 min read"
 photoLabel: "PHOTO: rice fields"
+image: "/images/blog/sustainability.svg"
 tags: ["Sustainability", "Circular Economy", "Biomass"]
 seoTitle: "The Circular Economy of Rice Husk: Waste to Value | Ambika Biotech"
 ---

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import ProductCard from '../components/ProductCard.astro';
+import Photo from '../components/Photo.astro';
 import Shape from '../components/Shape.astro';
 import { site, trustStrip } from '../config/site';
 import { products, categories } from '../data/products';
@@ -58,8 +59,9 @@ const webPage = {
         <div class="pill"><span class="pill-dot"></span>{site.address.locality}, {site.address.region} · India</div>
         <h1 class="hero-h1">Rice Husk Ash<br />Manufacturer <span class="amp">&amp;</span> Exporter</h1>
         <p class="hero-sub">
-          High-silica RHA for the steel, concrete &amp; clean-energy industries —
-          engineered to a consistent spec, batch after batch.
+          High-silica <strong>Rice Husk Ash (RHA)</strong> for the steel, concrete
+          &amp; clean-energy industries — manufactured and exported to a consistent
+          spec, batch after batch.
         </p>
         <div class="hero-cta">
           <a href="#quote-form" class="btn btn-primary">Get a Quote <span class="mono">→</span></a>
@@ -73,7 +75,14 @@ const webPage = {
       </div>
 
       <div data-reveal>
-        <div class="hero-visual ph ph-dark">
+        <div class="hero-visual">
+          <Photo
+            src="/images/hero/rice-husk-ash-hero.svg"
+            alt="High-silica Rice Husk Ash powder and granules close-up — Ambika Biotech, Sambalpur"
+            width={1200}
+            height={1320}
+            eager={true}
+          />
           <div class="hero-particles" aria-hidden="true">
             {particles.map((p) => (
               <span
@@ -82,7 +91,6 @@ const webPage = {
               ></span>
             ))}
           </div>
-          <span class="ph-label ph-label-dark hero-photo-label">PHOTO: RHA powder / granules close-up</span>
           <div class="hero-badge">
             <div class="hb-big">85–92%</div>
             <div class="hb-label">SiO₂ SILICA</div>
@@ -129,18 +137,19 @@ const webPage = {
   <section id="about" class="section">
     <div class="container about-grid">
       <div data-reveal>
-        <div class="about-img ph">
-          <span class="ph-label">PHOTO: plant / factory exterior</span>
+        <div class="about-img">
+          <Photo src="/images/sections/rice-mill-plant.svg" alt="Ambika Biotech rice husk ash processing plant in Sambalpur, Odisha" width={1200} height={900} />
         </div>
       </div>
       <div data-reveal>
         <div class="eyebrow">About Ambika Biotech</div>
         <h2 class="h2">Two decades of turning rice husk into industrial-grade silica</h2>
         <p class="lead">
-          For over 20 years we have manufactured and exported high-silica Rice Husk Ash
-          and rice husk products from {site.address.locality}, {site.address.region}. Our
-          NABL-tested material is trusted by steel plants, refractory makers and concrete
-          producers across India and abroad.
+          For over 20 years we have manufactured and exported high-silica
+          <a href="/rice-husk-ash/">Rice Husk Ash</a> and
+          <a href="/rice-husk/">rice husk products</a> from {site.address.locality},
+          {site.address.region}. Our NABL-tested material is trusted by steel plants,
+          refractory makers and concrete producers across India and abroad.
         </p>
         <p class="lead">
           With reliable bulk capacity and full export documentation, we ship a consistent,
@@ -164,7 +173,7 @@ const webPage = {
 
       <div class="cat-label" data-reveal>
         <span class="cat-tag">Category A</span>
-        <h3 class="cat-name">{categories['rice-husk-ash'].name}</h3>
+        <a href="/rice-husk-ash/" class="cat-name-link"><h3 class="cat-name">{categories['rice-husk-ash'].name}</h3></a>
         <span class="cat-blurb">{categories['rice-husk-ash'].blurb}</span>
       </div>
       <div class="prod-grid">
@@ -173,7 +182,7 @@ const webPage = {
 
       <div class="cat-label cat-label-2" data-reveal>
         <span class="cat-tag">Category B</span>
-        <h3 class="cat-name">{categories['rice-husk'].name}</h3>
+        <a href="/rice-husk/" class="cat-name-link"><h3 class="cat-name">{categories['rice-husk'].name}</h3></a>
         <span class="cat-blurb">{categories['rice-husk'].blurb}</span>
       </div>
       <div class="prod-grid">
@@ -255,8 +264,8 @@ const webPage = {
         <a href="/csr/" class="link-underline">Read our CSR story <span class="mono">→</span></a>
       </div>
       <div data-reveal>
-        <div class="csr-img ph">
-          <span class="ph-label">PHOTO: rice fields / packing bags</span>
+        <div class="csr-img">
+          <Photo src="/images/sections/rice-fields-packing.svg" alt="Rice fields and rice husk packing — sustainable sourcing by Ambika Biotech" width={1200} height={900} />
         </div>
       </div>
     </div>
@@ -374,6 +383,7 @@ const webPage = {
     aspect-ratio: 4 / 4.4;
     border-radius: 22px;
     overflow: hidden;
+    background: var(--green-800);
     box-shadow: 0 30px 60px -24px rgba(20, 42, 31, 0.55);
   }
   .hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
@@ -416,7 +426,7 @@ const webPage = {
 
   /* About */
   .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: center; }
-  .about-img { width: 100%; aspect-ratio: 5 / 4; border-radius: 18px; }
+  .about-img { width: 100%; aspect-ratio: 5 / 4; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
 
   /* Products */
   .prod-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
@@ -426,7 +436,9 @@ const webPage = {
     font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
     color: #fff; background: var(--green-600); padding: 5px 11px; border-radius: 999px; text-transform: uppercase;
   }
+  .cat-name-link { text-decoration: none; }
   .cat-name { font-family: var(--font-head); font-weight: 800; font-size: 23px; color: var(--ink); }
+  .cat-name-link:hover .cat-name { color: var(--green-600); }
   .cat-blurb { font-size: 14px; color: var(--text-faint); }
   .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
 
@@ -472,7 +484,7 @@ const webPage = {
   .csr-stats { display: flex; gap: 36px; flex-wrap: wrap; margin: 28px 0; }
   .csr-big { font-family: var(--font-head); font-weight: 800; font-size: 30px; color: var(--green-600); line-height: 1; }
   .csr-sm { font-size: 13.5px; color: var(--text-faint); margin-top: 6px; }
-  .csr-img { width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; }
+  .csr-img { width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden; background: var(--cream-2); }
 
   /* Contact */
   .contact-sec { background: var(--green-800); padding-top: var(--section-y); padding-bottom: var(--section-y); }

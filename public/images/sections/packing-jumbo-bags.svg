@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img">
+<defs>
+<linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#cabf9c"/><stop offset="1" stop-color="#b6a878"/>
+</linearGradient>
+<pattern id="p" width="28" height="28" patternTransform="rotate(135)" patternUnits="userSpaceOnUse">
+<rect width="28" height="28" fill="transparent"/><rect width="14" height="28" fill="#ffffff" opacity="0.04"/>
+</pattern>
+</defs>
+<rect width="1200" height="900" fill="url(#g)"/>
+<rect width="1200" height="900" fill="url(#p)"/>
+<path d="M540 300 h120 v120 q-60 22 -120 0 z" fill="#9A7C36" opacity="0.85"/><rect x="578" y="282" width="44" height="26" fill="#9A7C36" opacity="0.6"/>
+<text x="600" y="666" font-family="Sora, Arial, sans-serif" font-size="40" font-weight="800" fill="#FAF6EC" text-anchor="middle">Packing & Jumbo Bags</text>
+<text x="600" y="704" font-family="monospace" font-size="20" fill="#FAF6EC" opacity="0.75" text-anchor="middle">Bulk & export packing</text>
+<text x="600" y="874" font-family="monospace" font-size="16" fill="#FAF6EC" opacity="0.55" text-anchor="middle">PLACEHOLDER — replace with real photo</text>
+</svg>

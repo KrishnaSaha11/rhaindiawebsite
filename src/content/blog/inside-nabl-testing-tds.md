@@ -5,6 +5,7 @@ category: "Guides"
 date: 2026-05-26
 readTime: "5 min read"
 photoLabel: "PHOTO: lab testing"
+image: "/images/blog/guides.svg"
 tags: ["NABL", "Quality", "Testing"]
 seoTitle: "Reading an RHA Test Report: NABL Parameters Explained | Ambika Biotech"
 ---

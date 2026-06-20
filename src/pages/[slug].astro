@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import ProductCard from '../components/ProductCard.astro';
+import Photo from '../components/Photo.astro';
 import Shape from '../components/Shape.astro';
 import { site } from '../config/site';
 import { products, getProduct, categories, SPEC_NOTE } from '../data/products';
@@ -106,17 +107,17 @@ const faqSchema = {
   <section class="p-hero">
     <div class="container p-hero-grid">
       <div data-reveal>
-        <div class="p-img ph ph-dark">
-          <span class="ph-label ph-label-dark">{p.photoLabel}</span>
+        <div class="p-img">
+          <Photo src={`/images/products/${p.slug}.svg`} alt={p.heroAlt} width={1200} height={1200} eager={true} />
           <div class="p-img-badge">
             <div class="pib-big">{p.statBig}</div>
             <div class="pib-label">{p.statLabel}</div>
           </div>
         </div>
-        <div class="p-thumbs" aria-hidden="true">
-          <div class="ph p-thumb"></div>
-          <div class="ph p-thumb"></div>
-          <div class="ph p-thumb"></div>
+        <div class="p-thumbs">
+          <div class="p-thumb"><Photo src="/images/sections/rha-detail.svg" alt={`${p.shortName} material close-up`} width={900} height={900} /></div>
+          <div class="p-thumb"><Photo src="/images/sections/packing-jumbo-bags.svg" alt={`${p.shortName} packing and jumbo bags`} width={1200} height={900} /></div>
+          <div class="p-thumb"><Photo src="/images/sections/loading-export.svg" alt={`${p.shortName} loading for export`} width={1200} height={900} /></div>
         </div>
       </div>
       <div data-reveal>
@@ -145,6 +146,11 @@ const faqSchema = {
       </div>
       <div data-reveal>
         {p.overview.map((para) => <p class="body-p">{para}</p>)}
+        <p class="body-p">
+          Browse the full <a href={`/${cat.slug}/`}>{cat.name} range</a>, compare it with
+          <a href={`/${related[0].slug}/`}> {related[0].shortName}</a>, or
+          <a href="/contact/#quote-form"> request a bulk {p.shortName} quote</a>.
+        </p>
       </div>
     </div>
   </section>
@@ -309,7 +315,7 @@ const faqSchema = {
   .pib-big { font-family: var(--font-head); font-weight: 800; font-size: 26px; color: var(--green-800); line-height: 1; }
   .pib-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.12em; color: var(--gold-700); margin-top: 5px; }
   .p-thumbs { display: flex; gap: 12px; margin-top: 14px; }
-  .p-thumb { flex: 1; aspect-ratio: 1/1; border-radius: 12px; }
+  .p-thumb { flex: 1; aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; background: var(--cream-2); }
   .p-h1 { font-family: var(--font-head); font-weight: 800; font-size: 46px; line-height: 1.05; letter-spacing: -0.024em; color: var(--ink); margin-bottom: 18px; }
   .p-value { font-size: 18.5px; line-height: 1.6; color: var(--text-soft); max-width: 520px; margin-bottom: 26px; }
   .p-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }

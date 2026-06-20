@@ -1,7 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
 import { site } from '../../config/site';
 import { getCollection, render } from 'astro:content';
+
+const postImg = (p: any) => p.data.image ?? `/images/blog/${p.data.category.toLowerCase()}.svg`;
+const postImgAlt = (p: any) => p.data.imageAlt ?? `${p.data.title} — Ambika Biotech rice husk ash blog`;
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -73,8 +77,8 @@ const breadcrumb = {
 
   <section class="art-hero-img-sec">
     <div class="art-hero-wrap" data-reveal>
-      <div class="art-hero-img ph ph-dark">
-        <span class="ph-label ph-label-dark">{post.data.photoLabel}</span>
+      <div class="art-hero-img">
+        <Photo src={postImg(post)} alt={postImgAlt(post)} width={1200} height={525} eager={true} />
       </div>
     </div>
   </section>
@@ -113,9 +117,9 @@ const breadcrumb = {
       <div class="rel-grid">
         {related.map((r) => (
           <a href={`/blog/${r.id}/`} class="rel-card" data-reveal>
-            <div class="rel-img ph">
+            <div class="rel-img">
+              <Photo src={postImg(r)} alt={postImgAlt(r)} width={1200} height={800} />
               <span class="rel-cat">{r.data.category}</span>
-              <span class="ph-label rel-photo">{r.data.photoLabel}</span>
             </div>
             <div class="rel-body">
               <h3 class="rel-title">{r.data.title}</h3>
@@ -149,7 +153,7 @@ const breadcrumb = {
 
   .art-hero-img-sec { padding: 8px 0 0; }
   .art-hero-wrap { max-width: 1000px; margin: 0 auto; padding: 0 32px; }
-  .art-hero-img { width: 100%; aspect-ratio: 16/7; border-radius: 20px; box-shadow: 0 24px 50px -28px rgba(14,42,29,0.5); }
+  .art-hero-img { width: 100%; aspect-ratio: 16/7; border-radius: 20px; overflow: hidden; background: var(--green-800); box-shadow: 0 24px 50px -28px rgba(14,42,29,0.5); }
 
   .art-body { padding: 56px 0 40px; }
   .prose { max-width: 720px; margin: 0 auto; padding: 0 32px; }
@@ -179,7 +183,8 @@ const breadcrumb = {
   .rel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
   .rel-card { background: var(--cream); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
   .rel-card:hover { border-color: var(--gold-600); transform: translateY(-8px); box-shadow: 0 26px 50px -22px rgba(14,42,29,0.4); }
-  .rel-img { position: relative; height: 160px; border-bottom: 1px solid var(--line); }
+  .rel-img { position: relative; height: 160px; border-bottom: 1px solid var(--line); overflow: hidden; background: var(--cream-2); }
+  .rel-cat { z-index: 2; }
   .rel-cat { position: absolute; left: 16px; top: 16px; background: var(--cream); border: 1px solid var(--line-3); color: var(--green-600); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; padding: 6px 12px; border-radius: 999px; text-transform: uppercase; }
   .rel-photo { position: absolute; }
   .rel-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }

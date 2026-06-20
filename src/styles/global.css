@@ -71,8 +71,27 @@ img {
   display: block;
 }
 
+/* Photos that fill a fixed-ratio container */
+.media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 a {
   color: inherit;
+}
+
+/* In-content (body paragraph) links — descriptive internal links for SEO */
+main p a {
+  color: var(--green-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+main p a:hover {
+  color: var(--gold-700);
 }
 
 h1, h2, h3, h4 {

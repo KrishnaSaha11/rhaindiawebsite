@@ -5,6 +5,7 @@ category: "Comparisons"
 date: 2026-06-02
 readTime: "8 min read"
 photoLabel: "PHOTO: pellets vs coal"
+image: "/images/blog/comparisons.svg"
 tags: ["Biomass", "Rice Husk Pellets", "Energy"]
 seoTitle: "Rice Husk Pellets vs Coal: Cost, Calorific Value & Carbon | Ambika Biotech"
 ---

@@ -63,6 +63,12 @@ const itemList = {
   <section class="section">
     <div class="container cat-intro" data-reveal>
       {intro.map((para) => <p class="body-p">{para}</p>)}
+      <p class="body-p">
+        Explore each grade below, see our
+        <a href={category === 'rice-husk-ash' ? '/rice-husk/' : '/rice-husk-ash/'}>
+          {category === 'rice-husk-ash' ? ' raw rice husk products' : ' Rice Husk Ash range'}</a>,
+        or <a href="/contact/#quote-form">request a bulk quote</a> for any product.
+      </p>
     </div>
     <div class="container">
       <div class="cat-grid">

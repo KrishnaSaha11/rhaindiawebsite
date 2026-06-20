@@ -5,6 +5,7 @@ category: "Industry"
 date: 2026-05-19
 readTime: "6 min read"
 photoLabel: "PHOTO: steel ladle"
+image: "/images/blog/industry.svg"
 tags: ["Steel", "RHA Granules", "Insulation"]
 seoTitle: "RHA Granules for Steel: Tundish & Ladle Covering Explained | Ambika Biotech"
 ---

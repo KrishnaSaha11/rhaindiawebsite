@@ -5,6 +5,7 @@ category: "Industry"
 date: 2026-06-08
 readTime: "7 min read"
 photoLabel: "PHOTO: concrete pour"
+image: "/images/blog/industry.svg"
 tags: ["Rice Husk Ash", "Concrete", "SCM"]
 seoTitle: "Rice Husk Ash in Concrete: Dosage, Strength & Durability Guide | Ambika Biotech"
 ---

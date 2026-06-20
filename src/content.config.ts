@@ -13,6 +13,8 @@ const blog = defineCollection({
     author: z.string().default('Ambika Biotech Team'),
     featured: z.boolean().default(false),
     photoLabel: z.string().default('PHOTO: rice husk ash'),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
     tags: z.array(z.string()).default([]),
     seoTitle: z.string().optional(),
   }),
