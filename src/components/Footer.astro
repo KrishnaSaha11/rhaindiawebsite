@@ -10,7 +10,9 @@ const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.wh
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="brand">
-          <span class="fmark">R</span>
+          <span class="fmark">
+            <img src="/images/logo-mark.webp" alt="" width="174" height="160" class="femblem" decoding="async" loading="lazy" />
+          </span>
           <span class="ftext">
             <span class="fname">{site.name}</span>
             <span class="fsub">RHA INDIA</span>
@@ -66,11 +68,12 @@ const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.wh
   }
   .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
   .fmark {
-    width: 40px; height: 40px; border-radius: 11px;
-    background: var(--green-700);
+    width: 44px; height: 44px; border-radius: 11px;
+    background: #fff;
     display: flex; align-items: center; justify-content: center;
-    color: var(--gold); font-family: var(--font-head); font-weight: 800; font-size: 19px;
+    overflow: hidden;
   }
+  .femblem { width: 34px; height: auto; display: block; }
   .ftext { display: flex; flex-direction: column; line-height: 1; }
   .fname { font-family: var(--font-head); font-weight: 800; font-size: 17px; color: var(--cream); white-space: nowrap; }
   .fsub { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; color: var(--gold); margin-top: 3px; }

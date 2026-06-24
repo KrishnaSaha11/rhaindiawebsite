@@ -37,19 +37,27 @@ environment blocks downloads from stock-photo sites.
 | `loading-export.svg` | Product page thumbnail | Container loading / export · "container loading export", "cargo containers port" |
 | `rha-detail.svg` | Product page thumbnail | Material close-up in hand · "powder in hand", "granules macro" |
 
-## Homepage hero carousel (full-bleed, rotating)
-The homepage hero rotates **4 slides**. Slide 1 is the LCP image (loads eagerly);
-the rest lazy-load. Swap these files for impactful, landscape (≈1920×1080) photos:
+## Homepage hero carousel (full-bleed, rotating) — REAL PHOTOS IN PLACE
+The hero rotates **4 real photos** (client-supplied, optimized to WebP). Slide 1
+is the LCP image (eager); the rest lazy-load. All use `object-fit: cover`
+(center focal point) so they fill the hero on any screen with no distortion.
 
-| Slide | File | Message | Suggested real photo |
+| Slide | File | Photo | Message |
 | --- | --- | --- | --- |
-| 1 (LCP) | `hero/rice-husk-ash-hero.svg` | Manufacturer & Exporter | Striking RHA powder/granules close-up or plant hero |
-| 2 | `sections/rha-detail.svg` | Quality & Consistency (NABL, 85–92% SiO₂) | Material macro / lab testing |
-| 3 | `sections/rice-fields-packing.svg` | Sustainability | Green paddy fields / packing |
-| 4 | `sections/loading-export.svg` | Export-ready | Container loading / port |
+| 1 (LCP) | `hero/hero-1.webp` | Raw rice husk close-up | Manufacturer & Exporter |
+| 2 | `hero/hero-2.webp` | Lab testing | Quality & Consistency (NABL, 85–92% SiO₂) |
+| 3 | `hero/hero-3.webp` | Farmer harvesting paddy | Sustainability |
+| 4 | `hero/hero-4.webp` | Container ship at port | Export-ready |
 
-> To add/remove slides or change the copy, edit the `slides` array in
-> `src/components/HeroCarousel.astro`.
+> To swap any of these, drop a new image at the same path (re-export to WebP,
+> ≤ ~260 KB for slide 1). To add/remove slides or change copy, edit the `slides`
+> array in `src/components/HeroCarousel.astro`.
+
+## Logo — REAL LOGO IN PLACE
+- `images/logo.webp` — full Ambika lockup (trimmed), available for any large use.
+- `images/logo-mark.webp` — the wheat **emblem** cropped from the logo; used as
+  the brand mark in the **header** and **footer** (white rounded tile + wordmark).
+  Replace either file in place to update the logo everywhere.
 
 ## Blog — `public/images/blog/`
 | File | Used on | Suggested real photo |
