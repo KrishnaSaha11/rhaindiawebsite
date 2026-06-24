@@ -14,9 +14,9 @@ export const site = {
     'Manufacturer & exporter of high-silica Rice Husk Ash and rice husk products from Sambalpur, Odisha, India.',
 
   // ---- Contact / NAP (used in footer, contact page, schema) ----
-  phoneDisplay: '+91 78150 64339',
-  phoneE164: '+917815064339', // for tel: links
-  whatsapp: '917815064339', // for wa.me links
+  phoneDisplay: '+91 73817 57575',
+  phoneE164: '+917381757575', // for tel: links
+  whatsapp: '917381757575', // for wa.me links
   whatsappMessage:
     "Hello Ambika Biotech, I'd like a quote for Rice Husk Ash / rice husk products.",
   email: 'manigupta6777@gmail.com',
