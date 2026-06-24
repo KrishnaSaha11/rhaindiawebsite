@@ -121,6 +121,18 @@ const payload = items.map((it) => ({
 
       var slides = Array.prototype.slice.call(root.querySelectorAll('.rs-slide'));
       var textBox = root.querySelector('[data-rs-text]');
+
+      // Preload every slide image up front so the first (and every) change is
+      // smooth and uniform — not waiting on a lazy image to download.
+      slides.forEach(function (s) {
+        var im = s.querySelector('.rs-img');
+        if (!im) return;
+        im.loading = 'eager';
+        var pre = new Image();
+        pre.decoding = 'async';
+        pre.src = im.getAttribute('src');
+      });
+
       var eyebrow = root.querySelector('[data-rs-eyebrow]');
       var title = root.querySelector('[data-rs-title]');
       var desc = root.querySelector('[data-rs-desc]');
