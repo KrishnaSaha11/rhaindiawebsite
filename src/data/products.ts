@@ -364,6 +364,11 @@ export const products: Product[] = [
     ],
     packing: 'Available in 25 kg, 50 kg bags and jumbo bags.',
     related: ['rice-husk-raw', 'rice-husk-pellets', 'rice-husk-ash-ground-powder'],
+    images: [
+      { src: '/images/products/rice-husk-powder.webp', alt: 'Rice Husk Powder close-up — natural ground husk powder for feed, agriculture and fillers, Ambika Ricemill' },
+      { src: '/images/products/rice-husk-powder-2.webp', alt: 'Rice Husk Powder sample — finely ground, light brown raw rice husk' },
+      { src: '/images/products/rice-husk-powder-3.webp', alt: 'Rice Husk Powder in bulk — fibre-rich natural agro by-product by Ambika Ricemill' },
+    ],
   },
   {
     slug: 'rice-husk-pellets',
