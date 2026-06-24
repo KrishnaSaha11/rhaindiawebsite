@@ -302,6 +302,11 @@ export const products: Product[] = [
     ],
     packing: 'Available loose, in bales and jumbo bags; bulk supply for large buyers.',
     related: ['rice-husk-powder', 'rice-husk-pellets', 'rice-husk-ash-ground-powder'],
+    images: [
+      { src: '/images/products/rice-husk-raw.webp', alt: 'Raw whole Rice Husk close-up — golden-brown agricultural by-product by Ambika Ricemill' },
+      { src: '/images/products/rice-husk-raw-2.webp', alt: 'Raw Rice Husk sample — clean, well-screened whole husk for fuel, boards and bedding' },
+      { src: '/images/products/rice-husk-raw-3.webp', alt: 'Raw Rice Husk in a bowl — renewable rice husk supplied in bulk by Ambika Ricemill' },
+    ],
   },
   {
     slug: 'rice-husk-powder',
