@@ -13,6 +13,7 @@ import { products, categories } from '../data/products';
 const productShots = products.map((p) => ({
   src: p.images?.[0]?.src ?? `/images/products/${p.slug}.svg`,
   alt: p.images?.[0]?.alt ?? p.heroAlt,
+  label: p.name,
 }));
 
 const heroStats = [
