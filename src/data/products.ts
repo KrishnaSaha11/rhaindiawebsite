@@ -425,6 +425,11 @@ export const products: Product[] = [
     ],
     packing: 'Available in 25 kg, 40 kg bags and jumbo bags; bulk loose supply for large buyers.',
     related: ['rice-husk-raw', 'rice-husk-powder', 'rice-husk-ash-pellets'],
+    images: [
+      { src: '/images/products/rice-husk-pellets-2.webp', alt: 'Rice Husk Pellets biomass fuel — uniform cylindrical pellets for boilers and power plants, Ambika Ricemill' },
+      { src: '/images/products/rice-husk-pellets.webp', alt: 'Rice Husk Pellets close-up — renewable biomass fuel pellets' },
+      { src: '/images/products/rice-husk-pellets-3.webp', alt: 'Rice Husk Pellets sample — high-calorific biomass fuel pellets by Ambika Ricemill' },
+    ],
   },
 ];
 
