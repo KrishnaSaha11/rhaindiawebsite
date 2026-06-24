@@ -21,7 +21,7 @@ environment blocks downloads from stock-photo sites.
 ## Product photos — `public/images/products/`
 | File | Used on | Suggested real photo · search terms |
 | --- | --- | --- |
-| `rice-husk-ash-ground-powder.svg` | Ground Powder product + card | Fine grey micronized ash / silica powder close-up · "rice husk ash powder", "silica fume grey powder" |
+| `rice-husk-ash-ground-powder.webp` (+ `-2`, `-3`) | Ground Powder product gallery + card | **Real photos in place** (powder, pellets, granules samples) shown as a swappable gallery; image 1 is the card/hero. Add more via the `images` array in `src/data/products.ts`. |
 | `rice-husk-ash-granules.svg` | Granules product + card | Grey/black granular ash; steel ladle covering · "rice husk ash granules", "tundish covering compound" |
 | `rice-husk-ash-pellets.svg` | Pellets product + card | Uniform grey ash pellets in hand/bag · "ash pellets", "insulation pellets grey" |
 | `rice-husk-raw.svg` | Raw Husk product + card | Golden-brown loose rice husk pile · "rice husk", "paddy husk" |

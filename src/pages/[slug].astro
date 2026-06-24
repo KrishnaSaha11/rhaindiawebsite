@@ -15,6 +15,8 @@ const { slug } = Astro.params;
 const p = getProduct(slug!)!;
 const cat = categories[p.category];
 const related = p.related.map((s) => getProduct(s)!).filter(Boolean);
+const gallery = p.images ?? [];
+const hasGallery = gallery.length > 0;
 const waMessage = 'Hello Ambika Biotech, I would like a quote for ' + p.name + '.';
 const waLink = 'https://wa.me/' + site.whatsapp + '?text=' + encodeURIComponent(waMessage);
 
@@ -108,16 +110,30 @@ const faqSchema = {
     <div class="container p-hero-grid">
       <div data-reveal>
         <div class="p-img">
-          <Photo src={`/images/products/${p.slug}.svg`} alt={p.heroAlt} width={1200} height={1200} eager={true} />
+          {hasGallery ? (
+            <img id="pgHero" class="media" src={gallery[0].src} alt={gallery[0].alt} width="1100" height="1100" loading="eager" fetchpriority="high" decoding="async" />
+          ) : (
+            <Photo src={`/images/products/${p.slug}.svg`} alt={p.heroAlt} width={1200} height={1200} eager={true} />
+          )}
           <div class="p-img-badge">
             <div class="pib-big">{p.statBig}</div>
             <div class="pib-label">{p.statLabel}</div>
           </div>
         </div>
         <div class="p-thumbs">
-          <div class="p-thumb"><Photo src="/images/sections/rha-detail.svg" alt={`${p.shortName} material close-up`} width={900} height={900} /></div>
-          <div class="p-thumb"><Photo src="/images/sections/packing-jumbo-bags.svg" alt={`${p.shortName} packing and jumbo bags`} width={1200} height={900} /></div>
-          <div class="p-thumb"><Photo src="/images/sections/loading-export.svg" alt={`${p.shortName} loading for export`} width={1200} height={900} /></div>
+          {hasGallery ? (
+            gallery.map((im, idx) => (
+              <button class:list={['p-thumb', 'p-thumb-btn', { 'is-active': idx === 0 }]} data-src={im.src} data-alt={im.alt} aria-label={`View ${p.shortName} photo ${idx + 1}`} type="button">
+                <img class="media" src={im.src} alt="" width="320" height="320" loading="lazy" decoding="async" />
+              </button>
+            ))
+          ) : (
+            <>
+              <div class="p-thumb"><Photo src="/images/sections/rha-detail.svg" alt={`${p.shortName} material close-up`} width={900} height={900} /></div>
+              <div class="p-thumb"><Photo src="/images/sections/packing-jumbo-bags.svg" alt={`${p.shortName} packing and jumbo bags`} width={1200} height={900} /></div>
+              <div class="p-thumb"><Photo src="/images/sections/loading-export.svg" alt={`${p.shortName} loading for export`} width={1200} height={900} /></div>
+            </>
+          )}
         </div>
       </div>
       <div data-reveal>
@@ -292,6 +308,30 @@ const faqSchema = {
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (function () {
+      var hero = document.getElementById('pgHero');
+      if (!hero) return;
+      var btns = Array.prototype.slice.call(document.querySelectorAll('.p-thumb-btn'));
+      btns.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var src = b.getAttribute('data-src');
+          if (!src || src === hero.getAttribute('src')) return;
+          hero.style.opacity = '0';
+          var img = new Image();
+          img.onload = function () {
+            hero.src = src;
+            hero.alt = b.getAttribute('data-alt') || hero.alt;
+            hero.style.opacity = '1';
+          };
+          img.src = src;
+          btns.forEach(function (x) { x.classList.remove('is-active'); });
+          b.classList.add('is-active');
+        });
+      });
+    })();
+  </script>
 </BaseLayout>
 
 <style>
@@ -316,6 +356,10 @@ const faqSchema = {
   .pib-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.12em; color: var(--gold-700); margin-top: 5px; }
   .p-thumbs { display: flex; gap: 12px; margin-top: 14px; }
   .p-thumb { flex: 1; aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; background: var(--cream-2); }
+  .p-thumb-btn { padding: 0; border: 1px solid var(--line-3); cursor: pointer; transition: outline-color 0.15s ease, transform 0.15s ease; outline: 2px solid transparent; outline-offset: 2px; }
+  .p-thumb-btn:hover { transform: translateY(-2px); }
+  .p-thumb-btn.is-active { outline-color: var(--gold-600); border-color: var(--gold-600); }
+  #pgHero { transition: opacity 0.25s ease; }
   .p-h1 { font-family: var(--font-head); font-weight: 800; font-size: 46px; line-height: 1.05; letter-spacing: -0.024em; color: var(--ink); margin-bottom: 18px; }
   .p-value { font-size: 18.5px; line-height: 1.6; color: var(--text-soft); max-width: 520px; margin-bottom: 26px; }
   .p-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }

@@ -3,10 +3,11 @@ import type { Product } from '../data/products';
 import Photo from './Photo.astro';
 export interface Props { product: Product; }
 const { product } = Astro.props;
+const cardImg = product.images?.[0];
 ---
 <a href={`/${product.slug}/`} class="product-card" data-reveal>
   <div class="pc-img">
-    <Photo src={`/images/products/${product.slug}.svg`} alt={product.heroAlt} width={1200} height={900} />
+    <Photo src={cardImg?.src ?? `/images/products/${product.slug}.svg`} alt={cardImg?.alt ?? product.heroAlt} width={1200} height={900} />
     <span class="pc-chip">{product.categoryLabel}</span>
   </div>
   <div class="pc-body">

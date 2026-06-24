@@ -51,6 +51,8 @@ export interface Product {
   packing: string;
 
   related: string[]; // slugs
+  /** Optional real product photos (gallery). First = hero/card image. */
+  images?: { src: string; alt: string }[];
 }
 
 const A = '#27593C';
@@ -114,6 +116,11 @@ export const products: Product[] = [
     ],
     packing: 'Available in 5 kg, 10 kg, 20 kg, 25 kg and jumbo bags.',
     related: ['rice-husk-ash-granules', 'rice-husk-ash-pellets', 'rice-husk-powder'],
+    images: [
+      { src: '/images/products/rice-husk-ash-ground-powder.webp', alt: 'Micronized Rice Husk Ash ground powder sample — high-silica grey RHA by Ambika Biotech' },
+      { src: '/images/products/rice-husk-ash-ground-powder-2.webp', alt: 'Rice Husk Ash pellets sample — grey high-silica RHA by Ambika Biotech' },
+      { src: '/images/products/rice-husk-ash-ground-powder-3.webp', alt: 'Rice Husk Ash granules sample — dark high-silica RHA by Ambika Biotech' },
+    ],
   },
   {
     slug: 'rice-husk-ash-granules',
