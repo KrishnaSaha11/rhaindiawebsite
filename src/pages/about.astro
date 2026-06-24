@@ -1,7 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Photo from '../components/Photo.astro';
+import ImageRotator from '../components/ImageRotator.astro';
 import { site, trustStrip } from '../config/site';
+import { products } from '../data/products';
+
+const productShots = products.map((p) => ({
+  src: p.images?.[0]?.src ?? `/images/products/${p.slug}.svg`,
+  alt: p.images?.[0]?.alt ?? p.heroAlt,
+}));
 
 const values = [
   { num: '01', title: 'Consistency first', body: 'A uniform, certified spec delivered batch after batch — the foundation of every long-term supply relationship.' },
@@ -50,7 +57,7 @@ const breadcrumb = {
         </div>
       </div>
       <div data-reveal>
-        <div class="a-img"><Photo src="/images/sections/rice-mill-plant.webp" alt="Rice husk at the Ambika Biotech rice mill in Sambalpur, Odisha — feedstock for high-silica Rice Husk Ash" width={922} height={613} /></div>
+        <div class="a-img"><ImageRotator images={productShots} interval={2500} eager={true} /></div>
       </div>
     </div>
   </section>

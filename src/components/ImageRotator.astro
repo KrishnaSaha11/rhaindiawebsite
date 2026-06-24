@@ -1,0 +1,69 @@
+---
+// Lightweight auto-rotating image (crossfade). Fills its parent container,
+// which should set the size (aspect-ratio/border-radius/overflow).
+export interface Props {
+  images: { src: string; alt: string }[];
+  interval?: number; // ms between slides
+  eager?: boolean; // first image eager (above the fold)
+  class?: string;
+}
+const { images, interval = 2500, eager = false, class: cls = '' } = Astro.props;
+---
+<div class:list={['img-rotator', cls]} data-rotator data-interval={interval}>
+  {images.map((im, i) => (
+    <img
+      class:list={['ir-img', { 'is-active': i === 0 }]}
+      src={im.src}
+      alt={i === 0 ? im.alt : ''}
+      width="1200"
+      height="900"
+      loading={i === 0 && eager ? 'eager' : 'lazy'}
+      fetchpriority={i === 0 && eager ? 'high' : 'auto'}
+      decoding="async"
+    />
+  ))}
+</div>
+
+<style>
+  .img-rotator { position: relative; width: 100%; height: 100%; }
+  .ir-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .ir-img.is-active { opacity: 1; }
+</style>
+
+<script is:inline>
+  (function () {
+    function initRotator(root) {
+      var imgs = Array.prototype.slice.call(root.querySelectorAll('.ir-img'));
+      if (imgs.length < 2) return;
+      var delay = parseInt(root.getAttribute('data-interval'), 10) || 2500;
+      var i = 0, timer = null;
+      function step() {
+        imgs[i].classList.remove('is-active');
+        i = (i + 1) % imgs.length;
+        var next = imgs[i];
+        if (next.loading === 'lazy') next.loading = 'eager';
+        next.classList.add('is-active');
+      }
+      function play() { if (!timer) timer = setInterval(step, delay); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      root.addEventListener('mouseenter', stop);
+      root.addEventListener('mouseleave', play);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else play(); });
+      play();
+    }
+    function run() {
+      Array.prototype.slice.call(document.querySelectorAll('[data-rotator]')).forEach(initRotator);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+    else run();
+  })();
+</script>
