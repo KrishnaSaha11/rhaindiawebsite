@@ -118,8 +118,8 @@ export const products: Product[] = [
     related: ['rice-husk-ash-granules', 'rice-husk-ash-pellets', 'rice-husk-powder'],
     images: [
       { src: '/images/products/rice-husk-ash-ground-powder.webp', alt: 'Micronized Rice Husk Ash ground powder sample — high-silica grey RHA by Ambika Biotech' },
-      { src: '/images/products/rice-husk-ash-ground-powder-2.webp', alt: 'Rice Husk Ash pellets sample — grey high-silica RHA by Ambika Biotech' },
-      { src: '/images/products/rice-husk-ash-ground-powder-3.webp', alt: 'Rice Husk Ash granules sample — dark high-silica RHA by Ambika Biotech' },
+      { src: '/images/products/rice-husk-ash-ground-powder-2.webp', alt: 'Micronized Rice Husk Ash powder on a tray — fine grey high-silica RHA by Ambika Biotech' },
+      { src: '/images/products/rice-husk-ash-ground-powder-3.webp', alt: 'Grey micronized Rice Husk Ash powder being poured — reactive pozzolanic SCM, Ambika Biotech' },
     ],
   },
   {
