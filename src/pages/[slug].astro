@@ -448,4 +448,20 @@ const faqSchema = {
     .benefit-grid, .app-grid, .why3-grid, .related-grid { grid-template-columns: 1fr; }
     .p-cta .btn { width: 100%; justify-content: center; }
   }
+
+  /* ---- Desktop density (≥1024px only) ---- */
+  @media (min-width: 1024px) {
+    .p-hero { padding: 44px 0 64px; }
+    .p-hero-grid { gap: 48px; }
+    .p-h1 { font-size: 40px; }
+    .split { gap: 48px; }
+    .split-h2 { font-size: 30px; }
+    .sec-head { margin-bottom: 30px; }
+    .prod-head { margin-bottom: 30px; }
+    .benefit-grid { gap: 14px; }
+    .app-grid, .why3-grid, .related-grid { gap: 20px; }
+    .contact-sec { padding: 80px 0; }
+    .contact-grid { gap: 44px; }
+    .contact-h2 { font-size: 32px; }
+  }
 </style>

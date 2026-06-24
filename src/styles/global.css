@@ -262,6 +262,14 @@ h1, h2, h3, h4 {
   body { font-size: 15.5px; }
 }
 
+/* ---- Desktop density: tighten only large screens (mobile/tablet unchanged) ---- */
+@media (min-width: 1024px) {
+  :root {
+    --section-y: 58px; /* was 92 — ~37% less vertical spacing between sections */
+    --maxw: 1200px; /* cap content width so it doesn't stretch on big monitors */
+  }
+}
+
 /* Utility: visually hidden (accessible) */
 .sr-only {
   position: absolute;

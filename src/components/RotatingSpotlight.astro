@@ -106,6 +106,10 @@ const payload = items.map((it) => ({
     .rs-desc { min-height: 0; }
     .rs-title { min-height: 0; }
   }
+  @media (min-width: 1024px) {
+    .rs, .rs.media-left { gap: 48px; }
+    .rs-title { font-size: clamp(28px, 2.9vw, 40px); }
+  }
 </style>
 
 <script is:inline>

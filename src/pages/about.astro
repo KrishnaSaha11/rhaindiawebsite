@@ -193,4 +193,16 @@ const breadcrumb = {
   @media (max-width: 1024px) { .a-h1 { font-size: 38px; } .a-h2 { font-size: 28px; } .values-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 860px) { .a-hero-grid, .a-story-grid { grid-template-columns: 1fr; gap: 40px; } .trust-grid { grid-template-columns: repeat(2, 1fr); } .trust-item:nth-child(2) { border-right: none; } }
   @media (max-width: 640px) { .a-h1 { font-size: 30px; } .values-grid, .mile-grid { grid-template-columns: 1fr; } .cta-band { padding: 34px 24px; } .a-cta .btn, .cta-band .btn { width: 100%; justify-content: center; } }
+
+  /* ---- Desktop density (≥1024px only) ---- */
+  @media (min-width: 1024px) {
+    .a-hero { padding: 44px 0 56px; }
+    .a-h2 { font-size: 30px; }
+    .a-story-grid { gap: 48px; }
+    .sec-head { margin-bottom: 32px; }
+    .values-grid { gap: 18px; }
+    .mile-grid { gap: 18px; }
+    .cta-band { padding: 44px; }
+    .cb-h2 { font-size: 28px; }
+  }
 </style>
