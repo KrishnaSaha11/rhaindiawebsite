@@ -1,0 +1,172 @@
+---
+// Synchronized rotating spotlight: the left text (eyebrow, title, description,
+// link) changes in step with the right image. Slide 0 renders in the initial
+// HTML (good for SEO — the title can be the page H1).
+export interface Props {
+  items: {
+    eyebrow: string;
+    title: string;
+    desc: string;
+    href: string;
+    linkText: string;
+    img: string;
+    alt: string;
+  }[];
+  titleTag?: 'h1' | 'h2';
+  mediaSide?: 'left' | 'right';
+  interval?: number;
+  eager?: boolean;
+}
+const { items, titleTag = 'h2', mediaSide = 'right', interval = 3500, eager = false } = Astro.props;
+const Title = titleTag;
+const first = items[0];
+const payload = items.map((it) => ({
+  eyebrow: it.eyebrow,
+  title: it.title,
+  desc: it.desc,
+  href: it.href,
+  linkText: it.linkText,
+  alt: it.alt,
+}));
+---
+<div class:list={['rs', { 'media-left': mediaSide === 'left' }]} data-rs data-interval={interval}>
+  <div class="rs-text" data-rs-text>
+    <div class="eyebrow" data-rs-eyebrow>{first.eyebrow}</div>
+    <Title class="rs-title" data-rs-title>{first.title}</Title>
+    <p class="rs-desc" data-rs-desc>{first.desc}</p>
+    <a class="link-underline rs-link" data-rs-link href={first.href}>
+      <span data-rs-linktext>{first.linkText}</span> <span class="mono">→</span>
+    </a>
+    <div class="rs-cta"><slot /></div>
+  </div>
+
+  <div class="rs-media">
+    {items.map((it, i) => (
+      <div class:list={['rs-slide', { 'is-active': i === 0 }]}>
+        <img
+          class="rs-img"
+          src={it.img}
+          alt={i === 0 ? it.alt : ''}
+          width="1200"
+          height="960"
+          loading={i === 0 && eager ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 && eager ? 'high' : 'auto'}
+          decoding="async"
+        />
+      </div>
+    ))}
+  </div>
+
+  <script type="application/json" data-rs-data set:html={JSON.stringify(payload)}></script>
+</div>
+
+<style>
+  .rs { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px; align-items: center; }
+  .rs.media-left { grid-template-columns: 0.95fr 1.05fr; }
+  .rs.media-left .rs-text { order: 2; }
+  .rs.media-left .rs-media { order: 1; }
+
+  .rs-text { transition: opacity 0.4s ease; }
+  .rs-title {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: clamp(30px, 3.4vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 0 0 18px;
+    min-height: 2.1em;
+  }
+  .rs-desc {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--text-soft);
+    margin: 0 0 24px;
+    max-width: 560px;
+    min-height: 5.2em;
+  }
+  .rs-link { display: inline-flex; }
+  .rs-cta { margin-top: 24px; }
+  .rs-cta:empty { margin-top: 0; }
+
+  .rs-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--cream-2);
+  }
+  .rs-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s ease; }
+  .rs-slide.is-active { opacity: 1; }
+  .rs-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+
+  @media (max-width: 860px) {
+    .rs, .rs.media-left { grid-template-columns: 1fr; gap: 32px; }
+    .rs.media-left .rs-text, .rs .rs-text { order: 2; }
+    .rs.media-left .rs-media, .rs .rs-media { order: 1; }
+    .rs-desc { min-height: 0; }
+    .rs-title { min-height: 0; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    function init(root) {
+      var dataEl = root.querySelector('[data-rs-data]');
+      if (!dataEl) return;
+      var items;
+      try { items = JSON.parse(dataEl.textContent); } catch (e) { return; }
+      if (!items || items.length < 2) return;
+
+      var slides = Array.prototype.slice.call(root.querySelectorAll('.rs-slide'));
+      var textBox = root.querySelector('[data-rs-text]');
+      var eyebrow = root.querySelector('[data-rs-eyebrow]');
+      var title = root.querySelector('[data-rs-title]');
+      var desc = root.querySelector('[data-rs-desc]');
+      var link = root.querySelector('[data-rs-link]');
+      var linkText = root.querySelector('[data-rs-linktext]');
+      var delay = parseInt(root.getAttribute('data-interval'), 10) || 3500;
+      var i = 0, timer = null;
+
+      function setText(n) {
+        var it = items[n];
+        if (eyebrow) eyebrow.textContent = it.eyebrow;
+        if (title) title.textContent = it.title;
+        if (desc) desc.textContent = it.desc;
+        if (linkText) linkText.textContent = it.linkText;
+        if (link) link.setAttribute('href', it.href);
+      }
+
+      function step() {
+        var nextIndex = (i + 1) % items.length;
+        // image crossfade
+        slides[i].classList.remove('is-active');
+        var ns = slides[nextIndex];
+        var img = ns.querySelector('.rs-img');
+        if (img && img.loading === 'lazy') img.loading = 'eager';
+        ns.classList.add('is-active');
+        // text fade-swap, synced
+        if (textBox) {
+          textBox.style.opacity = '0';
+          setTimeout(function () { setText(nextIndex); textBox.style.opacity = '1'; }, 260);
+        } else {
+          setText(nextIndex);
+        }
+        i = nextIndex;
+      }
+
+      function play() { if (!timer) timer = setInterval(step, delay); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      root.addEventListener('mouseenter', stop);
+      root.addEventListener('mouseleave', play);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else play(); });
+      play();
+    }
+    function run() {
+      Array.prototype.slice.call(document.querySelectorAll('[data-rs]')).forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+    else run();
+  })();
+</script>

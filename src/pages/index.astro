@@ -4,17 +4,33 @@ import HeroCarousel from '../components/HeroCarousel.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Photo from '../components/Photo.astro';
-import ImageRotator from '../components/ImageRotator.astro';
+import RotatingSpotlight from '../components/RotatingSpotlight.astro';
 import Shape from '../components/Shape.astro';
 import { site } from '../config/site';
 import { products, categories } from '../data/products';
 
-// All product photos for the rotating About image
-const productShots = products.map((p) => ({
-  src: p.images?.[0]?.src ?? `/images/products/${p.slug}.svg`,
+// Product slides shared by the About spotlight (text + image rotate together)
+const productSpotlight = products.map((p) => ({
+  eyebrow: p.categoryLabel,
+  title: p.name,
+  desc: p.value,
+  href: `/${p.slug}/`,
+  linkText: 'View Product',
+  img: p.images?.[0]?.src ?? `/images/products/${p.slug}.svg`,
   alt: p.images?.[0]?.alt ?? p.heroAlt,
-  label: p.name,
 }));
+const aboutSpotlight = [
+  {
+    eyebrow: 'About Ambika Biotech',
+    title: 'Two decades of turning rice husk into industrial-grade silica',
+    desc: 'For over 20 years we have manufactured and exported high-silica Rice Husk Ash and rice husk products from Sambalpur, Odisha — trusted by steel plants, refractory makers, concrete producers and biomass-energy users across India and abroad.',
+    href: '/about/',
+    linkText: 'Know More',
+    img: '/images/sections/rice-mill-plant.webp',
+    alt: 'Rice husk at the Ambika Biotech mill in Sambalpur, Odisha — feedstock for high-silica Rice Husk Ash',
+  },
+  ...productSpotlight,
+];
 
 const heroStats = [
   { num: 20, suffix: '+', prefix: '', label: 'Years of manufacturing experience' },
@@ -103,31 +119,10 @@ const webPage = {
     </div>
   </section>
 
-  <!-- ===================== ABOUT ===================== -->
+  <!-- ===================== ABOUT (rotating spotlight) ===================== -->
   <section id="about" class="section">
-    <div class="container about-grid">
-      <div data-reveal>
-        <div class="about-img">
-          <ImageRotator images={productShots} interval={2500} />
-        </div>
-      </div>
-      <div data-reveal>
-        <div class="eyebrow">About Ambika Biotech</div>
-        <h2 class="h2">Two decades of turning rice husk into industrial-grade silica</h2>
-        <p class="lead">
-          For over 20 years we have manufactured and exported high-silica
-          <a href="/rice-husk-ash/">Rice Husk Ash</a> and
-          <a href="/rice-husk/">rice husk products</a> from {site.address.locality},
-          {site.address.region}. As a trusted Rice Husk Ash supplier in Odisha, our
-          NABL-tested material is used by steel plants, refractory makers and concrete
-          producers across India and abroad.
-        </p>
-        <p class="lead">
-          With reliable bulk capacity and full export documentation, we ship a consistent,
-          certified product to partners in Belgium, Germany and the Middle East.
-        </p>
-        <a href="/about/" class="link-underline">Know More <span class="mono">→</span></a>
-      </div>
+    <div class="container" data-reveal>
+      <RotatingSpotlight items={aboutSpotlight} titleTag="h2" mediaSide="left" interval={3500} />
     </div>
   </section>
 

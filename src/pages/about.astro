@@ -1,15 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Photo from '../components/Photo.astro';
-import ImageRotator from '../components/ImageRotator.astro';
+import RotatingSpotlight from '../components/RotatingSpotlight.astro';
 import { site, trustStrip } from '../config/site';
 import { products } from '../data/products';
 
-const productShots = products.map((p) => ({
-  src: p.images?.[0]?.src ?? `/images/products/${p.slug}.svg`,
-  alt: p.images?.[0]?.alt ?? p.heroAlt,
-  label: p.name,
-}));
+const aboutSpotlight = [
+  {
+    eyebrow: 'About Ambika Biotech',
+    title: 'Two decades of turning rice husk into industrial-grade silica',
+    desc: 'Ambika Ricemill & Ambika Biotech — operating under the brand RHA India — manufactures and exports high-silica Rice Husk Ash and rice husk products from Sambalpur, Odisha. Our NABL-tested material is trusted by steel plants, refractory makers, concrete producers and biomass energy users across India and abroad.',
+    href: '/products/',
+    linkText: 'Our Products',
+    img: '/images/sections/rice-mill-plant.webp',
+    alt: 'Rice husk at the Ambika Biotech rice mill in Sambalpur, Odisha — feedstock for high-silica Rice Husk Ash',
+  },
+  ...products.map((p) => ({
+    eyebrow: p.categoryLabel,
+    title: p.name,
+    desc: p.value,
+    href: `/${p.slug}/`,
+    linkText: 'View Product',
+    img: p.images?.[0]?.src ?? `/images/products/${p.slug}.svg`,
+    alt: p.images?.[0]?.alt ?? p.heroAlt,
+  })),
+];
 
 const values = [
   { num: '01', title: 'Consistency first', body: 'A uniform, certified spec delivered batch after batch — the foundation of every long-term supply relationship.' },
@@ -47,19 +61,13 @@ const breadcrumb = {
   </nav>
 
   <section class="a-hero">
-    <div class="container a-hero-grid">
-      <div data-reveal>
-        <div class="eyebrow">About Ambika Biotech</div>
-        <h1 class="a-h1">Two decades of turning rice husk into industrial-grade silica</h1>
-        <p class="a-lead">Ambika Ricemill &amp; Ambika Biotech — operating under the brand RHA India — manufactures and exports high-silica Rice Husk Ash and rice husk products from Sambalpur, Odisha. Our NABL-tested material is trusted by steel plants, refractory makers, concrete producers and biomass energy users across India and abroad.</p>
+    <div class="container" data-reveal>
+      <RotatingSpotlight items={aboutSpotlight} titleTag="h1" mediaSide="right" interval={3500} eager={true}>
         <div class="a-cta">
           <a href="/contact/#quote-form" class="btn btn-primary">Get a Quote <span class="mono">→</span></a>
           <a href="/products/" class="btn btn-outline">View Products</a>
         </div>
-      </div>
-      <div data-reveal>
-        <div class="a-img"><ImageRotator images={productShots} interval={2500} eager={true} /></div>
-      </div>
+      </RotatingSpotlight>
     </div>
   </section>
 
