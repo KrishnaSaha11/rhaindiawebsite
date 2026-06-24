@@ -239,9 +239,7 @@ export const products: Product[] = [
     packing: 'Available in 5 kg, 10 kg, 20 kg and jumbo bags.',
     related: ['rice-husk-ash-ground-powder', 'rice-husk-ash-granules', 'rice-husk-pellets'],
     images: [
-      { src: '/images/products/rice-husk-ash-pellets.webp', alt: 'Rice Husk Ash Pellets close-up — uniform pellets for steel ladle and tundish insulation, Ambika Biotech' },
-      { src: '/images/products/rice-husk-ash-pellets-2.webp', alt: 'Rice Husk Ash Pellets sample — uniform, free-flowing high-silica pellets' },
-      { src: '/images/products/rice-husk-ash-pellets-3.webp', alt: 'Rice Husk Ash Pellets packed in bag — bulk supply by Ambika Biotech' },
+      { src: '/images/products/rice-husk-ash-pellets.webp', alt: 'Rice Husk Ash Pellets — grey high-silica RHA pellets for steel ladle and tundish insulation, Ambika Biotech' },
     ],
   },
 

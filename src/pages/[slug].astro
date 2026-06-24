@@ -120,21 +120,23 @@ const faqSchema = {
             <div class="pib-label">{p.statLabel}</div>
           </div>
         </div>
-        <div class="p-thumbs">
-          {hasGallery ? (
-            gallery.map((im, idx) => (
-              <button class:list={['p-thumb', 'p-thumb-btn', { 'is-active': idx === 0 }]} data-src={im.src} data-alt={im.alt} aria-label={`View ${p.shortName} photo ${idx + 1}`} type="button">
-                <img class="media" src={im.src} alt="" width="320" height="320" loading="lazy" decoding="async" />
-              </button>
-            ))
-          ) : (
-            <>
-              <div class="p-thumb"><Photo src="/images/sections/rha-detail.svg" alt={`${p.shortName} material close-up`} width={900} height={900} /></div>
-              <div class="p-thumb"><Photo src="/images/sections/packing-jumbo-bags.svg" alt={`${p.shortName} packing and jumbo bags`} width={1200} height={900} /></div>
-              <div class="p-thumb"><Photo src="/images/sections/loading-export.svg" alt={`${p.shortName} loading for export`} width={1200} height={900} /></div>
-            </>
-          )}
-        </div>
+        {(gallery.length > 1 || !hasGallery) && (
+          <div class="p-thumbs">
+            {hasGallery ? (
+              gallery.map((im, idx) => (
+                <button class:list={['p-thumb', 'p-thumb-btn', { 'is-active': idx === 0 }]} data-src={im.src} data-alt={im.alt} aria-label={`View ${p.shortName} photo ${idx + 1}`} type="button">
+                  <img class="media" src={im.src} alt="" width="320" height="320" loading="lazy" decoding="async" />
+                </button>
+              ))
+            ) : (
+              <>
+                <div class="p-thumb"><Photo src="/images/sections/rha-detail.svg" alt={`${p.shortName} material close-up`} width={900} height={900} /></div>
+                <div class="p-thumb"><Photo src="/images/sections/packing-jumbo-bags.svg" alt={`${p.shortName} packing and jumbo bags`} width={1200} height={900} /></div>
+                <div class="p-thumb"><Photo src="/images/sections/loading-export.svg" alt={`${p.shortName} loading for export`} width={1200} height={900} /></div>
+              </>
+            )}
+          </div>
+        )}
       </div>
       <div data-reveal>
         <div class="eyebrow">Product · {p.code}</div>
