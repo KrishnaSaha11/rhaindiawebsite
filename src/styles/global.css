@@ -39,7 +39,7 @@
   --maxw: 1240px;
   --pad: 32px;
   --radius: 18px;
-  --section-y: 128px;
+  --section-y: 92px;
 }
 
 * {
@@ -255,10 +255,10 @@ h1, h2, h3, h4 {
 
 /* ---- Responsive base ---- */
 @media (max-width: 1024px) {
-  :root { --section-y: 96px; }
+  :root { --section-y: 74px; }
 }
 @media (max-width: 640px) {
-  :root { --pad: 20px; --section-y: 72px; }
+  :root { --pad: 20px; --section-y: 54px; }
   body { font-size: 15.5px; }
 }
 

@@ -70,12 +70,11 @@ const payload = items.map((it) => ({
   .rs-title {
     font-family: var(--font-head);
     font-weight: 800;
-    font-size: clamp(30px, 3.4vw, 46px);
+    font-size: clamp(28px, 3.2vw, 44px);
     line-height: 1.08;
     letter-spacing: -0.02em;
     color: var(--ink);
     margin: 0 0 18px;
-    min-height: 2.1em;
   }
   .rs-desc {
     font-size: 17px;
@@ -83,7 +82,6 @@ const payload = items.map((it) => ({
     color: var(--text-soft);
     margin: 0 0 24px;
     max-width: 560px;
-    min-height: 5.2em;
   }
   .rs-link { display: inline-flex; }
   .rs-cta { margin-top: 24px; }
@@ -150,6 +148,25 @@ const payload = items.map((it) => ({
         if (link) link.setAttribute('href', it.href);
       }
 
+      // Reserve the height of the TALLEST slide's text so the layout never
+      // jumps up/down when the text changes. Re-measured on resize.
+      function reserveHeight() {
+        if (!textBox) return;
+        var prevTransition = textBox.style.transition;
+        textBox.style.transition = 'none';
+        textBox.style.minHeight = '0px';
+        var max = 0;
+        for (var n = 0; n < items.length; n++) {
+          setText(n);
+          if (textBox.offsetHeight > max) max = textBox.offsetHeight;
+        }
+        setText(i);
+        textBox.style.minHeight = max + 'px';
+        textBox.style.transition = prevTransition;
+      }
+      var rt;
+      function onResize() { clearTimeout(rt); rt = setTimeout(reserveHeight, 150); }
+
       function step() {
         var nextIndex = (i + 1) % items.length;
         // image crossfade
@@ -173,6 +190,10 @@ const payload = items.map((it) => ({
       root.addEventListener('mouseenter', stop);
       root.addEventListener('mouseleave', play);
       document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else play(); });
+      window.addEventListener('resize', onResize);
+      reserveHeight();
+      // Re-measure once webfonts load (font swap changes text height)
+      if (document.fonts && document.fonts.ready) { document.fonts.ready.then(reserveHeight); }
       play();
     }
     function run() {
