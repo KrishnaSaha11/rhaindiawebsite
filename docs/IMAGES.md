@@ -31,7 +31,7 @@ environment blocks downloads from stock-photo sites.
 ## Section photos — `public/images/sections/`
 | File | Used on | Suggested real photo · search terms |
 | --- | --- | --- |
-| `rice-mill-plant.svg` | Homepage About, About page | Rice mill / processing plant exterior · "rice mill factory", "industrial plant" |
+| `rice-mill-plant.webp` | Homepage About, About page | **Real photo in place** (rice husk at the mill). Swap at same path to replace. |
 | `rice-fields-packing.svg` | Homepage CSR, CSR page | Green paddy fields / sacks · "rice paddy field", "grain sacks warehouse" |
 | `packing-jumbo-bags.svg` | Product page thumbnail | Jumbo / FIBC bulk bags · "jumbo bags FIBC", "bulk bags warehouse" |
 | `loading-export.svg` | Product page thumbnail | Container loading / export · "container loading export", "cargo containers port" |

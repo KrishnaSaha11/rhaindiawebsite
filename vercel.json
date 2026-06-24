@@ -1,0 +1,45 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "dist",
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/rice-husk-ash-powder", "destination": "/rice-husk-ash-ground-powder/", "permanent": true },
+    { "source": "/rice-husk-ash-powder/", "destination": "/rice-husk-ash-ground-powder/", "permanent": true },
+    { "source": "/about-us", "destination": "/about/", "permanent": true },
+    { "source": "/about-us/", "destination": "/about/", "permanent": true },
+    { "source": "/contact-us", "destination": "/contact/", "permanent": true },
+    { "source": "/contact-us/", "destination": "/contact/", "permanent": true },
+    { "source": "/csr-sustainability", "destination": "/csr/", "permanent": true },
+    { "source": "/csr-sustainability/", "destination": "/csr/", "permanent": true },
+    { "source": "/rice-husk-product", "destination": "/rice-husk-raw/", "permanent": true },
+    { "source": "/rice-husk-product/", "destination": "/rice-husk-raw/", "permanent": true },
+    { "source": "/our-products", "destination": "/products/", "permanent": true },
+    { "source": "/our-products/", "destination": "/products/", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/_astro/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=2592000" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=()" }
+      ]
+    }
+  ]
+}
