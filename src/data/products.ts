@@ -177,6 +177,11 @@ export const products: Product[] = [
     ],
     packing: 'Available in 25 kg, 50 kg bags and jumbo bags.',
     related: ['rice-husk-ash-ground-powder', 'rice-husk-ash-pellets', 'rice-husk-pellets'],
+    images: [
+      { src: '/images/products/rice-husk-ash-granules.webp', alt: 'Rice Husk Ash granules sample — dark high-silica RHA covering compound by Ambika Biotech' },
+      { src: '/images/products/rice-husk-ash-granules-2.webp', alt: 'Rice Husk Ash granules close-up — spherical high-silica RHA granules' },
+      { src: '/images/products/rice-husk-ash-granules-3.webp', alt: 'Rice Husk Ash granules — free-flowing high-silica granular sample' },
+    ],
   },
   {
     slug: 'rice-husk-ash-pellets',
