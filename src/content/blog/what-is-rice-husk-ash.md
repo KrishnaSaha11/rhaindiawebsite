@@ -6,7 +6,8 @@ date: 2026-06-12
 readTime: "6 min read"
 featured: true
 photoLabel: "PHOTO: RHA powder / production line"
-image: "/images/blog/featured-rha.svg"
+image: "/images/products/rice-husk-ash-ground-powder.webp"
+imageAlt: "High-silica Rice Husk Ash ground powder — what RHA is and how it is produced"
 tags: ["Rice Husk Ash", "High Silica", "Procurement"]
 seoTitle: "What is Rice Husk Ash (RHA)? Buyer's Guide to High-Silica RHA | Ambika Biotech"
 ---

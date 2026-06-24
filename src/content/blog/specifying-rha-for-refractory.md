@@ -5,7 +5,8 @@ category: "Guides"
 date: 2026-05-03
 readTime: "6 min read"
 photoLabel: "PHOTO: refractory lining"
-image: "/images/blog/guides.svg"
+image: "/images/products/rice-husk-ash-pellets.webp"
+imageAlt: "High-silica Rice Husk Ash pellets used in refractory formulations"
 tags: ["Refractory", "Procurement", "Rice Husk Ash"]
 seoTitle: "Specifying Rice Husk Ash for Refractory: Procurement Checklist | Ambika Biotech"
 ---

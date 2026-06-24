@@ -5,7 +5,8 @@ category: "Industry"
 date: 2026-05-19
 readTime: "6 min read"
 photoLabel: "PHOTO: steel ladle"
-image: "/images/blog/industry.svg"
+image: "/images/products/rice-husk-ash-granules.webp"
+imageAlt: "Rice Husk Ash granules used as a tundish and ladle covering compound in steel"
 tags: ["Steel", "RHA Granules", "Insulation"]
 seoTitle: "RHA Granules for Steel: Tundish & Ladle Covering Explained | Ambika Biotech"
 ---

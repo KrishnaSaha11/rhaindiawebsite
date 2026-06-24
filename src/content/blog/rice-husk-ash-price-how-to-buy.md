@@ -5,8 +5,8 @@ category: "Guides"
 date: 2026-06-18
 readTime: "6 min read"
 photoLabel: "PHOTO: RHA bags ready to ship"
-image: "/images/blog/guides.svg"
-imageAlt: "Rice husk ash packed in bags ready for bulk purchase and export — Ambika Biotech"
+image: "/images/hero/hero-4.webp"
+imageAlt: "Rice Husk Ash ready for bulk purchase and export from India"
 tags: ["Rice Husk Ash", "Price", "Procurement"]
 seoTitle: "Rice Husk Ash Price & How to Buy RHA in Bulk | Ambika Biotech"
 ---

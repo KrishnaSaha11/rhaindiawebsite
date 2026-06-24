@@ -5,7 +5,8 @@ category: "Industry"
 date: 2026-06-08
 readTime: "7 min read"
 photoLabel: "PHOTO: concrete pour"
-image: "/images/blog/industry.svg"
+image: "/images/products/rice-husk-ash-ground-powder.webp"
+imageAlt: "Micronized Rice Husk Ash powder used as a pozzolanic SCM in concrete"
 tags: ["Rice Husk Ash", "Concrete", "SCM"]
 seoTitle: "Rice Husk Ash in Concrete: Dosage, Strength & Durability Guide | Ambika Biotech"
 ---
