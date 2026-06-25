@@ -102,7 +102,8 @@ const breadcrumb = {
   .csr-stats { display: flex; gap: 36px; flex-wrap: wrap; }
   .csr-big { font-family: var(--font-head); font-weight: 800; font-size: 28px; color: var(--green-600); line-height: 1; }
   .csr-sm { font-size: 13.5px; color: var(--text-faint); margin-top: 6px; }
-  .csr-img { width: 100%; aspect-ratio: 1/1; border-radius: 20px; overflow: hidden; background: var(--cream-2); }
+  .csr-img { position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 20px; overflow: hidden; background: var(--cream-2); }
+  .csr-img .media { position: absolute; inset: 0; }
 
   .csr-intro { max-width: 820px; margin-bottom: 44px; }
   .csr-h2 { font-family: var(--font-head); font-weight: 800; font-size: 34px; line-height: 1.12; color: var(--ink); margin-bottom: 16px; }

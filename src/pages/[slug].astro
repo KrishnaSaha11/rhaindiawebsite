@@ -353,11 +353,13 @@ const faqSchema = {
   .p-hero { padding: 56px 0 88px; background: radial-gradient(110% 80% at 12% 0%, #eef3ea 0%, var(--cream) 50%); }
   .p-hero-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 60px; align-items: center; }
   .p-img { position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 22px; overflow: hidden; box-shadow: 0 30px 60px -24px rgba(14, 42, 29, 0.55); }
+  .p-img .media { position: absolute; inset: 0; }
   .p-img-badge { position: absolute; top: 20px; left: 20px; background: var(--cream); border-radius: 14px; padding: 14px 16px; box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
   .pib-big { font-family: var(--font-head); font-weight: 800; font-size: 26px; color: var(--green-800); line-height: 1; }
   .pib-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.12em; color: var(--gold-700); margin-top: 5px; }
   .p-thumbs { display: flex; gap: 12px; margin-top: 14px; }
-  .p-thumb { flex: 1; aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; background: var(--cream-2); }
+  .p-thumb { position: relative; flex: 1; aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; background: var(--cream-2); }
+  .p-thumb .media { position: absolute; inset: 0; }
   .p-thumb-btn { padding: 0; border: 1px solid var(--line-3); cursor: pointer; transition: outline-color 0.15s ease, transform 0.15s ease; outline: 2px solid transparent; outline-offset: 2px; }
   .p-thumb-btn:hover { transform: translateY(-2px); }
   .p-thumb-btn.is-active { outline-color: var(--gold-600); border-color: var(--gold-600); }

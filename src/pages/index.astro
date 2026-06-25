@@ -514,7 +514,8 @@ const webPage = {
   .csr-stats { display: flex; gap: 36px; flex-wrap: wrap; margin: 28px 0; }
   .csr-big { font-family: var(--font-head); font-weight: 800; font-size: 30px; color: var(--green-600); line-height: 1; }
   .csr-sm { font-size: 13.5px; color: var(--text-faint); margin-top: 6px; }
-  .csr-img { width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden; background: var(--cream-2); }
+  .csr-img { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden; background: var(--cream-2); }
+  .csr-img .media { position: absolute; inset: 0; }
 
   /* Contact */
   .contact-sec { background: var(--green-800); padding-top: var(--section-y); padding-bottom: var(--section-y); }
