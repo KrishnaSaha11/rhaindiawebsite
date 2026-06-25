@@ -2,7 +2,7 @@
 
 The RFQ / quote form (`src/components/QuoteForm.astro`) is already wired to
 **Web3Forms**. You just need a free access key. Once set, every submission is
-emailed to **manigupta6777@gmail.com** and (optionally) appended to a **Google
+emailed to **sales@rhaindia.com** and (optionally) appended to a **Google
 Sheet**. The form already includes honeypot spam protection, an AJAX
 thank-you, and GA4 `quote_submit` conversion events.
 
@@ -14,7 +14,7 @@ thank-you, and GA4 `quote_submit` conversion events.
 ## Part A — Get the Web3Forms key (email delivery) · ~2 min
 
 1. Go to https://web3forms.com.
-2. Enter **manigupta6777@gmail.com** in the "Create Access Key" box and submit.
+2. Enter **sales@rhaindia.com** in the "Create Access Key" box and submit.
 3. Check that inbox for the **Access Key** (a UUID like
    `abcd1234-5e6f-7890-abcd-1234567890ef`) and verify the email.
 4. Add the key to the site — pick **one** option:

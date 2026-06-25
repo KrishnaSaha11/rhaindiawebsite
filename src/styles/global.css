@@ -117,8 +117,8 @@ h1, h2, h3, h4 {
 
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.18em;
+  font-size: 12.5px;
+  letter-spacing: 0.16em;
   color: var(--gold-700);
   text-transform: uppercase;
   margin-bottom: 14px;
@@ -265,7 +265,7 @@ h1, h2, h3, h4 {
 /* ---- Desktop density: tighten only large screens (mobile/tablet unchanged) ---- */
 @media (min-width: 1024px) {
   :root {
-    --section-y: 58px; /* was 92 — ~37% less vertical spacing between sections */
+    --section-y: 50px; /* was 92 — much tighter vertical rhythm on desktop */
     --maxw: 1200px; /* cap content width so it doesn't stretch on big monitors */
   }
 }

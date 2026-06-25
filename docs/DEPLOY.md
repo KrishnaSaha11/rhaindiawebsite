@@ -12,7 +12,7 @@ your email (MX) records**.
 In `src/config/site.ts` (or as Netlify environment variables):
 
 - `PUBLIC_WEB3FORMS_KEY` — free key from https://web3forms.com (routes leads to
-  manigupta6777@gmail.com + a Google Sheet)
+  sales@rhaindia.com + a Google Sheet)
 - `PUBLIC_GA4_ID` — GA4 Measurement ID (`G-XXXXXXX`)
 - `PUBLIC_GSC_VERIFICATION` — Search Console meta token
 
@@ -108,4 +108,4 @@ quick.
 - [ ] Run PageSpeed Insights (mobile + desktop) and confirm green Core Web Vitals.
 - [ ] Spot-check the 301 redirects (e.g. `/rice-husk-ash-powder/`,
       `/about-us/`) return 301 to the new pages.
-- [ ] Confirm a real lead arrives at manigupta6777@gmail.com and in the Sheet.
+- [ ] Confirm a real lead arrives at sales@rhaindia.com and in the Sheet.

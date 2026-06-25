@@ -402,7 +402,7 @@ const webPage = {
   }
   .trust-item:last-child { border-right: none; }
   .trust-big { font-family: var(--font-head); font-weight: 800; font-size: 24px; color: var(--gold); line-height: 1; }
-  .trust-label { font-size: 14.5px; color: #cbd6c7; line-height: 1.35; }
+  .trust-label { font-size: 15px; color: #cbd6c7; line-height: 1.35; }
 
   /* Certification band */
   .cert-band { background: #fff; border-bottom: 1px solid #efe9d9; }
@@ -416,8 +416,8 @@ const webPage = {
     border: 2px solid var(--green-600); border-radius: 12px; padding: 10px 14px;
   }
   .nabl-mark { font-family: var(--font-head); font-weight: 800; font-size: 18px; color: var(--green-600); }
-  .nabl-text { font-size: 10.5px; line-height: 1.2; color: var(--text-faint); font-family: var(--font-mono); letter-spacing: 0.04em; }
-  .cert-copy { font-size: 14.5px; color: var(--text-muted); line-height: 1.55; margin: 0; }
+  .nabl-text { font-size: 11.5px; line-height: 1.2; color: var(--text-faint); font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .cert-copy { font-size: 15px; color: var(--text-muted); line-height: 1.55; margin: 0; }
 
   /* About */
   .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: center; }
@@ -449,7 +449,7 @@ const webPage = {
     font-family: var(--font-head); font-weight: 800; font-size: 17px; color: var(--green-600); margin-bottom: 18px;
   }
   .why-title { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--ink); margin-bottom: 9px; }
-  .why-body { font-size: 14.5px; line-height: 1.55; color: var(--text-muted); }
+  .why-body { font-size: 15px; line-height: 1.55; color: var(--text-muted); }
 
   /* Quote band */
   .band-wrap { padding-bottom: var(--section-y); }
@@ -507,13 +507,13 @@ const webPage = {
   }
   .ind-card:hover .ind-icon { transform: scale(1.08) rotate(-3deg); }
   .ind-name { font-family: var(--font-head); font-weight: 700; font-size: 17.5px; color: var(--ink); margin-bottom: 5px; }
-  .ind-note { font-size: 13px; line-height: 1.45; color: var(--text-faint); }
+  .ind-note { font-size: 14px; line-height: 1.45; color: var(--text-faint); }
 
   /* CSR */
   .csr-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
   .csr-stats { display: flex; gap: 36px; flex-wrap: wrap; margin: 28px 0; }
   .csr-big { font-family: var(--font-head); font-weight: 800; font-size: 30px; color: var(--green-600); line-height: 1; }
-  .csr-sm { font-size: 13.5px; color: var(--text-faint); margin-top: 6px; }
+  .csr-sm { font-size: 14px; color: var(--text-faint); margin-top: 6px; }
   .csr-img { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden; background: var(--cream-2); }
   .csr-img .media { position: absolute; inset: 0; }
 
@@ -532,8 +532,8 @@ const webPage = {
   .ca-ic-gold { background: rgba(230, 199, 122, 0.18); color: var(--gold); }
   .contact-meta { border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 24px; display: flex; flex-direction: column; gap: 14px; }
   .cm-row { display: flex; gap: 12px; align-items: flex-start; }
-  .cm-key { font-family: var(--font-mono); font-size: 11px; color: var(--gold); letter-spacing: 0.1em; margin-top: 3px; min-width: 64px; }
-  .cm-val { font-size: 14.5px; color: #cbd6c7; line-height: 1.5; }
+  .cm-key { font-family: var(--font-mono); font-size: 12px; color: var(--gold); letter-spacing: 0.1em; margin-top: 3px; min-width: 64px; }
+  .cm-val { font-size: 15px; color: #cbd6c7; line-height: 1.5; }
   .cm-link { text-decoration: none; }
   .cm-link:hover { color: var(--gold); }
   .map-wrap { position: relative; width: 100%; height: 200px; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.12); margin-top: 6px; }
@@ -565,40 +565,47 @@ const webPage = {
 
   /* ---- Desktop density (≥1024px only; mobile/tablet untouched) ---- */
   @media (min-width: 1024px) {
-    .h2 { font-size: 33px; margin-bottom: 16px; }
+    .h2 { font-size: 30px; margin-bottom: 14px; }
     .lead { font-size: 16.5px; margin-bottom: 14px; }
 
+    /* Trust strip */
+    .trust-item { padding: 24px 24px; }
+    .trust-big { font-size: 22px; }
+
     /* Products */
-    #products { padding-top: 56px; padding-bottom: 56px; }
-    .prod-head { margin-bottom: 20px; }
+    #products { padding-top: 50px; padding-bottom: 50px; }
+    .prod-head { margin-bottom: 18px; }
     .cat-label { margin-bottom: 12px; }
-    .cat-label-2 { margin-top: 22px; }
+    .cat-label-2 { margin-top: 20px; }
     .prod-grid { gap: 18px; }
 
     /* Why choose us */
-    .why-head { margin: 0 auto 34px; }
-    .why-grid { gap: 18px; }
-    .why-card { padding: 24px 22px; }
+    .why-head { margin: 0 auto 30px; }
+    .why-grid { gap: 16px; }
+    .why-card { padding: 22px 20px; }
+    .why-num { width: 42px; height: 42px; margin-bottom: 14px; }
+    .why-title { font-size: 17.5px; }
 
     /* Quote band */
-    .quote-band { padding: 40px 44px; }
-    .qb-h2 { font-size: 28px; }
+    .quote-band { padding: 38px 42px; }
+    .qb-h2 { font-size: 27px; }
 
     /* Industries */
-    .ind-head { margin-bottom: 28px; }
+    .ind-head { margin-bottom: 24px; }
     .ind-grid { gap: 16px; }
-    .ind-card { padding: 24px 20px; }
+    .ind-card { padding: 22px 18px; gap: 14px; }
+    .ind-icon { width: 50px; height: 50px; }
 
     /* CSR */
     .csr-grid { gap: 44px; }
-    .csr-stats { margin: 22px 0; }
+    .csr-stats { margin: 20px 0; }
 
     /* Contact */
-    .contact-h2 { font-size: 33px; }
+    .contact-h2 { font-size: 30px; }
     .contact-grid { gap: 44px; }
-    .contact-p { margin-bottom: 26px; }
+    .contact-p { margin-bottom: 24px; }
 
     /* Certification band */
-    .cert-inner { padding-top: 22px; padding-bottom: 22px; }
+    .cert-inner { padding-top: 20px; padding-bottom: 20px; }
   }
 </style>

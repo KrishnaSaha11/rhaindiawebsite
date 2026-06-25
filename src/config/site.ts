@@ -19,7 +19,7 @@ export const site = {
   whatsapp: '917381757575', // for wa.me links
   whatsappMessage:
     "Hello Ambika Biotech, I'd like a quote for Rice Husk Ash / rice husk products.",
-  email: 'manigupta6777@gmail.com',
+  email: 'sales@rhaindia.com',
   gstin: '21AALFA2111K1Z0',
 
   address: {
@@ -45,10 +45,10 @@ export const site = {
   openingHours: 'Mo-Sa 09:00-18:00',
 
   social: {
-    facebook: '',
-    instagram: '',
-    linkedin: '',
-    youtube: '',
+    facebook: 'https://www.facebook.com/ambikaricemillandambikabiotech',
+    instagram: 'https://www.instagram.com/ambika_ricemill_and_biotech/',
+    linkedin: 'https://www.linkedin.com/company/ambika-ricemill-and-ambika-biotech/',
+    youtube: 'https://www.youtube.com/channel/UCX3x7LDYyG3knYH3EJMD3Ig',
   },
 
   // ---- Lead capture ----
