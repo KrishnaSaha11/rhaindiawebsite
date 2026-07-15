@@ -130,7 +130,7 @@ const webPage = {
   </section>
 
   <!-- ===================== WHY CHOOSE US ===================== -->
-  <section class="section snap-sec">
+  <section class="section snap-sec why-section">
     <div class="container">
       <div class="why-head" data-reveal>
         <div class="eyebrow">Why Choose Us</div>
@@ -562,19 +562,30 @@ const webPage = {
   .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
   /* Why */
-  .why-head { text-align: left; max-width: 720px; margin: 0 0 28px; }
-  .why-head .h2 { font-size: 28px; margin-bottom: 0; }
-  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .why-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 30px 26px; display: flex; flex-direction: column; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
-  .why-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px -18px rgba(20, 42, 31, 0.28); border-color: var(--gold-600); }
-  .why-num {
-    width: 46px; height: 46px; border-radius: 12px; background: var(--tile);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-head); font-weight: 800; font-size: 17px; color: var(--green-600); margin-bottom: 18px;
+  .why-section { padding-top: 44px; padding-bottom: 44px; }
+  .why-head { text-align: left; max-width: 720px; margin: 0 0 22px; }
+  .why-head .h2 { font-size: 27px; margin-bottom: 0; }
+  /* grid-auto-rows: 1fr keeps both rows the same height -> all 6 cards equal. */
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 16px; }
+  .why-card {
+    background: #fff; border: 1px solid var(--line); border-radius: 18px;
+    padding: 22px 22px; display: flex; flex-direction: column;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
   }
-  .why-title { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--ink); margin-bottom: 9px; }
-  /* Reserve space for the longest body so every card (row 1 & row 2) aligns. */
-  .why-body { font-size: 15px; line-height: 1.55; color: var(--text-muted); min-height: 70px; }
+  /* Matches the product-card hover: lift + soft shadow + gold border. */
+  .why-card:hover { transform: translateY(-3px); box-shadow: 0 18px 34px -20px rgba(14, 42, 29, 0.32); border-color: var(--gold-600); }
+  .why-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--green-800); color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-head); font-weight: 700; font-size: 15px; letter-spacing: 0.02em;
+    margin-bottom: 14px;
+    box-shadow: 0 5px 12px -5px rgba(14, 42, 29, 0.45);
+    transition: background .25s ease, color .25s ease;
+  }
+  .why-card:hover .why-num { background: var(--gold); color: var(--green-800); }
+  .why-title { font-family: var(--font-head); font-weight: 700; font-size: 17.5px; color: var(--ink); margin-bottom: 6px; }
+  .why-body { font-size: 14.5px; line-height: 1.5; color: var(--text-muted); margin: 0; }
 
   /* Quote band */
   .band-wrap { padding-bottom: var(--section-y); }
@@ -691,6 +702,8 @@ const webPage = {
     .h2, .contact-h2, .qb-h2 { font-size: 27px; }
     .hero-sub { font-size: 17px; }
     .prod-grid, .why-grid, .ind-grid { grid-template-columns: 1fr; }
+    /* Single column: let each card be its own height (no forced equal rows). */
+    .why-grid { grid-auto-rows: auto; }
     .quote-band { padding: 34px 24px; }
     .hero-cta .btn, .qb-cta { width: 100%; justify-content: center; }
   }
@@ -713,12 +726,13 @@ const webPage = {
     .prod-grid { gap: 14px; }
 
     /* Why choose us */
-    .why-head { margin: 0 0 20px; }
+    .why-section { padding-top: 34px; padding-bottom: 34px; }
+    .why-head { margin: 0 0 16px; }
     .why-head .h2 { font-size: 25px; }
-    .why-grid { gap: 16px; }
-    .why-card { padding: 22px 20px; }
-    .why-num { width: 42px; height: 42px; margin-bottom: 14px; }
-    .why-title { font-size: 17.5px; }
+    .why-grid { gap: 14px; }
+    .why-card { padding: 20px 20px; }
+    .why-num { width: 38px; height: 38px; margin-bottom: 12px; }
+    .why-title { font-size: 17px; }
 
     /* Quote band — balanced vertical padding */
     .quote-band { padding: 50px 42px; }
