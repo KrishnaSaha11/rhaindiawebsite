@@ -104,7 +104,7 @@ const webPage = {
       <div class="prod-head" data-reveal>
         <div>
           <div class="eyebrow">Our Product Range</div>
-          <h2 class="h2">Six grades. One reliable supplier.</h2>
+          <h2 class="h2">Six products. One reliable supplier.</h2>
         </div>
         <a href="/products/" class="link-underline">All products <span class="mono">→</span></a>
       </div>
@@ -337,32 +337,50 @@ const webPage = {
       var sections = Array.prototype.slice.call(document.querySelectorAll('#main > section'));
       if (sections.length < 2) { nav.style.display = 'none'; return; }
 
-      // Index of the section currently at/above the navbar line.
-      function currentIndex() {
-        var idx = 0;
+      // Sections rest with their top at ~NAV px (the global scroll-padding-top),
+      // just below the sticky ~74px navbar. We decide next/prev live from each
+      // section's current rect.top — never from a stale index — so clicks never
+      // "stop working". A ±BAND tolerance ignores the section currently resting
+      // at the top so down/up always move to a genuinely different section.
+      var NAV = 90;
+      var BAND = 12;
+
+      function maxScroll() {
+        return document.documentElement.scrollHeight - window.innerHeight;
+      }
+      // First section whose top is meaningfully BELOW the navbar line.
+      function nextSection() {
         for (var i = 0; i < sections.length; i++) {
-          if (sections[i].getBoundingClientRect().top <= 90) idx = i;
+          if (sections[i].getBoundingClientRect().top > NAV + BAND) return sections[i];
+        }
+        return null;
+      }
+      // Last section whose top is meaningfully ABOVE the navbar line (tops
+      // increase in DOM order, so stop once we pass the current one).
+      function prevSection() {
+        var found = null;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].getBoundingClientRect().top < NAV - BAND) found = sections[i];
           else break;
         }
-        return idx;
+        return found;
       }
-      function goTo(idx) {
-        idx = Math.max(0, Math.min(sections.length - 1, idx));
-        sections[idx].scrollIntoView({ behavior: behavior, block: 'start' });
-      }
+      function goToEl(el) { el.scrollIntoView({ behavior: behavior, block: 'start' }); }
+
       if (downBtn) downBtn.addEventListener('click', function () {
-        var idx = currentIndex();
-        if (idx >= sections.length - 1) {
-          window.scrollTo({ top: document.body.scrollHeight, behavior: behavior });
-        } else {
-          goTo(idx + 1);
-        }
+        var el = nextSection();
+        if (el) goToEl(el);
+        else window.scrollTo({ top: maxScroll(), behavior: behavior }); // reach footer
       });
-      if (upBtn) upBtn.addEventListener('click', function () { goTo(currentIndex() - 1); });
+      if (upBtn) upBtn.addEventListener('click', function () {
+        var el = prevSection();
+        if (el) goToEl(el);
+        else window.scrollTo({ top: 0, behavior: behavior });
+      });
 
       function updateButtons() {
         var atTop = window.scrollY <= 8;
-        var atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 8;
+        var atBottom = window.scrollY >= maxScroll() - 8;
         if (upBtn) upBtn.hidden = atTop;
         if (downBtn) downBtn.hidden = atBottom;
       }
@@ -528,10 +546,11 @@ const webPage = {
   .about-img { width: 100%; aspect-ratio: 5 / 4; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
 
   /* Products */
-  #products { padding-top: 56px; padding-bottom: 56px; }
-  .prod-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
-  .cat-label { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
-  .cat-label-2 { margin-top: 18px; }
+  #products { padding-top: 44px; padding-bottom: 44px; }
+  .prod-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 14px; flex-wrap: wrap; }
+  .prod-head .h2 { margin-bottom: 0; }
+  .cat-label { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .cat-label-2 { margin-top: 12px; }
   .cat-tag {
     font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em;
     color: #fff; background: var(--green-600); padding: 4px 10px; border-radius: 999px; text-transform: uppercase;
@@ -686,10 +705,11 @@ const webPage = {
     .trust-big { font-size: 44px; }
 
     /* Products */
-    #products { padding-top: 40px; padding-bottom: 40px; }
-    .prod-head { margin-bottom: 14px; }
-    .cat-label { margin-bottom: 8px; }
-    .cat-label-2 { margin-top: 14px; }
+    #products { padding-top: 28px; padding-bottom: 28px; }
+    .prod-head { margin-bottom: 10px; }
+    .prod-head .h2 { font-size: 26px; }
+    .cat-label { margin-bottom: 6px; }
+    .cat-label-2 { margin-top: 10px; }
     .prod-grid { gap: 14px; }
 
     /* Why choose us */
