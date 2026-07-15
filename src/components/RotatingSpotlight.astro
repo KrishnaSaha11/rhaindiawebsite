@@ -65,7 +65,7 @@ const payload = items.map((it) => ({
 </div>
 
 <style>
-  .rs { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px; align-items: center; }
+  .rs { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 44px; align-items: center; }
   .rs.media-left { grid-template-columns: 0.95fr 1.05fr; }
   .rs.media-left .rs-text { order: 2; }
   .rs.media-left .rs-media { order: 1; }
@@ -92,17 +92,17 @@ const payload = items.map((it) => ({
   .rs-title {
     font-family: var(--font-head);
     font-weight: 800;
-    font-size: clamp(28px, 3.2vw, 44px);
-    line-height: 1.08;
+    font-size: clamp(26px, 2.4vw, 34px);
+    line-height: 1.1;
     letter-spacing: -0.02em;
     color: var(--ink);
-    margin: 0 0 18px;
+    margin: 0 0 14px;
   }
   .rs-desc {
-    font-size: 17px;
-    line-height: 1.65;
+    font-size: 16px;
+    line-height: 1.6;
     color: var(--text-soft);
-    margin: 0 0 24px;
+    margin: 0 0 18px;
     max-width: 560px;
   }
   .rs-link { display: inline-flex; }
@@ -112,7 +112,9 @@ const payload = items.map((it) => ({
   .rs-media {
     position: relative;
     width: 100%;
-    aspect-ratio: 5 / 4;
+    aspect-ratio: 16 / 11;
+    max-height: 320px;
+    margin-left: auto;
     border-radius: 18px;
     overflow: hidden;
     background: var(--cream-2);
@@ -129,8 +131,8 @@ const payload = items.map((it) => ({
     .rs-title { min-height: 0; }
   }
   @media (min-width: 1024px) {
-    .rs, .rs.media-left { gap: 48px; }
-    .rs-title { font-size: clamp(28px, 2.9vw, 40px); }
+    .rs, .rs.media-left { gap: 40px; }
+    .rs-title { font-size: clamp(26px, 2.2vw, 32px); }
   }
 </style>
 
