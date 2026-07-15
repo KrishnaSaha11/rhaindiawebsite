@@ -4,34 +4,9 @@ import HeroCarousel from '../components/HeroCarousel.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Photo from '../components/Photo.astro';
-import RotatingSpotlight from '../components/RotatingSpotlight.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../config/site';
 import { products, categories } from '../data/products';
-
-// Product slides shared by the About spotlight (text + image rotate together)
-const productSpotlight = products.map((p) => ({
-  eyebrow: p.categoryLabel,
-  title: p.name,
-  desc: p.value,
-  href: `/${p.slug}/`,
-  linkText: 'View Product',
-  badge: 'Featured Product',
-  img: p.images?.[0]?.src ?? `/images/products/${p.slug}.svg`,
-  alt: p.images?.[0]?.alt ?? p.heroAlt,
-}));
-const aboutSpotlight = [
-  {
-    eyebrow: 'About Ambika Biotech',
-    title: 'Two decades of turning rice husk into industrial-grade silica',
-    desc: 'For over 20 years we have manufactured and exported high-silica Rice Husk Ash and rice husk products from Sambalpur, Odisha — trusted by steel plants, refractory makers, concrete producers and biomass-energy users across India and abroad.',
-    href: '/about/',
-    linkText: 'Know More',
-    img: '/images/sections/rice-mill-plant.webp',
-    alt: 'Rice husk at the Ambika Biotech mill in Sambalpur, Odisha — feedstock for high-silica Rice Husk Ash',
-  },
-  ...productSpotlight,
-];
 
 // Only pure-integer stats animate (num + suffix). Range values (85–92%) and
 // text values (NABL) render statically — they cannot count up.
@@ -82,7 +57,7 @@ const webPage = {
   <HeroCarousel />
 
   <!-- ===================== TRUST STRIP (count-up) ===================== -->
-  <section class="trust-strip">
+  <section class="trust-strip snap-sec">
     <div class="container">
       <div class="trust-grid" data-reveal data-countup>
         {heroStats.map((t) => (
@@ -102,7 +77,7 @@ const webPage = {
   </section>
 
   <!-- ===================== CERTIFICATION BAND ===================== -->
-  <section class="cert-band">
+  <section class="cert-band snap-sec">
     <div class="container cert-inner" data-reveal>
       <div class="cert-left">
         <span class="nabl-badge" aria-label="NABL Lab-tested quality">
@@ -123,15 +98,8 @@ const webPage = {
     </div>
   </section>
 
-  <!-- ===================== ABOUT (rotating spotlight) ===================== -->
-  <section id="about" class="section">
-    <div class="container" data-reveal>
-      <RotatingSpotlight items={aboutSpotlight} titleTag="h2" mediaSide="left" interval={3000} />
-    </div>
-  </section>
-
   <!-- ===================== PRODUCTS ===================== -->
-  <section id="products" class="section section-white">
+  <section id="products" class="section section-white snap-sec">
     <div class="container">
       <div class="prod-head" data-reveal>
         <div>
@@ -162,7 +130,7 @@ const webPage = {
   </section>
 
   <!-- ===================== WHY CHOOSE US ===================== -->
-  <section class="section">
+  <section class="section snap-sec">
     <div class="container">
       <div class="why-head" data-reveal>
         <div class="eyebrow">Why Choose Us</div>
@@ -181,7 +149,7 @@ const webPage = {
   </section>
 
   <!-- ===================== QUOTE BAND ===================== -->
-  <section class="band-wrap">
+  <section class="band-wrap snap-sec">
     <div class="container" data-reveal>
       <div class="quote-band">
         <div class="qb-ring qb-ring-1" aria-hidden="true"></div>
@@ -196,7 +164,7 @@ const webPage = {
   </section>
 
   <!-- ===================== INDUSTRIES ===================== -->
-  <section class="section section-white">
+  <section class="section section-white snap-sec">
     <div class="container">
       <div class="ind-head" data-reveal>
         <div class="eyebrow">Industries We Serve</div>
@@ -217,7 +185,7 @@ const webPage = {
   </section>
 
   <!-- ===================== CSR ===================== -->
-  <section class="section">
+  <section class="section csr-section snap-sec">
     <div class="container csr-grid">
       <div data-reveal>
         <div class="eyebrow">CSR &amp; Sustainability</div>
@@ -293,6 +261,116 @@ const webPage = {
       </div>
     </div>
   </section>
+
+  <!-- ============= SECTION SCROLL NAV (homepage only) ============= -->
+  <div class="section-nav">
+    <button class="sn-btn sn-up" data-sn-up type="button" aria-label="Scroll to previous section" hidden>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6" /></svg>
+    </button>
+    <button class="sn-btn sn-down" data-sn-down type="button" aria-label="Scroll to next section">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+    </button>
+  </div>
+
+  <style is:global>
+    /* --- Section-by-section scroll snap: HOMEPAGE ONLY (html.home-snap set by JS) --- */
+    /* PROXIMITY (not mandatory) so users are never trapped and free scrolling still works. */
+    html.home-snap { scroll-snap-type: y proximity; }
+    /* Navbar clearance is provided by the existing global scroll-padding-top:90px, so
+       snapped/target section tops sit just below the sticky ~74px header (never hidden). */
+    html.home-snap .hero-carousel,
+    html.home-snap .snap-sec {
+      scroll-snap-align: start;
+      scroll-snap-stop: normal;
+    }
+    /* Tall sections (contact form, footer) are NOT snap targets — they lack .snap-sec,
+       and proximity snap never traps them. */
+    @media (max-width: 860px) {
+      html.home-snap { scroll-snap-type: none; } /* natural scrolling on mobile */
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html.home-snap { scroll-snap-type: none; }
+    }
+
+    /* Floating up/down section navigation — offset ABOVE the WhatsApp/Call FAB so
+       they never collide; low z-index so native form dropdowns always render on top. */
+    .section-nav {
+      position: fixed;
+      right: 24px;
+      bottom: 170px;
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .section-nav .sn-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1px solid var(--line-3);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--green-800);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 20px -6px rgba(14, 42, 29, 0.3);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+    }
+    .section-nav .sn-btn:hover { transform: translateY(-2px); background: #fff; box-shadow: 0 12px 24px -8px rgba(14, 42, 29, 0.4); }
+    .section-nav .sn-btn[hidden] { display: none; }
+    @media (max-width: 860px) { .section-nav { display: none; } }
+  </style>
+
+  <script is:inline>
+    (function () {
+      var root = document.documentElement;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var behavior = reduce ? 'auto' : 'smooth';
+
+      // Enable gentle proximity scroll-snap on the homepage only. Skipped for
+      // reduced-motion users (CSS also disables it there and on mobile).
+      if (!reduce) root.classList.add('home-snap');
+
+      var nav = document.querySelector('.section-nav');
+      if (!nav) return;
+      var upBtn = nav.querySelector('[data-sn-up]');
+      var downBtn = nav.querySelector('[data-sn-down]');
+      var sections = Array.prototype.slice.call(document.querySelectorAll('#main > section'));
+      if (sections.length < 2) { nav.style.display = 'none'; return; }
+
+      // Index of the section currently at/above the navbar line.
+      function currentIndex() {
+        var idx = 0;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].getBoundingClientRect().top <= 90) idx = i;
+          else break;
+        }
+        return idx;
+      }
+      function goTo(idx) {
+        idx = Math.max(0, Math.min(sections.length - 1, idx));
+        sections[idx].scrollIntoView({ behavior: behavior, block: 'start' });
+      }
+      if (downBtn) downBtn.addEventListener('click', function () {
+        var idx = currentIndex();
+        if (idx >= sections.length - 1) {
+          window.scrollTo({ top: document.body.scrollHeight, behavior: behavior });
+        } else {
+          goTo(idx + 1);
+        }
+      });
+      if (upBtn) upBtn.addEventListener('click', function () { goTo(currentIndex() - 1); });
+
+      function updateButtons() {
+        var atTop = window.scrollY <= 8;
+        var atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 8;
+        if (upBtn) upBtn.hidden = atTop;
+        if (downBtn) downBtn.hidden = atBottom;
+      }
+      updateButtons();
+      window.addEventListener('scroll', updateButtons, { passive: true });
+      window.addEventListener('resize', updateButtons);
+    })();
+  </script>
 
   <script is:inline>
     (function () {
@@ -450,22 +528,23 @@ const webPage = {
   .about-img { width: 100%; aspect-ratio: 5 / 4; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
 
   /* Products */
-  #products { padding-top: 80px; padding-bottom: 80px; }
-  .prod-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 26px; flex-wrap: wrap; }
-  .cat-label { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
-  .cat-label-2 { margin-top: 30px; }
+  #products { padding-top: 56px; padding-bottom: 56px; }
+  .prod-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+  .cat-label { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .cat-label-2 { margin-top: 18px; }
   .cat-tag {
-    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
-    color: #fff; background: var(--green-600); padding: 5px 11px; border-radius: 999px; text-transform: uppercase;
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em;
+    color: #fff; background: var(--green-600); padding: 4px 10px; border-radius: 999px; text-transform: uppercase;
   }
   .cat-name-link { text-decoration: none; }
-  .cat-name { font-family: var(--font-head); font-weight: 800; font-size: 19px; color: var(--ink); }
+  .cat-name { font-family: var(--font-head); font-weight: 800; font-size: 16px; color: var(--ink); }
   .cat-name-link:hover .cat-name { color: var(--green-600); }
-  .cat-blurb { font-size: 14px; color: var(--text-faint); }
-  .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .cat-blurb { font-size: 13.5px; color: var(--text-faint); }
+  .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
   /* Why */
-  .why-head { text-align: left; max-width: 680px; margin: 0 0 52px; }
+  .why-head { text-align: left; max-width: 720px; margin: 0 0 28px; }
+  .why-head .h2 { font-size: 28px; margin-bottom: 0; }
   .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .why-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 30px 26px; display: flex; flex-direction: column; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
   .why-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px -18px rgba(20, 42, 31, 0.28); border-color: var(--gold-600); }
@@ -539,14 +618,16 @@ const webPage = {
   .ind-note { font-size: 16px; line-height: 1.45; color: var(--text-faint); }
 
   /* CSR */
-  .csr-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
-  .csr-stats { display: flex; gap: 36px; flex-wrap: wrap; margin: 28px 0; }
+  .csr-section { padding-top: 48px; padding-bottom: 48px; }
+  .csr-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 48px; align-items: center; }
+  .csr-stats { display: flex; gap: 28px; flex-wrap: wrap; margin: 20px 0; }
   /* Each stat is its own block with its own spacing so the two never run
      together even if flex/gap fails to apply. */
   .csr-stat { display: block; margin-right: 20px; margin-bottom: 8px; }
   .csr-big { display: block; font-family: var(--font-head); font-weight: 800; font-size: 30px; color: var(--green-600); line-height: 1; }
   .csr-sm { display: block; font-size: 14px; color: var(--text-faint); margin-top: 6px; }
-  .csr-img { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
+  /* Smaller CSR image so it no longer dominates the section */
+  .csr-img { position: relative; width: 100%; aspect-ratio: 4 / 3; max-height: 300px; margin-left: auto; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
   .csr-img .media { position: absolute; inset: 0; }
 
   /* Contact */
@@ -605,14 +686,15 @@ const webPage = {
     .trust-big { font-size: 44px; }
 
     /* Products */
-    #products { padding-top: 50px; padding-bottom: 50px; }
-    .prod-head { margin-bottom: 18px; }
-    .cat-label { margin-bottom: 12px; }
-    .cat-label-2 { margin-top: 20px; }
-    .prod-grid { gap: 18px; }
+    #products { padding-top: 40px; padding-bottom: 40px; }
+    .prod-head { margin-bottom: 14px; }
+    .cat-label { margin-bottom: 8px; }
+    .cat-label-2 { margin-top: 14px; }
+    .prod-grid { gap: 14px; }
 
     /* Why choose us */
-    .why-head { margin: 0 0 30px; }
+    .why-head { margin: 0 0 20px; }
+    .why-head .h2 { font-size: 25px; }
     .why-grid { gap: 16px; }
     .why-card { padding: 22px 20px; }
     .why-num { width: 42px; height: 42px; margin-bottom: 14px; }
@@ -629,8 +711,10 @@ const webPage = {
     .ind-icon { width: 48px; height: 48px; }
 
     /* CSR */
-    .csr-grid { gap: 44px; }
-    .csr-stats { margin: 20px 0; }
+    .csr-section { padding-top: 40px; padding-bottom: 40px; }
+    .csr-grid { gap: 40px; }
+    .csr-stats { margin: 16px 0; }
+    .csr-section .lead { margin-bottom: 12px; }
 
     /* Contact */
     .contact-h2 { font-size: 30px; }
