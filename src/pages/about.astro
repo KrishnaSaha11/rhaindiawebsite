@@ -20,6 +20,7 @@ const aboutSpotlight = [
     desc: p.value,
     href: `/${p.slug}/`,
     linkText: 'View Product',
+    badge: 'Featured Product',
     img: p.images?.[0]?.src ?? `/images/products/${p.slug}.svg`,
     alt: p.images?.[0]?.alt ?? p.heroAlt,
   })),

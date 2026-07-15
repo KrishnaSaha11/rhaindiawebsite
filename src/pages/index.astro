@@ -16,6 +16,7 @@ const productSpotlight = products.map((p) => ({
   desc: p.value,
   href: `/${p.slug}/`,
   linkText: 'View Product',
+  badge: 'Featured Product',
   img: p.images?.[0]?.src ?? `/images/products/${p.slug}.svg`,
   alt: p.images?.[0]?.alt ?? p.heroAlt,
 }));
@@ -236,7 +237,7 @@ const webPage = {
             <div class="csr-sm">Open-field husk burning</div>
           </div>
         </div>
-        <a href="/csr/" class="link-underline">Read our CSR story <span class="mono">→</span></a>
+        <a href="/csr/" class="btn btn-outline csr-link">Read our CSR story <span class="mono">→</span></a>
       </div>
       <div data-reveal>
         <div class="csr-img">
@@ -535,7 +536,7 @@ const webPage = {
   .ind-card:hover .ind-icon { transform: scale(1.08) rotate(-3deg); }
   /* Reserve two lines so cards align even when a name wraps (e.g. Concrete / Construction). */
   .ind-name { font-family: var(--font-head); font-weight: 700; font-size: 17.5px; line-height: 1.2; color: var(--ink); margin-bottom: 5px; min-height: 2.4em; }
-  .ind-note { font-size: 14px; line-height: 1.45; color: var(--text-faint); }
+  .ind-note { font-size: 16px; line-height: 1.45; color: var(--text-faint); }
 
   /* CSR */
   .csr-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }

@@ -25,6 +25,12 @@ const fmt = (d: Date) =>
   description="Practical guides, industry notes and comparisons for buyers specifying Rice Husk Ash and rice husk products — concrete, steel, refractory and biomass energy."
   path="/blog/"
 >
+  <nav class="crumb" aria-label="Breadcrumb">
+    <div class="container crumb-inner">
+      <a href="/">Home</a><span>/</span><span class="crumb-current">Blog</span>
+    </div>
+  </nav>
+
   <section class="blog-hero">
     <div class="container" data-reveal>
       <div class="eyebrow">Insights &amp; Resources</div>
@@ -88,6 +94,13 @@ const fmt = (d: Date) =>
 </BaseLayout>
 
 <style>
+  .crumb { border-bottom: 1px solid #efe9d9; background: var(--cream); }
+  .crumb-inner { display: flex; align-items: center; gap: 10px; padding: 14px 32px; font-size: 13.5px; color: var(--text-faint); }
+  .crumb-inner a { color: var(--text-faint); text-decoration: none; }
+  .crumb-inner a:hover { color: var(--green-800); }
+  .crumb-inner span { opacity: 0.5; }
+  .crumb-current { color: var(--green-800) !important; font-weight: 600; opacity: 1 !important; }
+
   .blog-hero { padding: 72px 0 40px; background: radial-gradient(110% 80% at 88% 0%, #eef3ea 0%, var(--cream) 55%); }
   .blog-h1 { font-family: var(--font-head); font-weight: 800; font-size: 52px; line-height: 1.04; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 16px; max-width: 760px; }
   .blog-lead { font-size: 18.5px; line-height: 1.6; color: var(--text-soft); max-width: 560px; }
@@ -123,7 +136,7 @@ const fmt = (d: Date) =>
   .bc-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
   .bc-title { font-family: var(--font-head); font-weight: 700; font-size: 19.5px; line-height: 1.22; color: var(--ink); margin-bottom: 12px; }
   .bc-rule { width: 34px; height: 2px; background: var(--gold-600); border-radius: 2px; margin-bottom: 14px; }
-  .bc-desc { font-size: 14.5px; line-height: 1.55; color: var(--text-muted); margin-bottom: 20px; flex: 1; }
+  .bc-desc { font-size: 16px; line-height: 1.55; color: var(--text-muted); margin-bottom: 20px; flex: 1; }
   .bc-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .bc-date { font-size: 12.5px; color: #8a8470; }
   .bc-more { display: inline-flex; align-items: center; gap: 7px; color: var(--green-800); font-weight: 600; font-size: 14px; }

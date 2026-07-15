@@ -41,7 +41,7 @@ const isActive = (href: string) =>
           aria-haspopup="true"
         >
           Products
-          <span class="caret" aria-hidden="true">▾</span>
+          <svg class="caret" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>
         </a>
         <div class="mega">
           <div class="mega-col">
@@ -123,6 +123,11 @@ const isActive = (href: string) =>
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--line-2);
+    transition: box-shadow 0.2s ease;
+  }
+  /* Subtle shadow once the page is scrolled, so the bar separates from content. */
+  .site-header.is-scrolled {
+    box-shadow: 0 6px 20px -12px rgba(14, 42, 29, 0.35);
   }
   .header-inner {
     height: 74px;
@@ -175,7 +180,7 @@ const isActive = (href: string) =>
     margin-right: 8px;
   }
   .nav-link {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
     color: var(--text-muted);
     text-decoration: none;
@@ -186,7 +191,7 @@ const isActive = (href: string) =>
 
   .has-mega { position: relative; }
   .mega-trigger { display: inline-flex; align-items: center; gap: 5px; }
-  .caret { font-size: 10px; transition: transform 0.2s ease; }
+  .caret { display: inline-block; transition: transform 0.2s ease; }
   .has-mega:hover .caret, .has-mega:focus-within .caret { transform: rotate(180deg); }
 
   .mega {
@@ -387,6 +392,18 @@ const isActive = (href: string) =>
 </style>
 
 <script is:inline>
+  (function () {
+    // Add a subtle shadow to the sticky header once the page is scrolled.
+    var header = document.querySelector('.site-header');
+    if (header) {
+      var onScroll = function () {
+        if (window.scrollY > 8) header.classList.add('is-scrolled');
+        else header.classList.remove('is-scrolled');
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  })();
   (function () {
     var toggle = document.getElementById('navToggle');
     var drawer = document.getElementById('mobileDrawer');
