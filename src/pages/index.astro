@@ -227,8 +227,14 @@ const webPage = {
           productive loop, and giving farmers and industry a sustainable alternative.
         </p>
         <div class="csr-stats">
-          <div><div class="csr-big">100%</div><div class="csr-sm">Waste-to-value sourcing</div></div>
-          <div><div class="csr-big">Zero</div><div class="csr-sm">Open-field husk burning</div></div>
+          <div class="csr-stat">
+            <div class="csr-big">100%</div>
+            <div class="csr-sm">Waste-to-value sourcing</div>
+          </div>
+          <div class="csr-stat">
+            <div class="csr-big">Zero</div>
+            <div class="csr-sm">Open-field husk burning</div>
+          </div>
         </div>
         <a href="/csr/" class="link-underline">Read our CSR story <span class="mono">→</span></a>
       </div>
@@ -534,8 +540,11 @@ const webPage = {
   /* CSR */
   .csr-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
   .csr-stats { display: flex; gap: 36px; flex-wrap: wrap; margin: 28px 0; }
-  .csr-big { font-family: var(--font-head); font-weight: 800; font-size: 30px; color: var(--green-600); line-height: 1; }
-  .csr-sm { font-size: 14px; color: var(--text-faint); margin-top: 6px; }
+  /* Each stat is its own block with its own spacing so the two never run
+     together even if flex/gap fails to apply. */
+  .csr-stat { display: block; margin-right: 20px; margin-bottom: 8px; }
+  .csr-big { display: block; font-family: var(--font-head); font-weight: 800; font-size: 30px; color: var(--green-600); line-height: 1; }
+  .csr-sm { display: block; font-size: 14px; color: var(--text-faint); margin-top: 6px; }
   .csr-img { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
   .csr-img .media { position: absolute; inset: 0; }
 

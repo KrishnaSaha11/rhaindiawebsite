@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+
+const updated = 'July 2025';
+---
+
+<BaseLayout
+  title="Privacy Policy — Ambika Biotech / RHA India"
+  description="Privacy Policy for Ambika Ricemill & Ambika Biotech (RHA India) — how we collect, use and protect information submitted through rhaindia.com."
+  path="/privacy-policy/"
+>
+  <nav class="crumb" aria-label="Breadcrumb">
+    <div class="container crumb-inner">
+      <a href="/">Home</a><span>/</span><span class="crumb-current">Privacy Policy</span>
+    </div>
+  </nav>
+
+  <section class="legal">
+    <div class="container legal-wrap" data-reveal>
+      <div class="eyebrow">Legal</div>
+      <h1 class="legal-h1">Privacy Policy</h1>
+      <p class="legal-updated">Last updated: {updated}</p>
+
+      <p>This Privacy Policy explains how <strong>{site.legalName}</strong> (operating under the
+        brand <strong>{site.brand}</strong>, GSTIN {site.gstin}), based in {site.address.locality},
+        {site.address.region}, India (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;),
+        collects and handles information when you use our website <strong>{site.url.replace('https://', '')}</strong>
+        and contact us for quotes or product enquiries.</p>
+
+      <h2>Information we collect</h2>
+      <p>When you submit an enquiry or quote request, we collect the details you provide — such as
+        your name, company, country, email address, phone number, product of interest, quantity and
+        any message. We may also collect standard, non-identifying analytics data (such as pages
+        visited and approximate region) to understand and improve the website.</p>
+
+      <h2>How we use your information</h2>
+      <ul>
+        <li>To respond to your enquiry and prepare a quotation, pricing and lead-time estimate.</li>
+        <li>To arrange supply, export documentation and logistics for orders.</li>
+        <li>To keep records of business correspondence and comply with legal or tax obligations.</li>
+        <li>To improve our products, website and customer service.</li>
+      </ul>
+
+      <h2>Sharing of information</h2>
+      <p>We do not sell your personal information. We share it only with trusted service providers
+        that help us operate (for example, our form/email and spreadsheet providers), with logistics
+        and export partners where needed to fulfil an order, or where required by law.</p>
+
+      <h2>Cookies &amp; analytics</h2>
+      <p>The website may use cookies and third-party analytics (such as Google Analytics) to measure
+        traffic and improve performance. You can control cookies through your browser settings.</p>
+
+      <h2>Data retention &amp; security</h2>
+      <p>We retain enquiry and order information for as long as needed for the purposes above and to
+        meet statutory requirements, and we take reasonable measures to protect it against loss or
+        unauthorised access.</p>
+
+      <h2>Your rights</h2>
+      <p>You may request access to, correction of, or deletion of the personal information you have
+        shared with us, subject to applicable law and record-keeping obligations. To make a request,
+        contact us using the details below.</p>
+
+      <h2>Contact us</h2>
+      <p>
+        {site.legalName} ({site.brand})<br />
+        {site.address.full}<br />
+        Email: <a href={`mailto:${site.email}`}>{site.email}</a><br />
+        Phone: <a href={`tel:${site.phoneE164}`}>{site.phoneDisplay}</a><br />
+        GSTIN: {site.gstin}
+      </p>
+
+      <p class="legal-note">This Privacy Policy is provided for general information and may be
+        updated from time to time. Please review it periodically for changes.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .crumb { border-bottom: 1px solid #efe9d9; background: var(--cream); }
+  .crumb-inner { display: flex; align-items: center; gap: 10px; padding: 14px 32px; font-size: 13.5px; color: var(--text-faint); }
+  .crumb-inner a { color: var(--text-faint); text-decoration: none; }
+  .crumb-inner a:hover { color: var(--green-800); }
+  .crumb-inner span { opacity: 0.5; }
+  .crumb-current { color: var(--green-800) !important; font-weight: 600; opacity: 1 !important; }
+
+  .legal { padding: 56px 0 88px; }
+  .legal-wrap { max-width: 820px; }
+  .legal-h1 { font-family: var(--font-head); font-weight: 800; font-size: 44px; line-height: 1.06; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 10px; }
+  .legal-updated { font-family: var(--font-mono); font-size: 13px; color: var(--text-faint); margin-bottom: 28px; }
+  .legal-wrap p { font-size: 16px; line-height: 1.7; color: var(--text-soft); margin-bottom: 18px; }
+  .legal-wrap h2 { font-family: var(--font-head); font-weight: 700; font-size: 22px; color: var(--ink); margin: 34px 0 12px; }
+  .legal-wrap ul { margin: 0 0 18px; padding-left: 22px; }
+  .legal-wrap li { font-size: 16px; line-height: 1.65; color: var(--text-soft); margin-bottom: 8px; }
+  .legal-wrap a { color: var(--green-700); text-decoration: underline; font-weight: 600; }
+  .legal-wrap a:hover { color: var(--gold-700); }
+  .legal-note { font-size: 14px !important; color: var(--text-faint) !important; margin-top: 26px; }
+  @media (max-width: 640px) { .legal-h1 { font-size: 31px; } }
+</style>

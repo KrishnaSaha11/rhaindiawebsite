@@ -4,6 +4,17 @@ const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.wh
 ---
 
 <div class="floating-cta" aria-label="Quick contact">
+  <!-- Call: compact icon-only button to reduce visual noise -->
+  <a
+    href={`tel:${site.phoneE164}`}
+    class="fab-call"
+    aria-label={`Call us on ${site.phoneDisplay}`}
+  >
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
+      <path d="M6.62 10.79a15.46 15.46 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.24.2 2.45.57 3.57a1 1 0 01-.24 1.02l-2.21 2.2z"/>
+    </svg>
+  </a>
+  <!-- WhatsApp: kept prominent -->
   <a
     href={waLink}
     class="fab fab-wa"
@@ -16,16 +27,6 @@ const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.wh
     </svg>
     <span class="fab-text">WhatsApp</span>
   </a>
-  <a
-    href={`tel:${site.phoneE164}`}
-    class="fab fab-call"
-    aria-label={`Call us on ${site.phoneDisplay}`}
-  >
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
-      <path d="M6.62 10.79a15.46 15.46 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.24.2 2.45.57 3.57a1 1 0 01-.24 1.02l-2.21 2.2z"/>
-    </svg>
-    <span class="fab-text">Call</span>
-  </a>
 </div>
 
 <style>
@@ -33,9 +34,12 @@ const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.wh
     position: fixed;
     right: 22px;
     bottom: 22px;
-    z-index: 60;
+    /* Below the mobile drawer (70/71) and header (50 sticky is separate) so it
+       never sits over an open menu. Native <select> popups render above all. */
+    z-index: 45;
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     gap: 12px;
   }
   .fab {
@@ -51,8 +55,24 @@ const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.wh
   }
   .fab:hover { transform: translateY(-2px) scale(1.03); }
   .fab-wa { background: var(--whatsapp); color: #fff; box-shadow: 0 10px 24px rgba(31, 138, 76, 0.4); }
-  .fab-call { background: var(--green-800); color: var(--cream); box-shadow: 0 10px 24px rgba(14, 42, 29, 0.4); }
   .fab svg { flex: none; }
+
+  /* Compact, secondary call button */
+  .fab-call {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--green-800);
+    color: var(--cream);
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(14, 42, 29, 0.35);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .fab-call:hover { transform: translateY(-2px) scale(1.05); }
+  .fab-call svg { flex: none; }
 
   @media (max-width: 640px) {
     .floating-cta { right: 14px; bottom: 14px; gap: 10px; }
