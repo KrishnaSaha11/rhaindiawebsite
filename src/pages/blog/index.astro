@@ -89,6 +89,11 @@ const fmt = (d: Date) =>
         ))}
       </div>
       <p class="no-posts" id="noPosts" hidden>No posts in this category yet.</p>
+      <div class="show-more-wrap" id="showMoreWrap" hidden>
+        <button class="btn btn-outline show-more-btn" id="showMore" type="button" aria-label="Show more articles">
+          Show more articles <span class="mono">↓</span>
+        </button>
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -143,6 +148,12 @@ const fmt = (d: Date) =>
   .bc-more .mono { font-family: var(--font-mono); }
   .no-posts { text-align: center; color: var(--text-faint); padding: 40px 0; }
 
+  .show-more-wrap { display: flex; justify-content: center; margin-top: 30px; }
+  /* Explicit override so the [hidden] attribute wins over .btn's display. */
+  .show-more-wrap[hidden] { display: none; }
+  .show-more-btn { padding: 13px 26px; }
+  .show-more-btn .mono { font-family: var(--font-mono); }
+
   @media (max-width: 1024px) { .blog-h1 { font-size: 34px; } .blog-grid { grid-template-columns: repeat(2, 1fr); } .feat-title { font-size: 24px; } }
   @media (max-width: 860px) { .feat-card { grid-template-columns: 1fr; } .feat-img { min-height: 200px; } .feat-body { padding: 26px 22px; } }
   @media (max-width: 640px) { .blog-h1 { font-size: 28px; } .blog-grid { grid-template-columns: 1fr; } }
@@ -150,22 +161,45 @@ const fmt = (d: Date) =>
 
 <script is:inline>
   (function () {
-    var chips = document.querySelectorAll('.chip');
-    var cards = document.querySelectorAll('.blog-card');
+    // Progressive "Show More": all cards are already in the DOM (data query is
+    // untouched); we only reveal them in batches on the client. Works together
+    // with the category filter — the batch counts only matching cards.
+    var PAGE = 6;
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.blog-card'));
     var noPosts = document.getElementById('noPosts');
+    var moreWrap = document.getElementById('showMoreWrap');
+    var moreBtn = document.getElementById('showMore');
+    var filter = 'All';
+    var shown = PAGE;
+
+    function matches(card) {
+      return filter === 'All' || card.getAttribute('data-category') === filter;
+    }
+    function render() {
+      var matching = 0; // number of cards matching the current filter
+      cards.forEach(function (card) {
+        if (!matches(card)) { card.style.display = 'none'; return; }
+        matching++;
+        card.style.display = matching <= shown ? '' : 'none';
+      });
+      if (noPosts) noPosts.hidden = matching !== 0;
+      // Hide the button when every matching card is already shown (or <= one page).
+      if (moreWrap) moreWrap.hidden = matching <= shown;
+    }
     chips.forEach(function (chip) {
       chip.addEventListener('click', function () {
-        var f = chip.getAttribute('data-filter');
+        filter = chip.getAttribute('data-filter');
         chips.forEach(function (c) { c.classList.remove('active'); });
         chip.classList.add('active');
-        var shown = 0;
-        cards.forEach(function (card) {
-          var match = f === 'All' || card.getAttribute('data-category') === f;
-          card.style.display = match ? '' : 'none';
-          if (match) shown++;
-        });
-        if (noPosts) noPosts.hidden = shown !== 0;
+        shown = PAGE; // reset to the first page of the newly selected filter
+        render();
       });
     });
+    if (moreBtn) moreBtn.addEventListener('click', function () {
+      shown += PAGE;
+      render();
+    });
+    render();
   })();
 </script>
