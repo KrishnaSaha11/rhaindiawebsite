@@ -5,7 +5,7 @@ import QuoteForm from '../components/QuoteForm.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Photo from '../components/Photo.astro';
 import RotatingSpotlight from '../components/RotatingSpotlight.astro';
-import Shape from '../components/Shape.astro';
+import Icon from '../components/Icon.astro';
 import { site } from '../config/site';
 import { products, categories } from '../data/products';
 
@@ -56,11 +56,11 @@ const reasons = [
 ];
 
 const industries = [
-  { name: 'Steel', note: 'Tundish & ladle covering', shape: 'diamond', color: '#27593C' },
-  { name: 'Concrete / Construction', note: 'Pozzolana & SCM', shape: 'square', color: '#C79A3E' },
-  { name: 'Refractory', note: 'High-temp insulation', shape: 'triangle', color: '#27593C' },
-  { name: 'Biomass Energy', note: 'Fuel pellets & husk', shape: 'circle', color: '#C79A3E' },
-  { name: 'Agriculture / Feed', note: 'Feed, bedding, fillers', shape: 'ring', color: '#27593C' },
+  { name: 'Steel', note: 'Tundish & ladle covering' },
+  { name: 'Concrete / Construction', note: 'Pozzolana & SCM' },
+  { name: 'Refractory', note: 'High-temp insulation' },
+  { name: 'Biomass Energy', note: 'Fuel pellets & husk' },
+  { name: 'Agriculture / Feed', note: 'Feed, bedding, fillers' },
 ] as const;
 
 const title = 'Rice Husk Ash Manufacturer & Exporter India | Ambika Biotech';
@@ -204,7 +204,7 @@ const webPage = {
       <div class="ind-grid">
         {industries.map((ind) => (
           <div class="ind-card" data-reveal>
-            <div class="ind-icon"><Shape type={ind.shape} color={ind.color} /></div>
+            <div class="ind-icon"><Icon label={ind.name} note={ind.note} /></div>
             <div>
               <h3 class="ind-name">{ind.name}</h3>
               <p class="ind-note">{ind.note}</p>
@@ -415,18 +415,18 @@ const webPage = {
   .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
   .trust-item {
     padding: 30px 26px;
-    border-right: 1px solid rgba(255, 255, 255, 0.09);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
     display: flex; flex-direction: column; gap: 7px;
   }
   .trust-item:last-child { border-right: none; }
-  .trust-big { font-family: var(--font-head); font-weight: 800; font-size: 24px; color: var(--gold); line-height: 1; }
+  .trust-big { font-family: var(--font-head); font-weight: 800; font-size: 44px; color: var(--gold); line-height: 1; }
   .trust-label { font-size: 15px; color: #cbd6c7; line-height: 1.35; }
 
   /* Certification band */
   .cert-band { background: #fff; border-bottom: 1px solid #efe9d9; }
   .cert-inner {
     display: flex; align-items: center; justify-content: space-between;
-    gap: 30px; padding-top: 28px; padding-bottom: 28px; flex-wrap: wrap;
+    gap: 30px; padding-top: 40px; padding-bottom: 40px; flex-wrap: wrap;
   }
   .cert-left { display: flex; align-items: center; gap: 20px; max-width: 720px; }
   .nabl-badge {
@@ -458,17 +458,18 @@ const webPage = {
   .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
   /* Why */
-  .why-head { text-align: center; max-width: 680px; margin: 0 auto 52px; }
+  .why-head { text-align: left; max-width: 680px; margin: 0 0 52px; }
   .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .why-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 30px 26px; transition: transform .25s ease, box-shadow .25s ease; }
-  .why-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px -18px rgba(20, 42, 31, 0.28); }
+  .why-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 30px 26px; display: flex; flex-direction: column; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .why-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px -18px rgba(20, 42, 31, 0.28); border-color: var(--gold-600); }
   .why-num {
     width: 46px; height: 46px; border-radius: 12px; background: var(--tile);
     display: flex; align-items: center; justify-content: center;
     font-family: var(--font-head); font-weight: 800; font-size: 17px; color: var(--green-600); margin-bottom: 18px;
   }
   .why-title { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--ink); margin-bottom: 9px; }
-  .why-body { font-size: 15px; line-height: 1.55; color: var(--text-muted); }
+  /* Reserve space for the longest body so every card (row 1 & row 2) aligns. */
+  .why-body { font-size: 15px; line-height: 1.55; color: var(--text-muted); min-height: 70px; }
 
   /* Quote band */
   .band-wrap { padding-bottom: var(--section-y); }
@@ -513,11 +514,12 @@ const webPage = {
   .ind-card:hover { transform: translateY(-6px); border-color: var(--gold-600); box-shadow: 0 22px 42px -24px rgba(14, 42, 29, 0.38); }
   .ind-card:hover::before { transform: scaleX(1); }
   .ind-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 15px;
-    background: linear-gradient(150deg, #eef3ea, #e0ebdd);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgb(234, 240, 234);
     border: 1px solid #d7e3d4;
+    color: var(--green-600);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -525,7 +527,8 @@ const webPage = {
     transition: transform 0.3s ease;
   }
   .ind-card:hover .ind-icon { transform: scale(1.08) rotate(-3deg); }
-  .ind-name { font-family: var(--font-head); font-weight: 700; font-size: 17.5px; color: var(--ink); margin-bottom: 5px; }
+  /* Reserve two lines so cards align even when a name wraps (e.g. Concrete / Construction). */
+  .ind-name { font-family: var(--font-head); font-weight: 700; font-size: 17.5px; line-height: 1.2; color: var(--ink); margin-bottom: 5px; min-height: 2.4em; }
   .ind-note { font-size: 14px; line-height: 1.45; color: var(--text-faint); }
 
   /* CSR */
@@ -533,7 +536,7 @@ const webPage = {
   .csr-stats { display: flex; gap: 36px; flex-wrap: wrap; margin: 28px 0; }
   .csr-big { font-family: var(--font-head); font-weight: 800; font-size: 30px; color: var(--green-600); line-height: 1; }
   .csr-sm { font-size: 14px; color: var(--text-faint); margin-top: 6px; }
-  .csr-img { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden; background: var(--cream-2); }
+  .csr-img { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
   .csr-img .media { position: absolute; inset: 0; }
 
   /* Contact */
@@ -588,8 +591,8 @@ const webPage = {
     .lead { font-size: 16.5px; margin-bottom: 14px; }
 
     /* Trust strip */
-    .trust-item { padding: 24px 24px; }
-    .trust-big { font-size: 22px; }
+    .trust-item { padding: 26px 24px; }
+    .trust-big { font-size: 44px; }
 
     /* Products */
     #products { padding-top: 50px; padding-bottom: 50px; }
@@ -599,7 +602,7 @@ const webPage = {
     .prod-grid { gap: 18px; }
 
     /* Why choose us */
-    .why-head { margin: 0 auto 30px; }
+    .why-head { margin: 0 0 30px; }
     .why-grid { gap: 16px; }
     .why-card { padding: 22px 20px; }
     .why-num { width: 42px; height: 42px; margin-bottom: 14px; }
@@ -613,7 +616,7 @@ const webPage = {
     .ind-head { margin-bottom: 24px; }
     .ind-grid { gap: 16px; }
     .ind-card { padding: 22px 18px; gap: 14px; }
-    .ind-icon { width: 50px; height: 50px; }
+    .ind-icon { width: 48px; height: 48px; }
 
     /* CSR */
     .csr-grid { gap: 44px; }
@@ -625,6 +628,6 @@ const webPage = {
     .contact-p { margin-bottom: 24px; }
 
     /* Certification band */
-    .cert-inner { padding-top: 20px; padding-bottom: 20px; }
+    .cert-inner { padding-top: 40px; padding-bottom: 40px; }
   }
 </style>

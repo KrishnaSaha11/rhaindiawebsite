@@ -76,10 +76,12 @@ const cardImg = product.images?.[0];
     line-height: 1.18;
     color: var(--ink);
     margin-bottom: 8px;
+    /* Reserve two lines so Category A and Category B cards align to equal height. */
+    min-height: calc(2 * 1.18em);
   }
   .pc-rule { width: 30px; height: 2px; background: var(--gold-600); border-radius: 2px; margin-bottom: 11px; transition: width 0.3s ease; }
   .product-card:hover .pc-rule { width: 50px; }
-  .pc-use { font-size: 14.5px; line-height: 1.5; color: var(--text-muted); margin-bottom: 14px; flex: 1; }
+  .pc-use { font-size: 16px; line-height: 1.5; color: var(--text-muted); margin-bottom: 14px; flex: 1; min-height: calc(2 * 1.5em); }
   .pc-more {
     display: inline-flex;
     align-items: center;

@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Photo from '../components/Photo.astro';
-import Shape from '../components/Shape.astro';
+import Icon from '../components/Icon.astro';
 import { site } from '../config/site';
 import { products, getProduct, categories, SPEC_NOTE } from '../data/products';
 
@@ -224,7 +224,7 @@ const faqSchema = {
       <div class="app-grid">
         {p.applications.map((a) => (
           <div class="app-card" data-reveal>
-            <div class="app-icon"><Shape type={a.shape} color={a.color} /></div>
+            <div class="app-icon"><Icon label={a.title} note={a.note} /></div>
             <div>
               <h3 class="app-title">{a.title}</h3>
               <p class="app-note">{a.note}</p>
@@ -352,7 +352,7 @@ const faqSchema = {
   /* Hero */
   .p-hero { padding: 56px 0 88px; background: radial-gradient(110% 80% at 12% 0%, #eef3ea 0%, var(--cream) 50%); }
   .p-hero-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 60px; align-items: center; }
-  .p-img { position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 22px; overflow: hidden; box-shadow: 0 30px 60px -24px rgba(14, 42, 29, 0.55); }
+  .p-img { position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px -24px rgba(14, 42, 29, 0.55); }
   .p-img .media { position: absolute; inset: 0; }
   .p-img-badge { position: absolute; top: 20px; left: 20px; background: var(--cream); border-radius: 14px; padding: 14px 16px; box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
   .pib-big { font-family: var(--font-head); font-weight: 800; font-size: 26px; color: var(--green-800); line-height: 1; }
@@ -394,7 +394,7 @@ const faqSchema = {
   .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
   .app-card { background: var(--cream); border: 1px solid var(--line); border-radius: 16px; padding: 26px; display: flex; gap: 18px; align-items: flex-start; transition: transform .25s ease, border-color .25s ease; }
   .app-card:hover { transform: translateY(-4px); border-color: var(--gold-600); }
-  .app-icon { flex: none; width: 46px; height: 46px; border-radius: 12px; background: var(--tile); display: flex; align-items: center; justify-content: center; }
+  .app-icon { flex: none; width: 48px; height: 48px; border-radius: 12px; background: rgb(234, 240, 234); color: var(--green-600); display: flex; align-items: center; justify-content: center; }
   .app-title { font-family: var(--font-head); font-weight: 700; font-size: 17.5px; color: var(--ink); margin-bottom: 7px; }
   .app-note { font-size: 14.5px; line-height: 1.55; color: var(--text-muted); }
 

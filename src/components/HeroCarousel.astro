@@ -116,17 +116,23 @@ const slides = [
       <span class="ht-strong">85–92% SiO₂</span><span class="sep">·</span>
       <span>Export to Belgium, Germany &amp; Middle East</span>
     </div>
-    <div class="hc-dots" role="tablist" aria-label="Choose slide">
-      {slides.map((_, i) => (
-        <button
-          class:list={['hc-dot-btn', { 'is-active': i === 0 }]}
-          data-hc-dot={i}
-          type="button"
-          role="tab"
-          aria-label={`Go to slide ${i + 1}`}
-          aria-selected={i === 0 ? 'true' : 'false'}
-        ></button>
-      ))}
+    <div class="hc-nav">
+      <button class="hc-playpause" data-hc-playpause type="button" aria-label="Pause slideshow" aria-pressed="false">
+        <svg class="hc-icon-pause" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <svg class="hc-icon-play" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <div class="hc-dots" role="tablist" aria-label="Choose slide">
+        {slides.map((_, i) => (
+          <button
+            class:list={['hc-dot-btn', { 'is-active': i === 0 }]}
+            data-hc-dot={i}
+            type="button"
+            role="tab"
+            aria-label={`Go to slide ${i + 1}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+          ></button>
+        ))}
+      </div>
     </div>
   </div>
 </section>
@@ -281,10 +287,32 @@ const slides = [
     font-family: var(--font-mono);
     font-size: 13.5px;
     letter-spacing: 0.03em;
-    color: rgba(255, 255, 255, 0.9);
+    /* Light cream — passes WCAG AA (>4.5:1) on the dark green backdrop. */
+    color: #f2efe6;
   }
   .ht-strong { color: var(--gold); font-weight: 500; }
-  .hc-trust .sep { opacity: 0.4; }
+  .hc-trust .sep { opacity: 0.55; color: #f2efe6; }
+
+  .hc-nav { display: flex; align-items: center; gap: 16px; }
+  .hc-playpause {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(8, 22, 15, 0.35);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s ease;
+  }
+  .hc-playpause:hover { background: rgba(8, 22, 15, 0.6); }
+  .hc-icon-play { display: none; }
+  .hc-playpause[aria-pressed='true'] .hc-icon-pause { display: none; }
+  .hc-playpause[aria-pressed='true'] .hc-icon-play { display: block; }
   .hc-dots { display: flex; gap: 10px; }
   .hc-dot-btn {
     width: 32px;
@@ -325,11 +353,13 @@ const slides = [
       var dots = Array.prototype.slice.call(root.querySelectorAll('[data-hc-dot]'));
       var prev = root.querySelector('[data-hc-prev]');
       var next = root.querySelector('[data-hc-next]');
+      var playPause = root.querySelector('[data-hc-playpause]');
       if (slides.length < 2) return;
 
       var i = 0;
       var timer = null;
-      var paused = false;
+      var paused = false;      // transient pause: hover / focus
+      var userPaused = false;  // sticky pause: explicit pause button (WCAG 2.2.2)
       var DELAY = 3500;
 
       function render() {
@@ -351,7 +381,7 @@ const slides = [
 
       // Autoplay always runs (not gated by reduced-motion); the Ken Burns zoom
       // is what respects prefers-reduced-motion, via CSS. Single-timer guard.
-      function tick() { if (!paused && !document.hidden) nextSlide(); }
+      function tick() { if (!paused && !userPaused && !document.hidden) nextSlide(); }
       function play() { if (timer) return; timer = setInterval(tick, DELAY); }
       function stop() { if (timer) { clearInterval(timer); timer = null; } }
       function restart() { stop(); play(); }
@@ -359,6 +389,16 @@ const slides = [
       next && next.addEventListener('click', function () { nextSlide(); restart(); });
       prev && prev.addEventListener('click', function () { goTo(i - 1); restart(); });
       dots.forEach(function (d, idx) { d.addEventListener('click', function () { goTo(idx); restart(); }); });
+
+      // Explicit pause/play toggle (WCAG 2.2.2 — pause moving content).
+      if (playPause) {
+        playPause.addEventListener('click', function () {
+          userPaused = !userPaused;
+          playPause.setAttribute('aria-pressed', userPaused ? 'true' : 'false');
+          playPause.setAttribute('aria-label', userPaused ? 'Play slideshow' : 'Pause slideshow');
+          if (userPaused) stop(); else restart();
+        });
+      }
 
       // Pause on hover / focus, resume on leave/blur
       root.addEventListener('mouseenter', function () { paused = true; });
@@ -383,7 +423,7 @@ const slides = [
       }, { passive: true });
 
       // Resume cleanly when returning to the tab
-      document.addEventListener('visibilitychange', function () { if (!document.hidden) restart(); });
+      document.addEventListener('visibilitychange', function () { if (!document.hidden && !userPaused) restart(); });
 
       render();
       play();
