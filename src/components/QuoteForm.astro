@@ -143,6 +143,10 @@ const { preselect = '', source = 'Website', formId = 'rfq-form' } = Astro.props;
   .form-note { font-size: 13px; color: #8a8470; }
   .form-error { color: #b3261e; font-size: 14px; margin-top: 4px; }
 
+  /* Hidden by default (before submit); the [hidden] attribute is removed by
+     the submit handler only on a successful send. Without this rule the
+     display:flex below would override [hidden] and always show the message. */
+  .quote-success[hidden] { display: none; }
   .quote-success {
     display: flex;
     flex-direction: column;

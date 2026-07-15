@@ -32,11 +32,13 @@ const aboutSpotlight = [
   ...productSpotlight,
 ];
 
+// Only pure-integer stats animate (num + suffix). Range values (85–92%) and
+// text values (NABL) render statically — they cannot count up.
 const heroStats = [
-  { num: 20, suffix: '+', prefix: '', label: 'Years of manufacturing experience' },
-  { num: 0, suffix: '', prefix: '', label: 'NABL tested & certified quality', text: 'NABL' },
-  { num: 92, suffix: '%', prefix: '85–', label: 'High-silica SiO₂ content' },
-  { num: 3, suffix: '+', prefix: '', label: 'Export regions worldwide' },
+  { num: 20, suffix: '+', label: 'Years of manufacturing experience' },
+  { static: 'NABL', label: 'NABL tested & certified quality' },
+  { static: '85–92%', label: 'High-silica SiO₂ content' },
+  { num: 3, suffix: '+', label: 'Export regions worldwide' },
 ];
 
 const rha = products.filter((p) => p.category === 'rice-husk-ash');
@@ -85,12 +87,10 @@ const webPage = {
         {heroStats.map((t) => (
           <div class="trust-item">
             <div class="trust-big">
-              {t.text ? (
-                <span>{t.text}</span>
+              {t.static ? (
+                <span>{t.static}</span>
               ) : (
-                <span>
-                  {t.prefix}<span class="count" data-count={t.num}>0</span>{t.suffix}
-                </span>
+                <span><span class="count" data-count={t.num}>0</span>{t.suffix}</span>
               )}
             </div>
             <div class="trust-label">{t.label}</div>
@@ -104,9 +104,12 @@ const webPage = {
   <section class="cert-band">
     <div class="container cert-inner" data-reveal>
       <div class="cert-left">
-        <span class="nabl-badge" aria-label="NABL tested">
+        <span class="nabl-badge" aria-label="NABL Lab-tested quality">
           <span class="nabl-mark">NABL</span>
-          <span class="nabl-text">Lab-tested<br />quality</span>
+          <span class="nabl-text">
+            <span class="nabl-line">Lab-tested</span>
+            <span class="nabl-line">quality</span>
+          </span>
         </span>
         <p class="cert-copy">
           Independent NABL-tested material with documented parameters for every grade —
@@ -288,28 +291,43 @@ const webPage = {
     (function () {
       var group = document.querySelector('[data-countup]');
       if (!group) return;
+      var hasAnimated = false;
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var els = Array.prototype.slice.call(group.querySelectorAll('.count'));
-      function animate(el) {
+
+      function animateEl(el) {
         var target = parseInt(el.getAttribute('data-count'), 10) || 0;
         if (reduce) { el.textContent = String(target); return; }
         var dur = 1500, t0 = null;
         function step(ts) {
           if (!t0) t0 = ts;
           var p = Math.min((ts - t0) / dur, 1);
+          if (p >= 1) {
+            // Never rely on interval math for the final value — set it exactly.
+            el.textContent = String(target);
+            return;
+          }
           var eased = 1 - Math.pow(1 - p, 3);
           el.textContent = String(Math.round(eased * target));
-          if (p < 1) requestAnimationFrame(step);
+          requestAnimationFrame(step);
         }
         requestAnimationFrame(step);
       }
-      if (!('IntersectionObserver' in window)) { els.forEach(animate); return; }
+
+      // Runs EXACTLY once, guarded by hasAnimated.
+      function runOnce() {
+        if (hasAnimated) return;
+        hasAnimated = true;
+        els.forEach(animateEl);
+      }
+
+      if (!('IntersectionObserver' in window)) { runOnce(); return; }
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
-          if (en.isIntersecting) { animate(en.target); io.unobserve(en.target); }
+          if (en.isIntersecting) { runOnce(); io.disconnect(); }
         });
       }, { threshold: 0.4 });
-      els.forEach(function (el) { io.observe(el); });
+      io.observe(group);
     })();
   </script>
 </BaseLayout>
@@ -416,7 +434,8 @@ const webPage = {
     border: 2px solid var(--green-600); border-radius: 12px; padding: 10px 14px;
   }
   .nabl-mark { font-family: var(--font-head); font-weight: 800; font-size: 18px; color: var(--green-600); }
-  .nabl-text { font-size: 11.5px; line-height: 1.2; color: var(--text-faint); font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .nabl-text { display: flex; flex-direction: column; font-size: 14.5px; line-height: 1.25; color: var(--text-faint); font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .nabl-line { display: block; }
   .cert-copy { font-size: 15px; color: var(--text-muted); line-height: 1.55; margin: 0; }
 
   /* About */
@@ -586,8 +605,8 @@ const webPage = {
     .why-num { width: 42px; height: 42px; margin-bottom: 14px; }
     .why-title { font-size: 17.5px; }
 
-    /* Quote band */
-    .quote-band { padding: 38px 42px; }
+    /* Quote band — balanced vertical padding */
+    .quote-band { padding: 50px 42px; }
     .qb-h2 { font-size: 27px; }
 
     /* Industries */
