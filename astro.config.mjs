@@ -1,9 +1,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Canonical production URL. Update if the final domain differs.
+// Canonical production URL — the primary www host (keeps canonical, og and
+// the generated sitemap all on the same domain).
 export default defineConfig({
-  site: 'https://rhaindia.com',
+  site: 'https://www.rhaindia.com',
   trailingSlash: 'always',
   build: {
     format: 'directory',

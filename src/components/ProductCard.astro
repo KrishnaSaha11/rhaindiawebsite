@@ -15,7 +15,7 @@ const cardImg = product.images?.[0];
     <h3 class="pc-title">{product.name}</h3>
     <div class="pc-rule"></div>
     <p class="pc-use">{product.use}</p>
-    <span class="pc-more">Know More <span class="mono">→</span></span>
+    <span class="pc-more">View Specifications <span class="mono">→</span></span>
   </div>
 </a>
 
@@ -35,7 +35,7 @@ const cardImg = product.images?.[0];
     transform: translateY(-8px);
     box-shadow: 0 30px 56px -24px rgba(14, 42, 29, 0.45);
   }
-  .pc-img { position: relative; height: 148px; border-bottom: 1px solid var(--line); overflow: hidden; background: var(--cream-2); }
+  .pc-img { position: relative; height: 90px; border-bottom: 1px solid var(--line); overflow: hidden; background: var(--cream-2); }
   .pc-img .media { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
   .product-card:hover .pc-img .media { transform: scale(1.07); }
   .pc-img::after {
@@ -61,32 +61,34 @@ const cardImg = product.images?.[0];
     border-radius: 999px;
     backdrop-filter: blur(4px);
   }
-  .pc-body { padding: 18px 20px; display: flex; flex-direction: column; flex: 1; }
+  .pc-body { padding: 12px 14px; display: flex; flex-direction: column; flex: 1; }
   .pc-tag {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.12em;
     color: var(--gold-700);
-    margin-bottom: 7px;
+    margin-bottom: 4px;
   }
   .pc-title {
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: 17.5px;
-    line-height: 1.18;
+    font-size: 16px;
+    line-height: 1.16;
     color: var(--ink);
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    /* Reserve two lines so Category A and Category B cards align to equal height. */
+    min-height: calc(2 * 1.16em);
   }
-  .pc-rule { width: 30px; height: 2px; background: var(--gold-600); border-radius: 2px; margin-bottom: 11px; transition: width 0.3s ease; }
-  .product-card:hover .pc-rule { width: 50px; }
-  .pc-use { font-size: 14.5px; line-height: 1.5; color: var(--text-muted); margin-bottom: 14px; flex: 1; }
+  .pc-rule { width: 26px; height: 2px; background: var(--gold-600); border-radius: 2px; margin-bottom: 6px; transition: width 0.3s ease; }
+  .product-card:hover .pc-rule { width: 44px; }
+  .pc-use { font-size: 14px; line-height: 1.4; color: var(--text-muted); margin-bottom: 8px; flex: 1; min-height: calc(2 * 1.4em); }
   .pc-more {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     color: var(--green-800);
     font-weight: 600;
-    font-size: 14.5px;
+    font-size: 14px;
   }
   .pc-more .mono { font-family: var(--font-mono); transition: transform 0.25s ease; }
   .product-card:hover .pc-more .mono { transform: translateX(4px); color: var(--gold-700); }

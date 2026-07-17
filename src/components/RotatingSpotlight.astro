@@ -11,6 +11,8 @@ export interface Props {
     linkText: string;
     img: string;
     alt: string;
+    /** Optional small label shown above the eyebrow (e.g. "Featured Product"). */
+    badge?: string;
   }[];
   titleTag?: 'h1' | 'h2';
   mediaSide?: 'left' | 'right';
@@ -27,14 +29,16 @@ const payload = items.map((it) => ({
   href: it.href,
   linkText: it.linkText,
   alt: it.alt,
+  badge: it.badge ?? '',
 }));
 ---
 <div class:list={['rs', { 'media-left': mediaSide === 'left' }]} data-rs data-interval={interval}>
   <div class="rs-text" data-rs-text>
+    <span class="rs-badge" data-rs-badge hidden={!first.badge}>{first.badge}</span>
     <div class="eyebrow" data-rs-eyebrow>{first.eyebrow}</div>
     <Title class="rs-title" data-rs-title>{first.title}</Title>
     <p class="rs-desc" data-rs-desc>{first.desc}</p>
-    <a class="link-underline rs-link" data-rs-link href={first.href}>
+    <a class="btn btn-outline rs-link" data-rs-link href={first.href}>
       <span data-rs-linktext>{first.linkText}</span> <span class="mono">→</span>
     </a>
     <div class="rs-cta"><slot /></div>
@@ -61,26 +65,44 @@ const payload = items.map((it) => ({
 </div>
 
 <style>
-  .rs { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px; align-items: center; }
+  .rs { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 44px; align-items: center; }
   .rs.media-left { grid-template-columns: 0.95fr 1.05fr; }
   .rs.media-left .rs-text { order: 2; }
   .rs.media-left .rs-media { order: 1; }
 
   .rs-text { transition: opacity 0.4s ease; }
+  .rs-badge {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-700);
+    background: var(--tile);
+    border: 1px solid #d4e0d2;
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .rs-badge[hidden] { display: none; }
+  .rs-link { align-self: flex-start; }
   .rs-title {
     font-family: var(--font-head);
     font-weight: 800;
-    font-size: clamp(28px, 3.2vw, 44px);
-    line-height: 1.08;
+    font-size: clamp(26px, 2.4vw, 34px);
+    line-height: 1.1;
     letter-spacing: -0.02em;
     color: var(--ink);
-    margin: 0 0 18px;
+    margin: 0 0 14px;
   }
   .rs-desc {
-    font-size: 17px;
-    line-height: 1.65;
+    font-size: 16px;
+    line-height: 1.6;
     color: var(--text-soft);
-    margin: 0 0 24px;
+    margin: 0 0 18px;
     max-width: 560px;
   }
   .rs-link { display: inline-flex; }
@@ -90,8 +112,10 @@ const payload = items.map((it) => ({
   .rs-media {
     position: relative;
     width: 100%;
-    aspect-ratio: 5 / 4;
-    border-radius: 20px;
+    aspect-ratio: 16 / 11;
+    max-height: 320px;
+    margin-left: auto;
+    border-radius: 18px;
     overflow: hidden;
     background: var(--cream-2);
   }
@@ -107,8 +131,8 @@ const payload = items.map((it) => ({
     .rs-title { min-height: 0; }
   }
   @media (min-width: 1024px) {
-    .rs, .rs.media-left { gap: 48px; }
-    .rs-title { font-size: clamp(28px, 2.9vw, 40px); }
+    .rs, .rs.media-left { gap: 40px; }
+    .rs-title { font-size: clamp(26px, 2.2vw, 32px); }
   }
 </style>
 
@@ -140,6 +164,7 @@ const payload = items.map((it) => ({
       var desc = root.querySelector('[data-rs-desc]');
       var link = root.querySelector('[data-rs-link]');
       var linkText = root.querySelector('[data-rs-linktext]');
+      var badge = root.querySelector('[data-rs-badge]');
       var delay = parseInt(root.getAttribute('data-interval'), 10) || 3500;
       var i = 0, timer = null;
 
@@ -150,6 +175,10 @@ const payload = items.map((it) => ({
         if (desc) desc.textContent = it.desc;
         if (linkText) linkText.textContent = it.linkText;
         if (link) link.setAttribute('href', it.href);
+        if (badge) {
+          if (it.badge) { badge.textContent = it.badge; badge.hidden = false; }
+          else { badge.hidden = true; }
+        }
       }
 
       // Reserve the height of the TALLEST slide's text so the layout never

@@ -39,7 +39,8 @@
   --maxw: 1240px;
   --pad: 32px;
   --radius: 18px;
-  --section-y: 92px;
+  /* Site-wide vertical rhythm — one calmer, tighter scale (see media overrides). */
+  --section-y: 60px;
 }
 
 * {
@@ -189,9 +190,18 @@ h1, h2, h3, h4 {
   text-decoration: none;
   border-bottom: 2px solid var(--gold);
   padding-bottom: 3px;
+  transition: color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.link-underline:hover {
+  color: var(--gold-700);
+  border-bottom-color: var(--gold-600);
+}
+.link-underline:hover .mono {
+  transform: translateX(3px);
 }
 .link-underline .mono {
   font-family: var(--font-mono);
+  transition: transform 0.2s ease;
 }
 
 /* ---- Scroll reveal ---- */
@@ -255,17 +265,17 @@ h1, h2, h3, h4 {
 
 /* ---- Responsive base ---- */
 @media (max-width: 1024px) {
-  :root { --section-y: 74px; }
+  :root { --section-y: 52px; }
 }
 @media (max-width: 640px) {
-  :root { --pad: 20px; --section-y: 54px; }
+  :root { --pad: 20px; --section-y: 44px; }
   body { font-size: 15.5px; }
 }
 
 /* ---- Desktop density: tighten only large screens (mobile/tablet unchanged) ---- */
 @media (min-width: 1024px) {
   :root {
-    --section-y: 50px; /* was 92 — much tighter vertical rhythm on desktop */
+    --section-y: 44px; /* tighter, calmer vertical rhythm on desktop */
     --maxw: 1200px; /* cap content width so it doesn't stretch on big monitors */
   }
 }

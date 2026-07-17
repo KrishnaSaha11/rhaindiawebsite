@@ -4,39 +4,17 @@ import HeroCarousel from '../components/HeroCarousel.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Photo from '../components/Photo.astro';
-import RotatingSpotlight from '../components/RotatingSpotlight.astro';
-import Shape from '../components/Shape.astro';
+import Icon from '../components/Icon.astro';
 import { site } from '../config/site';
 import { products, categories } from '../data/products';
 
-// Product slides shared by the About spotlight (text + image rotate together)
-const productSpotlight = products.map((p) => ({
-  eyebrow: p.categoryLabel,
-  title: p.name,
-  desc: p.value,
-  href: `/${p.slug}/`,
-  linkText: 'View Product',
-  img: p.images?.[0]?.src ?? `/images/products/${p.slug}.svg`,
-  alt: p.images?.[0]?.alt ?? p.heroAlt,
-}));
-const aboutSpotlight = [
-  {
-    eyebrow: 'About Ambika Biotech',
-    title: 'Two decades of turning rice husk into industrial-grade silica',
-    desc: 'For over 20 years we have manufactured and exported high-silica Rice Husk Ash and rice husk products from Sambalpur, Odisha — trusted by steel plants, refractory makers, concrete producers and biomass-energy users across India and abroad.',
-    href: '/about/',
-    linkText: 'Know More',
-    img: '/images/sections/rice-mill-plant.webp',
-    alt: 'Rice husk at the Ambika Biotech mill in Sambalpur, Odisha — feedstock for high-silica Rice Husk Ash',
-  },
-  ...productSpotlight,
-];
-
+// Only pure-integer stats animate (num + suffix). Range values (85–92%) and
+// text values (NABL) render statically — they cannot count up.
 const heroStats = [
-  { num: 20, suffix: '+', prefix: '', label: 'Years of manufacturing experience' },
-  { num: 0, suffix: '', prefix: '', label: 'NABL tested & certified quality', text: 'NABL' },
-  { num: 92, suffix: '%', prefix: '85–', label: 'High-silica SiO₂ content' },
-  { num: 3, suffix: '+', prefix: '', label: 'Export regions worldwide' },
+  { num: 20, suffix: '+', label: 'Years of manufacturing experience' },
+  { static: 'NABL', label: 'NABL tested & certified quality' },
+  { static: '85–92%', label: 'High-silica SiO₂ content' },
+  { num: 3, suffix: '+', label: 'Export regions worldwide' },
 ];
 
 const rha = products.filter((p) => p.category === 'rice-husk-ash');
@@ -54,11 +32,11 @@ const reasons = [
 ];
 
 const industries = [
-  { name: 'Steel', note: 'Tundish & ladle covering', shape: 'diamond', color: '#27593C' },
-  { name: 'Concrete / Construction', note: 'Pozzolana & SCM', shape: 'square', color: '#C79A3E' },
-  { name: 'Refractory', note: 'High-temp insulation', shape: 'triangle', color: '#27593C' },
-  { name: 'Biomass Energy', note: 'Fuel pellets & husk', shape: 'circle', color: '#C79A3E' },
-  { name: 'Agriculture / Feed', note: 'Feed, bedding, fillers', shape: 'ring', color: '#27593C' },
+  { name: 'Steel', note: 'Tundish & ladle covering' },
+  { name: 'Concrete / Construction', note: 'Pozzolana & SCM' },
+  { name: 'Refractory', note: 'High-temp insulation' },
+  { name: 'Biomass Energy', note: 'Fuel pellets & husk' },
+  { name: 'Agriculture / Feed', note: 'Feed, bedding, fillers' },
 ] as const;
 
 const title = 'Rice Husk Ash Manufacturer & Exporter India | Ambika Biotech';
@@ -79,18 +57,16 @@ const webPage = {
   <HeroCarousel />
 
   <!-- ===================== TRUST STRIP (count-up) ===================== -->
-  <section class="trust-strip">
+  <section class="trust-strip snap-sec">
     <div class="container">
       <div class="trust-grid" data-reveal data-countup>
         {heroStats.map((t) => (
           <div class="trust-item">
             <div class="trust-big">
-              {t.text ? (
-                <span>{t.text}</span>
+              {t.static ? (
+                <span>{t.static}</span>
               ) : (
-                <span>
-                  {t.prefix}<span class="count" data-count={t.num}>0</span>{t.suffix}
-                </span>
+                <span><span class="count" data-count={t.num}>0</span>{t.suffix}</span>
               )}
             </div>
             <div class="trust-label">{t.label}</div>
@@ -101,12 +77,15 @@ const webPage = {
   </section>
 
   <!-- ===================== CERTIFICATION BAND ===================== -->
-  <section class="cert-band">
+  <section class="cert-band snap-sec">
     <div class="container cert-inner" data-reveal>
       <div class="cert-left">
-        <span class="nabl-badge" aria-label="NABL tested">
+        <span class="nabl-badge" aria-label="NABL Lab-tested quality">
           <span class="nabl-mark">NABL</span>
-          <span class="nabl-text">Lab-tested<br />quality</span>
+          <span class="nabl-text">
+            <span class="nabl-line">Lab-tested</span>
+            <span class="nabl-line">quality</span>
+          </span>
         </span>
         <p class="cert-copy">
           Independent NABL-tested material with documented parameters for every grade —
@@ -119,20 +98,13 @@ const webPage = {
     </div>
   </section>
 
-  <!-- ===================== ABOUT (rotating spotlight) ===================== -->
-  <section id="about" class="section">
-    <div class="container" data-reveal>
-      <RotatingSpotlight items={aboutSpotlight} titleTag="h2" mediaSide="left" interval={3000} />
-    </div>
-  </section>
-
   <!-- ===================== PRODUCTS ===================== -->
-  <section id="products" class="section section-white">
+  <section id="products" class="section section-white snap-sec">
     <div class="container">
       <div class="prod-head" data-reveal>
         <div>
           <div class="eyebrow">Our Product Range</div>
-          <h2 class="h2">Six grades. One reliable supplier.</h2>
+          <h2 class="h2">Six products. One reliable supplier.</h2>
         </div>
         <a href="/products/" class="link-underline">All products <span class="mono">→</span></a>
       </div>
@@ -158,7 +130,7 @@ const webPage = {
   </section>
 
   <!-- ===================== WHY CHOOSE US ===================== -->
-  <section class="section">
+  <section class="section snap-sec why-section">
     <div class="container">
       <div class="why-head" data-reveal>
         <div class="eyebrow">Why Choose Us</div>
@@ -177,7 +149,7 @@ const webPage = {
   </section>
 
   <!-- ===================== QUOTE BAND ===================== -->
-  <section class="band-wrap">
+  <section class="band-wrap snap-sec">
     <div class="container" data-reveal>
       <div class="quote-band">
         <div class="qb-ring qb-ring-1" aria-hidden="true"></div>
@@ -192,7 +164,7 @@ const webPage = {
   </section>
 
   <!-- ===================== INDUSTRIES ===================== -->
-  <section class="section section-white">
+  <section class="section section-white snap-sec">
     <div class="container">
       <div class="ind-head" data-reveal>
         <div class="eyebrow">Industries We Serve</div>
@@ -201,7 +173,7 @@ const webPage = {
       <div class="ind-grid">
         {industries.map((ind) => (
           <div class="ind-card" data-reveal>
-            <div class="ind-icon"><Shape type={ind.shape} color={ind.color} /></div>
+            <div class="ind-icon"><Icon label={ind.name} note={ind.note} /></div>
             <div>
               <h3 class="ind-name">{ind.name}</h3>
               <p class="ind-note">{ind.note}</p>
@@ -213,7 +185,7 @@ const webPage = {
   </section>
 
   <!-- ===================== CSR ===================== -->
-  <section class="section">
+  <section class="section csr-section snap-sec">
     <div class="container csr-grid">
       <div data-reveal>
         <div class="eyebrow">CSR &amp; Sustainability</div>
@@ -224,10 +196,16 @@ const webPage = {
           productive loop, and giving farmers and industry a sustainable alternative.
         </p>
         <div class="csr-stats">
-          <div><div class="csr-big">100%</div><div class="csr-sm">Waste-to-value sourcing</div></div>
-          <div><div class="csr-big">Zero</div><div class="csr-sm">Open-field husk burning</div></div>
+          <div class="csr-stat">
+            <div class="csr-big">100%</div>
+            <div class="csr-sm">Waste-to-value sourcing</div>
+          </div>
+          <div class="csr-stat">
+            <div class="csr-big">Zero</div>
+            <div class="csr-sm">Open-field husk burning</div>
+          </div>
         </div>
-        <a href="/csr/" class="link-underline">Read our CSR story <span class="mono">→</span></a>
+        <a href="/csr/" class="btn btn-outline csr-link">Read our CSR story <span class="mono">→</span></a>
       </div>
       <div data-reveal>
         <div class="csr-img">
@@ -284,32 +262,175 @@ const webPage = {
     </div>
   </section>
 
+  <!-- ============= SECTION SCROLL NAV (homepage only) ============= -->
+  <div class="section-nav">
+    <button class="sn-btn sn-up" data-sn-up type="button" aria-label="Scroll to previous section" hidden>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6" /></svg>
+    </button>
+    <button class="sn-btn sn-down" data-sn-down type="button" aria-label="Scroll to next section">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+    </button>
+  </div>
+
+  <style is:global>
+    /* --- Section-by-section scroll snap: HOMEPAGE ONLY (html.home-snap set by JS) --- */
+    /* PROXIMITY (not mandatory) so users are never trapped and free scrolling still works. */
+    html.home-snap { scroll-snap-type: y proximity; }
+    /* Navbar clearance is provided by the existing global scroll-padding-top:90px, so
+       snapped/target section tops sit just below the sticky ~74px header (never hidden). */
+    html.home-snap .hero-carousel,
+    html.home-snap .snap-sec {
+      scroll-snap-align: start;
+      scroll-snap-stop: normal;
+    }
+    /* Tall sections (contact form, footer) are NOT snap targets — they lack .snap-sec,
+       and proximity snap never traps them. */
+    @media (max-width: 860px) {
+      html.home-snap { scroll-snap-type: none; } /* natural scrolling on mobile */
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html.home-snap { scroll-snap-type: none; }
+    }
+
+    /* Floating up/down section navigation — offset ABOVE the WhatsApp/Call FAB so
+       they never collide; low z-index so native form dropdowns always render on top. */
+    .section-nav {
+      position: fixed;
+      right: 24px;
+      bottom: 170px;
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .section-nav .sn-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1px solid var(--line-3);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--green-800);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 20px -6px rgba(14, 42, 29, 0.3);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+    }
+    .section-nav .sn-btn:hover { transform: translateY(-2px); background: #fff; box-shadow: 0 12px 24px -8px rgba(14, 42, 29, 0.4); }
+    .section-nav .sn-btn[hidden] { display: none; }
+    @media (max-width: 860px) { .section-nav { display: none; } }
+  </style>
+
+  <script is:inline>
+    (function () {
+      var root = document.documentElement;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var behavior = reduce ? 'auto' : 'smooth';
+
+      // Enable gentle proximity scroll-snap on the homepage only. Skipped for
+      // reduced-motion users (CSS also disables it there and on mobile).
+      if (!reduce) root.classList.add('home-snap');
+
+      var nav = document.querySelector('.section-nav');
+      if (!nav) return;
+      var upBtn = nav.querySelector('[data-sn-up]');
+      var downBtn = nav.querySelector('[data-sn-down]');
+      var sections = Array.prototype.slice.call(document.querySelectorAll('#main > section'));
+      if (sections.length < 2) { nav.style.display = 'none'; return; }
+
+      // Sections rest with their top at ~NAV px (the global scroll-padding-top),
+      // just below the sticky ~74px navbar. We decide next/prev live from each
+      // section's current rect.top — never from a stale index — so clicks never
+      // "stop working". A ±BAND tolerance ignores the section currently resting
+      // at the top so down/up always move to a genuinely different section.
+      var NAV = 90;
+      var BAND = 12;
+
+      function maxScroll() {
+        return document.documentElement.scrollHeight - window.innerHeight;
+      }
+      // First section whose top is meaningfully BELOW the navbar line.
+      function nextSection() {
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].getBoundingClientRect().top > NAV + BAND) return sections[i];
+        }
+        return null;
+      }
+      // Last section whose top is meaningfully ABOVE the navbar line (tops
+      // increase in DOM order, so stop once we pass the current one).
+      function prevSection() {
+        var found = null;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].getBoundingClientRect().top < NAV - BAND) found = sections[i];
+          else break;
+        }
+        return found;
+      }
+      function goToEl(el) { el.scrollIntoView({ behavior: behavior, block: 'start' }); }
+
+      if (downBtn) downBtn.addEventListener('click', function () {
+        var el = nextSection();
+        if (el) goToEl(el);
+        else window.scrollTo({ top: maxScroll(), behavior: behavior }); // reach footer
+      });
+      if (upBtn) upBtn.addEventListener('click', function () {
+        var el = prevSection();
+        if (el) goToEl(el);
+        else window.scrollTo({ top: 0, behavior: behavior });
+      });
+
+      function updateButtons() {
+        var atTop = window.scrollY <= 8;
+        var atBottom = window.scrollY >= maxScroll() - 8;
+        if (upBtn) upBtn.hidden = atTop;
+        if (downBtn) downBtn.hidden = atBottom;
+      }
+      updateButtons();
+      window.addEventListener('scroll', updateButtons, { passive: true });
+      window.addEventListener('resize', updateButtons);
+    })();
+  </script>
+
   <script is:inline>
     (function () {
       var group = document.querySelector('[data-countup]');
       if (!group) return;
+      var hasAnimated = false;
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var els = Array.prototype.slice.call(group.querySelectorAll('.count'));
-      function animate(el) {
+
+      function animateEl(el) {
         var target = parseInt(el.getAttribute('data-count'), 10) || 0;
         if (reduce) { el.textContent = String(target); return; }
         var dur = 1500, t0 = null;
         function step(ts) {
           if (!t0) t0 = ts;
           var p = Math.min((ts - t0) / dur, 1);
+          if (p >= 1) {
+            // Never rely on interval math for the final value — set it exactly.
+            el.textContent = String(target);
+            return;
+          }
           var eased = 1 - Math.pow(1 - p, 3);
           el.textContent = String(Math.round(eased * target));
-          if (p < 1) requestAnimationFrame(step);
+          requestAnimationFrame(step);
         }
         requestAnimationFrame(step);
       }
-      if (!('IntersectionObserver' in window)) { els.forEach(animate); return; }
+
+      // Runs EXACTLY once, guarded by hasAnimated.
+      function runOnce() {
+        if (hasAnimated) return;
+        hasAnimated = true;
+        els.forEach(animateEl);
+      }
+
+      if (!('IntersectionObserver' in window)) { runOnce(); return; }
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
-          if (en.isIntersecting) { animate(en.target); io.unobserve(en.target); }
+          if (en.isIntersecting) { runOnce(); io.disconnect(); }
         });
       }, { threshold: 0.4 });
-      els.forEach(function (el) { io.observe(el); });
+      io.observe(group);
     })();
   </script>
 </BaseLayout>
@@ -318,12 +439,12 @@ const webPage = {
   .h2 {
     font-family: var(--font-head);
     font-weight: 800;
-    font-size: 40px;
-    line-height: 1.1;
+    font-size: 30px;
+    line-height: 1.14;
     color: var(--ink);
-    margin-bottom: 22px;
+    margin-bottom: 16px;
   }
-  .lead { font-size: 17px; line-height: 1.65; color: var(--text-soft); margin-bottom: 16px; max-width: 560px; }
+  .lead { font-size: 16px; line-height: 1.6; color: var(--text-soft); margin-bottom: 14px; max-width: 560px; }
   .section-white {
     background: #fff;
     border-top: 1px solid #efe9d9;
@@ -397,18 +518,18 @@ const webPage = {
   .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
   .trust-item {
     padding: 30px 26px;
-    border-right: 1px solid rgba(255, 255, 255, 0.09);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
     display: flex; flex-direction: column; gap: 7px;
   }
   .trust-item:last-child { border-right: none; }
-  .trust-big { font-family: var(--font-head); font-weight: 800; font-size: 24px; color: var(--gold); line-height: 1; }
+  .trust-big { font-family: var(--font-head); font-weight: 800; font-size: 44px; color: var(--gold); line-height: 1; }
   .trust-label { font-size: 15px; color: #cbd6c7; line-height: 1.35; }
 
   /* Certification band */
   .cert-band { background: #fff; border-bottom: 1px solid #efe9d9; }
   .cert-inner {
     display: flex; align-items: center; justify-content: space-between;
-    gap: 30px; padding-top: 28px; padding-bottom: 28px; flex-wrap: wrap;
+    gap: 30px; padding-top: 40px; padding-bottom: 40px; flex-wrap: wrap;
   }
   .cert-left { display: flex; align-items: center; gap: 20px; max-width: 720px; }
   .nabl-badge {
@@ -416,7 +537,8 @@ const webPage = {
     border: 2px solid var(--green-600); border-radius: 12px; padding: 10px 14px;
   }
   .nabl-mark { font-family: var(--font-head); font-weight: 800; font-size: 18px; color: var(--green-600); }
-  .nabl-text { font-size: 11.5px; line-height: 1.2; color: var(--text-faint); font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .nabl-text { display: flex; flex-direction: column; font-size: 14.5px; line-height: 1.25; color: var(--text-faint); font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .nabl-line { display: block; }
   .cert-copy { font-size: 15px; color: var(--text-muted); line-height: 1.55; margin: 0; }
 
   /* About */
@@ -424,32 +546,46 @@ const webPage = {
   .about-img { width: 100%; aspect-ratio: 5 / 4; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
 
   /* Products */
-  #products { padding-top: 80px; padding-bottom: 80px; }
-  .prod-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 26px; flex-wrap: wrap; }
-  .cat-label { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
-  .cat-label-2 { margin-top: 30px; }
+  #products { padding-top: 44px; padding-bottom: 44px; }
+  .prod-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 14px; flex-wrap: wrap; }
+  .prod-head .h2 { margin-bottom: 0; }
+  .cat-label { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .cat-label-2 { margin-top: 12px; }
   .cat-tag {
-    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
-    color: #fff; background: var(--green-600); padding: 5px 11px; border-radius: 999px; text-transform: uppercase;
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em;
+    color: #fff; background: var(--green-600); padding: 4px 10px; border-radius: 999px; text-transform: uppercase;
   }
   .cat-name-link { text-decoration: none; }
-  .cat-name { font-family: var(--font-head); font-weight: 800; font-size: 19px; color: var(--ink); }
+  .cat-name { font-family: var(--font-head); font-weight: 800; font-size: 16px; color: var(--ink); }
   .cat-name-link:hover .cat-name { color: var(--green-600); }
-  .cat-blurb { font-size: 14px; color: var(--text-faint); }
-  .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .cat-blurb { font-size: 13.5px; color: var(--text-faint); }
+  .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
   /* Why */
-  .why-head { text-align: center; max-width: 680px; margin: 0 auto 52px; }
-  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .why-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 30px 26px; transition: transform .25s ease, box-shadow .25s ease; }
-  .why-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px -18px rgba(20, 42, 31, 0.28); }
-  .why-num {
-    width: 46px; height: 46px; border-radius: 12px; background: var(--tile);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-head); font-weight: 800; font-size: 17px; color: var(--green-600); margin-bottom: 18px;
+  .why-section { padding-top: 44px; padding-bottom: 44px; }
+  .why-head { text-align: left; max-width: 720px; margin: 0 0 22px; }
+  .why-head .h2 { font-size: 27px; margin-bottom: 0; }
+  /* grid-auto-rows: 1fr keeps both rows the same height -> all 6 cards equal. */
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 16px; }
+  .why-card {
+    background: #fff; border: 1px solid var(--line); border-radius: 18px;
+    padding: 22px 22px; display: flex; flex-direction: column;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
   }
-  .why-title { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--ink); margin-bottom: 9px; }
-  .why-body { font-size: 15px; line-height: 1.55; color: var(--text-muted); }
+  /* Matches the product-card hover: lift + soft shadow + gold border. */
+  .why-card:hover { transform: translateY(-3px); box-shadow: 0 18px 34px -20px rgba(14, 42, 29, 0.32); border-color: var(--gold-600); }
+  .why-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--green-800); color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-head); font-weight: 700; font-size: 15px; letter-spacing: 0.02em;
+    margin-bottom: 14px;
+    box-shadow: 0 5px 12px -5px rgba(14, 42, 29, 0.45);
+    transition: background .25s ease, color .25s ease;
+  }
+  .why-card:hover .why-num { background: var(--gold); color: var(--green-800); }
+  .why-title { font-family: var(--font-head); font-weight: 700; font-size: 17.5px; color: var(--ink); margin-bottom: 6px; }
+  .why-body { font-size: 14.5px; line-height: 1.5; color: var(--text-muted); margin: 0; }
 
   /* Quote band */
   .band-wrap { padding-bottom: var(--section-y); }
@@ -494,11 +630,12 @@ const webPage = {
   .ind-card:hover { transform: translateY(-6px); border-color: var(--gold-600); box-shadow: 0 22px 42px -24px rgba(14, 42, 29, 0.38); }
   .ind-card:hover::before { transform: scaleX(1); }
   .ind-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 15px;
-    background: linear-gradient(150deg, #eef3ea, #e0ebdd);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgb(234, 240, 234);
     border: 1px solid #d7e3d4;
+    color: var(--green-600);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -506,22 +643,28 @@ const webPage = {
     transition: transform 0.3s ease;
   }
   .ind-card:hover .ind-icon { transform: scale(1.08) rotate(-3deg); }
-  .ind-name { font-family: var(--font-head); font-weight: 700; font-size: 17.5px; color: var(--ink); margin-bottom: 5px; }
-  .ind-note { font-size: 14px; line-height: 1.45; color: var(--text-faint); }
+  /* Reserve two lines so cards align even when a name wraps (e.g. Concrete / Construction). */
+  .ind-name { font-family: var(--font-head); font-weight: 700; font-size: 17.5px; line-height: 1.2; color: var(--ink); margin-bottom: 5px; min-height: 2.4em; }
+  .ind-note { font-size: 16px; line-height: 1.45; color: var(--text-faint); }
 
   /* CSR */
-  .csr-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
-  .csr-stats { display: flex; gap: 36px; flex-wrap: wrap; margin: 28px 0; }
-  .csr-big { font-family: var(--font-head); font-weight: 800; font-size: 30px; color: var(--green-600); line-height: 1; }
-  .csr-sm { font-size: 14px; color: var(--text-faint); margin-top: 6px; }
-  .csr-img { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden; background: var(--cream-2); }
+  .csr-section { padding-top: 48px; padding-bottom: 48px; }
+  .csr-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 48px; align-items: center; }
+  .csr-stats { display: flex; gap: 28px; flex-wrap: wrap; margin: 20px 0; }
+  /* Each stat is its own block with its own spacing so the two never run
+     together even if flex/gap fails to apply. */
+  .csr-stat { display: block; margin-right: 20px; margin-bottom: 8px; }
+  .csr-big { display: block; font-family: var(--font-head); font-weight: 800; font-size: 30px; color: var(--green-600); line-height: 1; }
+  .csr-sm { display: block; font-size: 14px; color: var(--text-faint); margin-top: 6px; }
+  /* Smaller CSR image so it no longer dominates the section */
+  .csr-img { position: relative; width: 100%; aspect-ratio: 4 / 3; max-height: 300px; margin-left: auto; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
   .csr-img .media { position: absolute; inset: 0; }
 
   /* Contact */
   .contact-sec { background: var(--green-800); padding-top: var(--section-y); padding-bottom: var(--section-y); }
   .contact-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 56px; align-items: start; }
   .eyebrow-gold { color: var(--gold); }
-  .contact-h2 { font-family: var(--font-head); font-weight: 800; font-size: 40px; line-height: 1.1; color: var(--cream); margin-bottom: 20px; }
+  .contact-h2 { font-family: var(--font-head); font-weight: 800; font-size: 30px; line-height: 1.14; color: var(--cream); margin-bottom: 16px; }
   .contact-p { font-size: 16.5px; line-height: 1.6; color: #bfcbba; margin-bottom: 34px; max-width: 440px; }
   .contact-actions { display: flex; flex-direction: column; gap: 14px; margin-bottom: 34px; }
   .ca { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-radius: 13px; text-decoration: none; font-weight: 600; font-size: 15.5px; transition: transform .18s ease; }
@@ -542,7 +685,7 @@ const webPage = {
   /* ---------- Responsive ---------- */
   @media (max-width: 1024px) {
     .hero-h1 { font-size: 56px; }
-    .h2, .contact-h2 { font-size: 32px; }
+    .h2, .contact-h2 { font-size: 28px; }
     .ind-grid { grid-template-columns: repeat(3, 1fr); }
     .prod-grid, .why-grid { grid-template-columns: repeat(2, 1fr); }
   }
@@ -559,6 +702,8 @@ const webPage = {
     .h2, .contact-h2, .qb-h2 { font-size: 27px; }
     .hero-sub { font-size: 17px; }
     .prod-grid, .why-grid, .ind-grid { grid-template-columns: 1fr; }
+    /* Single column: let each card be its own height (no forced equal rows). */
+    .why-grid { grid-auto-rows: auto; }
     .quote-band { padding: 34px 24px; }
     .hero-cta .btn, .qb-cta { width: 100%; justify-content: center; }
   }
@@ -569,36 +714,41 @@ const webPage = {
     .lead { font-size: 16.5px; margin-bottom: 14px; }
 
     /* Trust strip */
-    .trust-item { padding: 24px 24px; }
-    .trust-big { font-size: 22px; }
+    .trust-item { padding: 26px 24px; }
+    .trust-big { font-size: 44px; }
 
     /* Products */
-    #products { padding-top: 50px; padding-bottom: 50px; }
-    .prod-head { margin-bottom: 18px; }
-    .cat-label { margin-bottom: 12px; }
-    .cat-label-2 { margin-top: 20px; }
-    .prod-grid { gap: 18px; }
+    #products { padding-top: 28px; padding-bottom: 28px; }
+    .prod-head { margin-bottom: 10px; }
+    .prod-head .h2 { font-size: 26px; }
+    .cat-label { margin-bottom: 6px; }
+    .cat-label-2 { margin-top: 10px; }
+    .prod-grid { gap: 14px; }
 
     /* Why choose us */
-    .why-head { margin: 0 auto 30px; }
-    .why-grid { gap: 16px; }
-    .why-card { padding: 22px 20px; }
-    .why-num { width: 42px; height: 42px; margin-bottom: 14px; }
-    .why-title { font-size: 17.5px; }
+    .why-section { padding-top: 34px; padding-bottom: 34px; }
+    .why-head { margin: 0 0 16px; }
+    .why-head .h2 { font-size: 25px; }
+    .why-grid { gap: 14px; }
+    .why-card { padding: 20px 20px; }
+    .why-num { width: 38px; height: 38px; margin-bottom: 12px; }
+    .why-title { font-size: 17px; }
 
-    /* Quote band */
-    .quote-band { padding: 38px 42px; }
+    /* Quote band — balanced vertical padding */
+    .quote-band { padding: 50px 42px; }
     .qb-h2 { font-size: 27px; }
 
     /* Industries */
     .ind-head { margin-bottom: 24px; }
     .ind-grid { gap: 16px; }
     .ind-card { padding: 22px 18px; gap: 14px; }
-    .ind-icon { width: 50px; height: 50px; }
+    .ind-icon { width: 48px; height: 48px; }
 
     /* CSR */
-    .csr-grid { gap: 44px; }
-    .csr-stats { margin: 20px 0; }
+    .csr-section { padding-top: 40px; padding-bottom: 40px; }
+    .csr-grid { gap: 40px; }
+    .csr-stats { margin: 16px 0; }
+    .csr-section .lead { margin-bottom: 12px; }
 
     /* Contact */
     .contact-h2 { font-size: 30px; }
@@ -606,6 +756,6 @@ const webPage = {
     .contact-p { margin-bottom: 24px; }
 
     /* Certification band */
-    .cert-inner { padding-top: 20px; padding-bottom: 20px; }
+    .cert-inner { padding-top: 40px; padding-bottom: 40px; }
   }
 </style>

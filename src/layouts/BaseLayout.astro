@@ -22,7 +22,8 @@ const {
   title,
   description,
   path = Astro.url.pathname,
-  ogImage = '/og-default.svg',
+  // PNG (not SVG) so it renders on social platforms (Facebook/LinkedIn/X).
+  ogImage = '/og-default.png',
   noindex = false,
   jsonLd = [],
   quoteHref = '/contact/#quote-form',

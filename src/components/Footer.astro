@@ -11,7 +11,7 @@ const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.wh
       <div class="footer-brand">
         <div class="brand">
           <span class="fmark">
-            <img src="/images/logo-mark.webp" alt="" width="174" height="160" class="femblem" decoding="async" loading="lazy" />
+            <img src="/images/logo-mark.webp" alt="Ambika Biotech - RHA India logo" width="174" height="160" class="femblem" decoding="async" loading="lazy" />
           </span>
           <span class="ftext">
             <span class="fname">{site.name}</span>
@@ -66,16 +66,23 @@ const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.wh
 
     <div class="footer-bottom">
       <span>© {year} {site.legalName} ({site.brand}). All rights reserved.</span>
+      <nav class="flegal" aria-label="Legal">
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <span class="fsep" aria-hidden="true">·</span>
+        <a href="/terms/">Terms</a>
+      </nav>
       <span class="ftrust">NABL Tested · High-Silica RHA · Export Ready</span>
     </div>
   </div>
 </footer>
 
 <style>
-  .site-footer { background: var(--green-900); padding: 60px 0 30px; }
+  /* Extra bottom padding gives the fixed WhatsApp/Call buttons clearance so
+     they never cover the copyright / address on narrow screens. */
+  .site-footer { background: var(--green-900); padding: 60px 0 96px; }
   .footer-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1.1fr;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
     gap: 40px;
     padding-bottom: 40px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -133,6 +140,13 @@ const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.wh
   }
   .footer-bottom span { font-size: 13.5px; color: #8c9d86; }
   .ftrust { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.06em; }
+  .flegal { display: flex; align-items: center; gap: 10px; }
+  .flegal a { font-size: 13.5px; color: #a9b9a4; text-decoration: none; transition: color 0.15s ease; }
+  .flegal a:hover { color: var(--gold); }
+  .flegal .fsep { color: #8c9d86; font-size: 13.5px; }
+  /* Keep the address clear of the floating buttons at the container edge. */
+  .footer-col:last-child { padding-right: 8px; }
+  .faddr { overflow-wrap: anywhere; }
 
   @media (max-width: 860px) {
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }

@@ -9,7 +9,8 @@ export const site = {
   legalName: 'Ambika Ricemill & Ambika Biotech',
   brand: 'RHA India',
   tagline: 'Rice Husk Ash Manufacturer & Exporter',
-  url: 'https://rhaindia.com',
+  // Primary canonical domain — always the www host (canonical + og + JSON-LD).
+  url: 'https://www.rhaindia.com',
   description:
     'Manufacturer & exporter of high-silica Rice Husk Ash and rice husk products from Sambalpur, Odisha, India.',
 

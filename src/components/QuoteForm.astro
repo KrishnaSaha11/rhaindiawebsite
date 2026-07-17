@@ -11,6 +11,31 @@ export interface Props {
   formId?: string;
 }
 const { preselect = '', source = 'Website', formId = 'rfq-form' } = Astro.props;
+
+// Full country list for the Country dropdown (field name stays "country").
+const countries = [
+  'India', 'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina',
+  'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Belarus',
+  'Belgium', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil',
+  'Brunei', 'Bulgaria', 'Burkina Faso', 'Cambodia', 'Cameroon', 'Canada', 'Chad', 'Chile',
+  'China', 'Colombia', 'Congo', 'Costa Rica', "Côte d'Ivoire", 'Croatia', 'Cuba', 'Cyprus',
+  'Czechia', 'Denmark', 'Djibouti', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador',
+  'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Georgia', 'Germany', 'Ghana',
+  'Greece', 'Guatemala', 'Guinea', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'Indonesia',
+  'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan',
+  'Kenya', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Libya', 'Liechtenstein',
+  'Lithuania', 'Luxembourg', 'Madagascar', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Mauritius',
+  'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar',
+  'Namibia', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria',
+  'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Papua New Guinea', 'Paraguay',
+  'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda',
+  'Saudi Arabia', 'Senegal', 'Serbia', 'Singapore', 'Slovakia', 'Slovenia', 'Somalia',
+  'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'Sudan', 'Sweden', 'Switzerland',
+  'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tunisia', 'Turkey',
+  'Turkmenistan', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom',
+  'United States', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia',
+  'Zimbabwe', 'Other',
+];
 ---
 
 <div class="quote-card" data-quote-card>
@@ -44,7 +69,12 @@ const { preselect = '', source = 'Website', formId = 'rfq-form' } = Astro.props;
     <div class="row-2">
       <label class="field">
         <span>Country</span>
-        <input name="country" type="text" placeholder="e.g. India" autocomplete="country-name" />
+        <select name="country" class="select" autocomplete="country-name">
+          <option value="" disabled selected>Select country…</option>
+          {countries.map((c) => (
+            <option value={c}>{c}</option>
+          ))}
+        </select>
       </label>
       <label class="field">
         <span>Email *</span>
@@ -58,7 +88,7 @@ const { preselect = '', source = 'Website', formId = 'rfq-form' } = Astro.props;
         <input name="phone" type="tel" placeholder="+91 …" autocomplete="tel" />
       </label>
       <label class="field">
-        <span>Quantity / MOQ</span>
+        <span>Quantity / MOQ (in MT)</span>
         <input name="quantity" type="text" placeholder="e.g. 20 MT / month" />
       </label>
     </div>
@@ -143,6 +173,10 @@ const { preselect = '', source = 'Website', formId = 'rfq-form' } = Astro.props;
   .form-note { font-size: 13px; color: #8a8470; }
   .form-error { color: #b3261e; font-size: 14px; margin-top: 4px; }
 
+  /* Hidden by default (before submit); the [hidden] attribute is removed by
+     the submit handler only on a successful send. Without this rule the
+     display:flex below would override [hidden] and always show the message. */
+  .quote-success[hidden] { display: none; }
   .quote-success {
     display: flex;
     flex-direction: column;
